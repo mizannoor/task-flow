@@ -17,6 +17,12 @@ db.version(1).stores({
   users: '&id, &identifier, identifierType, createdAt',
 });
 
+// Version 2: Add tasks table for task management
+db.version(2).stores({
+  users: '&id, &identifier, identifierType, createdAt',
+  tasks: '&id, userId, createdBy, status, priority, category, createdAt, deadline',
+});
+
 // Export the database instance
 export { db };
 
