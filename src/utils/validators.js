@@ -4,6 +4,13 @@
  */
 
 import { PATTERNS, IDENTIFIER_LIMITS, ERROR_MESSAGES, IDENTIFIER_TYPES } from './constants';
+import {
+  TASK_LIMITS,
+  TASK_ERROR_MESSAGES,
+  PRIORITIES,
+  CATEGORIES,
+  STATUSES,
+} from './constants';
 
 /**
  * Detect the type of identifier based on its format
@@ -123,4 +130,302 @@ export function deriveDisplayName(identifier, type) {
  */
 export function normalizeIdentifier(identifier) {
   return identifier?.trim().toLowerCase() || '';
+}
+
+// =============================================================================
+// Task Validation Functions
+// =============================================================================
+
+/**
+ * Validate task name
+ * @param {string} taskName - The task name to validate
+ * @returns {{ isValid: boolean, error: string | null }}
+ */
+export function validateTaskName(taskName) {
+  const trimmed = taskName?.trim();
+
+  if (!trimmed) {
+    return { isValid: false, error: TASK_ERROR_MESSAGES.NAME_REQUIRED };
+  }
+
+  if (trimmed.length < TASK_LIMITS.NAME_MIN_LENGTH) {
+    return { isValid: false, error: TASK_ERROR_MESSAGES.NAME_TOO_SHORT };
+  }
+
+  if (trimmed.length > TASK_LIMITS.NAME_MAX_LENGTH) {
+    return { isValid: false, error: TASK_ERROR_MESSAGES.NAME_TOO_LONG };
+  }
+
+  return { isValid: true, error: null };
+}
+
+/**
+ * Validate task description
+ * @param {string} description - The description to validate
+ * @returns {{ isValid: boolean, error: string | null }}
+ */
+export function validateTaskDescription(description) {
+  if (!description) {
+    return { isValid: true, error: null }; // Optional field
+  }
+
+  if (description.length > TASK_LIMITS.DESCRIPTION_MAX_LENGTH) {
+    return { isValid: false, error: TASK_ERROR_MESSAGES.DESCRIPTION_TOO_LONG };
+  }
+
+  return { isValid: true, error: null };
+}
+
+/**
+ * Validate task complexity
+ * @param {number} complexity - The complexity value to validate
+ * @returns {{ isValid: boolean, error: string | null }}
+ */
+export function validateTaskComplexity(complexity) {
+  if (complexity === undefined || complexity === null) {
+    return { isValid: true, error: null }; // Optional field, will use default
+  }
+
+  const num = Number(complexity);
+  if (
+    isNaN(num) ||
+    !Number.isInteger(num) ||
+    num < TASK_LIMITS.COMPLEXITY_MIN ||
+    num > TASK_LIMITS.COMPLEXITY_MAX
+  ) {
+    return { isValid: false, error: TASK_ERROR_MESSAGES.INVALID_COMPLEXITY };
+  }
+
+  return { isValid: true, error: null };
+}
+
+/**
+ * Validate task estimated duration
+ * @param {number} duration - The duration in minutes to validate
+ * @returns {{ isValid: boolean, error: string | null }}
+ */
+export function validateTaskDuration(duration) {
+  if (duration === undefined || duration === null) {
+    return { isValid: true, error: null }; // Optional field, will use default
+  }
+
+  const num = Number(duration);
+  if (
+    isNaN(num) ||
+    !Number.isInteger(num) ||
+    num < TASK_LIMITS.DURATION_MIN ||
+    num > TASK_LIMITS.DURATION_MAX
+  ) {
+    return { isValid: false, error: TASK_ERROR_MESSAGES.INVALID_DURATION };
+  }
+
+  return { isValid: true, error: null };
+}
+
+/**
+ * Validate task priority
+ * @param {string} priority - The priority value to validate
+ * @returns {{ isValid: boolean, error: string | null }}
+ */
+export function validateTaskPriority(priority) {
+  if (!priority) {
+    return { isValid: true, error: null }; // Optional field, will use default
+  }
+
+  const validPriorities = Object.values(PRIORITIES);
+  if (!validPriorities.includes(priority)) {
+    return { isValid: false, error: TASK_ERROR_MESSAGES.INVALID_PRIORITY };
+  }
+
+  return { isValid: true, error: null };
+}
+
+/**
+ * Validate task category
+ * @param {string} category - The category value to validate
+ * @returns {{ isValid: boolean, error: string | null }}
+ */
+export function validateTaskCategory(category) {
+  if (!category) {
+    return { isValid: true, error: null }; // Optional field, will use default
+  }
+
+  const validCategories = Object.values(CATEGORIES);
+  if (!validCategories.includes(category)) {
+    return { isValid: false, error: TASK_ERROR_MESSAGES.INVALID_CATEGORY };
+  }
+
+  return { isValid: true, error: null };
+}
+
+/**
+ * Validate task status
+ * @param {string} status - The status value to validate
+ * @returns {{ isValid: boolean, error: string | null }}
+ */
+export function validateTaskStatus(status) {
+  if (!status) {
+    return { isValid: true, error: null }; // Optional field, will use default
+  }
+
+  const validStatuses = Object.values(STATUSES);
+  if (!validStatuses.includes(status)) {
+    return { isValid: false, error: TASK_ERROR_MESSAGES.INVALID_STATUS };
+  }
+
+  return { isValid: true, error: null };
+}
+
+/**
+ * Validate task deadline
+ * @param {Date | string | null} deadline - The deadline to validate
+ * @returns {{ isValid: boolean, error: string | null, isPastDeadline: boolean }}
+ */
+export function validateTaskDeadline(deadline) {
+  if (!deadline) {
+    return { isValid: true, error: null, isPastDeadline: false }; // Optional field
+  }
+
+  const date = deadline instanceof Date ? deadline : new Date(deadline);
+
+  if (isNaN(date.getTime())) {
+    return { isValid: false, error: TASK_ERROR_MESSAGES.DEADLINE_INVALID, isPastDeadline: false };
+  }
+
+  const isPastDeadline = date < new Date();
+  return { isValid: true, error: null, isPastDeadline };
+}
+
+/**
+ * Validate complete task input for creation
+ * @param {object} input - The task input object
+ * @returns {{ valid: boolean, errors: Record<string, string> }}
+ */
+export function validateCreateTaskInput(input) {
+  const errors = {};
+
+  // Validate task name (required)
+  const nameResult = validateTaskName(input.taskName);
+  if (!nameResult.isValid) {
+    errors.taskName = nameResult.error;
+  }
+
+  // Validate description (optional)
+  const descResult = validateTaskDescription(input.description);
+  if (!descResult.isValid) {
+    errors.description = descResult.error;
+  }
+
+  // Validate complexity (optional)
+  const complexityResult = validateTaskComplexity(input.complexity);
+  if (!complexityResult.isValid) {
+    errors.complexity = complexityResult.error;
+  }
+
+  // Validate duration (optional)
+  const durationResult = validateTaskDuration(input.estimatedDuration);
+  if (!durationResult.isValid) {
+    errors.estimatedDuration = durationResult.error;
+  }
+
+  // Validate priority (optional)
+  const priorityResult = validateTaskPriority(input.priority);
+  if (!priorityResult.isValid) {
+    errors.priority = priorityResult.error;
+  }
+
+  // Validate category (optional)
+  const categoryResult = validateTaskCategory(input.category);
+  if (!categoryResult.isValid) {
+    errors.category = categoryResult.error;
+  }
+
+  // Validate deadline (optional)
+  const deadlineResult = validateTaskDeadline(input.deadline);
+  if (!deadlineResult.isValid) {
+    errors.deadline = deadlineResult.error;
+  }
+
+  return {
+    valid: Object.keys(errors).length === 0,
+    errors,
+  };
+}
+
+/**
+ * Validate task update input
+ * @param {object} input - The task update input object
+ * @returns {{ valid: boolean, errors: Record<string, string> }}
+ */
+export function validateUpdateTaskInput(input) {
+  const errors = {};
+
+  // Only validate fields that are present
+  if (input.taskName !== undefined) {
+    const nameResult = validateTaskName(input.taskName);
+    if (!nameResult.isValid) {
+      errors.taskName = nameResult.error;
+    }
+  }
+
+  if (input.description !== undefined) {
+    const descResult = validateTaskDescription(input.description);
+    if (!descResult.isValid) {
+      errors.description = descResult.error;
+    }
+  }
+
+  if (input.complexity !== undefined) {
+    const complexityResult = validateTaskComplexity(input.complexity);
+    if (!complexityResult.isValid) {
+      errors.complexity = complexityResult.error;
+    }
+  }
+
+  if (input.estimatedDuration !== undefined) {
+    const durationResult = validateTaskDuration(input.estimatedDuration);
+    if (!durationResult.isValid) {
+      errors.estimatedDuration = durationResult.error;
+    }
+  }
+
+  if (input.actualDuration !== undefined) {
+    const durationResult = validateTaskDuration(input.actualDuration);
+    if (!durationResult.isValid) {
+      errors.actualDuration = durationResult.error;
+    }
+  }
+
+  if (input.priority !== undefined) {
+    const priorityResult = validateTaskPriority(input.priority);
+    if (!priorityResult.isValid) {
+      errors.priority = priorityResult.error;
+    }
+  }
+
+  if (input.category !== undefined) {
+    const categoryResult = validateTaskCategory(input.category);
+    if (!categoryResult.isValid) {
+      errors.category = categoryResult.error;
+    }
+  }
+
+  if (input.status !== undefined) {
+    const statusResult = validateTaskStatus(input.status);
+    if (!statusResult.isValid) {
+      errors.status = statusResult.error;
+    }
+  }
+
+  if (input.deadline !== undefined) {
+    const deadlineResult = validateTaskDeadline(input.deadline);
+    if (!deadlineResult.isValid) {
+      errors.deadline = deadlineResult.error;
+    }
+  }
+
+  return {
+    valid: Object.keys(errors).length === 0,
+    errors,
+  };
 }

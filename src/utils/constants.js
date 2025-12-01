@@ -72,3 +72,167 @@ export const IDENTIFIER_TYPES = {
   USERNAME: 'username',
   PHONE: 'phone',
 };
+
+// =============================================================================
+// Task Management Constants
+// =============================================================================
+
+// Task priorities
+export const PRIORITIES = {
+  URGENT: 'urgent',
+  HIGH: 'high',
+  MEDIUM: 'medium',
+  LOW: 'low',
+};
+
+// Priority display labels
+export const PRIORITY_LABELS = {
+  [PRIORITIES.URGENT]: 'Urgent',
+  [PRIORITIES.HIGH]: 'High',
+  [PRIORITIES.MEDIUM]: 'Medium',
+  [PRIORITIES.LOW]: 'Low',
+};
+
+// Priority numeric values for sorting (higher = more urgent)
+export const PRIORITY_ORDER = {
+  [PRIORITIES.URGENT]: 4,
+  [PRIORITIES.HIGH]: 3,
+  [PRIORITIES.MEDIUM]: 2,
+  [PRIORITIES.LOW]: 1,
+};
+
+// Priority colors (Tailwind classes)
+export const PRIORITY_COLORS = {
+  [PRIORITIES.URGENT]: 'bg-red-100 text-red-800',
+  [PRIORITIES.HIGH]: 'bg-orange-100 text-orange-800',
+  [PRIORITIES.MEDIUM]: 'bg-yellow-100 text-yellow-800',
+  [PRIORITIES.LOW]: 'bg-green-100 text-green-800',
+};
+
+// Task categories
+export const CATEGORIES = {
+  DEVELOPMENT: 'development',
+  FIX: 'fix',
+  SUPPORT: 'support',
+};
+
+// Category display labels
+export const CATEGORY_LABELS = {
+  [CATEGORIES.DEVELOPMENT]: 'Development',
+  [CATEGORIES.FIX]: 'Fix',
+  [CATEGORIES.SUPPORT]: 'Support',
+};
+
+// Category colors (Tailwind classes)
+export const CATEGORY_COLORS = {
+  [CATEGORIES.DEVELOPMENT]: 'bg-blue-100 text-blue-800',
+  [CATEGORIES.FIX]: 'bg-purple-100 text-purple-800',
+  [CATEGORIES.SUPPORT]: 'bg-gray-100 text-gray-800',
+};
+
+// Task statuses
+export const STATUSES = {
+  PENDING: 'pending',
+  IN_PROGRESS: 'in-progress',
+  COMPLETED: 'completed',
+};
+
+// Status display labels
+export const STATUS_LABELS = {
+  [STATUSES.PENDING]: 'Pending',
+  [STATUSES.IN_PROGRESS]: 'In Progress',
+  [STATUSES.COMPLETED]: 'Completed',
+};
+
+// Status colors (Tailwind classes)
+export const STATUS_COLORS = {
+  [STATUSES.PENDING]: 'bg-slate-100 text-slate-800',
+  [STATUSES.IN_PROGRESS]: 'bg-blue-100 text-blue-800',
+  [STATUSES.COMPLETED]: 'bg-green-100 text-green-800',
+};
+
+// Default task values
+export const TASK_DEFAULTS = {
+  COMPLEXITY: 5,
+  PRIORITY: PRIORITIES.MEDIUM,
+  CATEGORY: CATEGORIES.DEVELOPMENT,
+  ESTIMATED_DURATION: 60,
+  STATUS: STATUSES.PENDING,
+};
+
+// Task field constraints
+export const TASK_LIMITS = {
+  NAME_MIN_LENGTH: 1,
+  NAME_MAX_LENGTH: 200,
+  DESCRIPTION_MAX_LENGTH: 5000,
+  COMPLEXITY_MIN: 1,
+  COMPLEXITY_MAX: 10,
+  DURATION_MIN: 1,
+  DURATION_MAX: 99999,
+};
+
+// Task error messages
+export const TASK_ERROR_MESSAGES = {
+  NAME_REQUIRED: 'Task name is required',
+  NAME_TOO_SHORT: 'Task name must be at least 1 character',
+  NAME_TOO_LONG: 'Task name must be at most 200 characters',
+  DESCRIPTION_TOO_LONG: 'Description must be at most 5000 characters',
+  INVALID_COMPLEXITY: 'Complexity must be between 1 and 10',
+  INVALID_DURATION: 'Duration must be between 1 and 99999 minutes',
+  INVALID_PRIORITY: 'Invalid priority value',
+  INVALID_CATEGORY: 'Invalid category value',
+  INVALID_STATUS: 'Invalid status value',
+  DEADLINE_INVALID: 'Invalid deadline date',
+};
+
+// Sort fields for tasks
+export const SORT_FIELDS = {
+  PRIORITY: 'priority',
+  COMPLEXITY: 'complexity',
+  ESTIMATED_DURATION: 'estimatedDuration',
+  CREATED_AT: 'createdAt',
+  DEADLINE: 'deadline',
+  TASK_NAME: 'taskName',
+};
+
+// Sort field labels
+export const SORT_FIELD_LABELS = {
+  [SORT_FIELDS.PRIORITY]: 'Priority',
+  [SORT_FIELDS.COMPLEXITY]: 'Complexity',
+  [SORT_FIELDS.ESTIMATED_DURATION]: 'Duration',
+  [SORT_FIELDS.CREATED_AT]: 'Created',
+  [SORT_FIELDS.DEADLINE]: 'Deadline',
+  [SORT_FIELDS.TASK_NAME]: 'Name',
+};
+
+// Sort orders
+export const SORT_ORDERS = {
+  ASC: 'asc',
+  DESC: 'desc',
+};
+
+// Default sort configuration
+export const DEFAULT_SORT = {
+  field: SORT_FIELDS.PRIORITY,
+  order: SORT_ORDERS.DESC,
+};
+
+// Default filter configuration
+export const DEFAULT_FILTERS = {
+  status: [],
+  priority: [],
+  category: [],
+  searchQuery: '',
+  userId: null,
+};
+
+// Pagination defaults
+export const PAGINATION_DEFAULTS = {
+  PAGE_SIZE: 25,
+  INITIAL_PAGE: 1,
+};
+
+// Local storage keys for task preferences
+export const TASK_STORAGE_KEYS = {
+  SORT_PREFERENCE: 'taskflow_sort',
+};
