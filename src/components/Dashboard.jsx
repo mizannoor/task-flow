@@ -9,9 +9,43 @@ import { UserSwitcher } from './auth/UserSwitcher';
 import { TaskProvider } from '../contexts/TaskContext';
 import { TaskModal } from './tasks/TaskModal';
 import { TaskList } from './tasks/TaskList';
+import { KanbanView } from './views';
 import { useTasks } from '../hooks/useTasks';
 import { DeleteConfirmDialog, ReopenConfirmDialog } from './ui/ConfirmDialog';
 import { STATUSES } from '../utils/constants';
+
+// View type constants
+const VIEW_TYPES = {
+  LIST: 'list',
+  KANBAN: 'kanban',
+};
+
+// Local storage key for view preference
+const VIEW_STORAGE_KEY = 'taskflow_view_preference';
+
+/**
+ * Load view preference from localStorage
+ * @returns {string} - View type
+ */
+function loadViewPreference() {
+  try {
+    return localStorage.getItem(VIEW_STORAGE_KEY) || VIEW_TYPES.LIST;
+  } catch {
+    return VIEW_TYPES.LIST;
+  }
+}
+
+/**
+ * Save view preference to localStorage
+ * @param {string} view - View type
+ */
+function saveViewPreference(view) {
+  try {
+    localStorage.setItem(VIEW_STORAGE_KEY, view);
+  } catch (e) {
+    console.warn('Failed to save view preference:', e);
+  }
+}
 
 /**
  * Dashboard content component (wrapped by TaskProvider)
@@ -25,6 +59,15 @@ function DashboardContent() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [taskToReopen, setTaskToReopen] = useState(null);
   const [isReopening, setIsReopening] = useState(false);
+  
+  // View state (List vs Kanban)
+  const [currentView, setCurrentView] = useState(loadViewPreference);
+
+  // Handle view change
+  const handleViewChange = (view) => {
+    setCurrentView(view);
+    saveViewPreference(view);
+  };
 
   // Handle opening create task modal
   const handleCreateTask = () => {
@@ -172,18 +215,63 @@ function DashboardContent() {
         </div>
 
         {/* Tasks section */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">
-            Your Tasks
-          </h3>
+        <div className={`bg-white rounded-lg shadow ${currentView === VIEW_TYPES.KANBAN ? 'p-4' : 'p-6'}`}>
+          {/* Section header with view toggle */}
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-medium text-gray-900">
+              Your Tasks
+            </h3>
+            
+            {/* View toggle buttons */}
+            <div className="inline-flex rounded-lg border border-gray-200 bg-gray-50 p-1">
+              <button
+                type="button"
+                onClick={() => handleViewChange(VIEW_TYPES.LIST)}
+                className={`inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                  currentView === VIEW_TYPES.LIST
+                    ? 'bg-white text-gray-900 shadow-sm'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
+                aria-pressed={currentView === VIEW_TYPES.LIST}
+              >
+                <svg className="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                </svg>
+                List
+              </button>
+              <button
+                type="button"
+                onClick={() => handleViewChange(VIEW_TYPES.KANBAN)}
+                className={`inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                  currentView === VIEW_TYPES.KANBAN
+                    ? 'bg-white text-gray-900 shadow-sm'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
+                aria-pressed={currentView === VIEW_TYPES.KANBAN}
+              >
+                <svg className="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+                </svg>
+                Kanban
+              </button>
+            </div>
+          </div>
 
-          {/* Task List */}
-          <TaskList
-            onEditTask={handleEditTask}
-            onDeleteTask={handleDeleteClick}
-            onStatusChange={handleStatusChange}
-            onCreateTask={handleCreateTask}
-          />
+          {/* Conditional view rendering */}
+          {currentView === VIEW_TYPES.LIST ? (
+            <TaskList
+              onEditTask={handleEditTask}
+              onDeleteTask={handleDeleteClick}
+              onStatusChange={handleStatusChange}
+              onCreateTask={handleCreateTask}
+            />
+          ) : (
+            <KanbanView
+              onEditTask={handleEditTask}
+              onDeleteTask={handleDeleteClick}
+              onCreateTask={handleCreateTask}
+            />
+          )}
         </div>
       </main>
 

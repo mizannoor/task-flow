@@ -236,3 +236,39 @@ export const PAGINATION_DEFAULTS = {
 export const TASK_STORAGE_KEYS = {
   SORT_PREFERENCE: 'taskflow_sort',
 };
+
+// =============================================================================
+// Kanban View Constants
+// =============================================================================
+
+// Kanban storage key for localStorage
+export const KANBAN_STORAGE_KEY = 'taskflow_kanban_columns';
+
+// Kanban column configuration
+export const KANBAN_COLUMNS = [
+  { id: STATUSES.PENDING, title: 'Pending', status: STATUSES.PENDING },
+  { id: STATUSES.IN_PROGRESS, title: 'In Progress', status: STATUSES.IN_PROGRESS },
+  { id: STATUSES.COMPLETED, title: 'Completed', status: STATUSES.COMPLETED },
+];
+
+// Default collapsed columns state
+export const DEFAULT_COLLAPSED_COLUMNS = {
+  [STATUSES.PENDING]: false,
+  [STATUSES.IN_PROGRESS]: false,
+  [STATUSES.COMPLETED]: false,
+};
+
+// Kanban drag-and-drop data transfer type
+export const KANBAN_DND_TYPE = 'application/taskflow-kanban-card';
+
+// Kanban hover preview delay (milliseconds)
+export const KANBAN_PREVIEW_DELAY = 500;
+
+// Kanban column width constraints
+export const KANBAN_COLUMN_WIDTH = {
+  EXPANDED: 320,
+  COLLAPSED: 48,
+};
+
+// Kanban card height estimate (for virtualization)
+export const KANBAN_CARD_HEIGHT = 120;

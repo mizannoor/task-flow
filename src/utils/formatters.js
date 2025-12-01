@@ -304,3 +304,91 @@ export function formatDateTimeForInput(date) {
 
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
+
+// =============================================================================
+// Kanban View Utilities
+// =============================================================================
+
+import { STATUSES, PRIORITY_ORDER } from './constants';
+
+/**
+ * Group tasks by their status for Kanban view
+ * @param {Array} tasks - Array of task objects
+ * @returns {object} - Tasks grouped by status { pending: [], 'in-progress': [], completed: [] }
+ */
+export function groupTasksByStatus(tasks) {
+  const grouped = {
+    [STATUSES.PENDING]: [],
+    [STATUSES.IN_PROGRESS]: [],
+    [STATUSES.COMPLETED]: [],
+  };
+
+  if (!Array.isArray(tasks)) {
+    return grouped;
+  }
+
+  for (const task of tasks) {
+    const status = task.status || STATUSES.PENDING;
+    if (grouped[status]) {
+      grouped[status].push(task);
+    } else {
+      // Fallback to pending if unknown status
+      grouped[STATUSES.PENDING].push(task);
+    }
+  }
+
+  return grouped;
+}
+
+/**
+ * Sort tasks within a column by priority, then deadline, then creation date
+ * Priority: Urgent > High > Medium > Low
+ * Deadline: Earlier dates first, null/undefined last
+ * CreatedAt: Oldest first (ascending)
+ * 
+ * @param {Array} tasks - Array of task objects to sort
+ * @returns {Array} - Sorted array of tasks
+ */
+export function sortTasksInColumn(tasks) {
+  if (!Array.isArray(tasks) || tasks.length === 0) {
+    return [];
+  }
+
+  return [...tasks].sort((a, b) => {
+    // 1. Priority (higher priority value = more urgent = should come first)
+    const priorityA = PRIORITY_ORDER[a.priority] || 0;
+    const priorityB = PRIORITY_ORDER[b.priority] || 0;
+    
+    if (priorityB !== priorityA) {
+      return priorityB - priorityA; // Descending (Urgent first)
+    }
+
+    // 2. Deadline (earlier dates first, null/undefined last)
+    const deadlineA = a.deadline ? new Date(a.deadline).getTime() : Infinity;
+    const deadlineB = b.deadline ? new Date(b.deadline).getTime() : Infinity;
+    
+    if (deadlineA !== deadlineB) {
+      return deadlineA - deadlineB; // Ascending (earlier first)
+    }
+
+    // 3. CreatedAt (oldest first)
+    const createdA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+    const createdB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+    
+    return createdA - createdB; // Ascending (oldest first)
+  });
+}
+
+/**
+ * Get column counts for Kanban badges
+ * @param {object} groupedTasks - Tasks grouped by status from groupTasksByStatus
+ * @returns {object} - Counts by status { pending: number, 'in-progress': number, completed: number }
+ */
+export function getColumnCounts(groupedTasks) {
+  return {
+    [STATUSES.PENDING]: groupedTasks[STATUSES.PENDING]?.length || 0,
+    [STATUSES.IN_PROGRESS]: groupedTasks[STATUSES.IN_PROGRESS]?.length || 0,
+    [STATUSES.COMPLETED]: groupedTasks[STATUSES.COMPLETED]?.length || 0,
+  };
+}
+
