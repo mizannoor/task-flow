@@ -272,3 +272,38 @@ export const KANBAN_COLUMN_WIDTH = {
 
 // Kanban card height estimate (for virtualization)
 export const KANBAN_CARD_HEIGHT = 120;
+
+// =============================================================================
+// Focus View Constants
+// =============================================================================
+
+// Maximum tasks to display in Focus View
+export const FOCUS_VIEW_MAX_TASKS = 10;
+
+// Focus View selection tiers (lower = higher priority)
+export const FOCUS_VIEW_TIERS = {
+  OVERDUE: 1,
+  DUE_TODAY: 2,
+  IN_PROGRESS: 3,
+  HIGH_PRIORITY: 4,
+};
+
+// Focus View tier labels for display
+export const FOCUS_TIER_LABELS = {
+  [FOCUS_VIEW_TIERS.OVERDUE]: 'Overdue',
+  [FOCUS_VIEW_TIERS.DUE_TODAY]: 'Due Today',
+  [FOCUS_VIEW_TIERS.IN_PROGRESS]: 'In Progress',
+  [FOCUS_VIEW_TIERS.HIGH_PRIORITY]: 'High Priority',
+};
+
+// Focus View tier colors (Tailwind classes)
+export const FOCUS_TIER_COLORS = {
+  [FOCUS_VIEW_TIERS.OVERDUE]: 'bg-red-100 text-red-800 border-red-200',
+  [FOCUS_VIEW_TIERS.DUE_TODAY]: 'bg-amber-100 text-amber-800 border-amber-200',
+  [FOCUS_VIEW_TIERS.IN_PROGRESS]: 'bg-blue-100 text-blue-800 border-blue-200',
+  [FOCUS_VIEW_TIERS.HIGH_PRIORITY]: 'bg-purple-100 text-purple-800 border-purple-200',
+};
+
+// Priorities that qualify for Tier 4 (High Priority)
+export const HIGH_PRIORITY_VALUES = [PRIORITIES.URGENT, PRIORITIES.HIGH];
+

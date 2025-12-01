@@ -9,7 +9,7 @@ import { UserSwitcher } from './auth/UserSwitcher';
 import { TaskProvider } from '../contexts/TaskContext';
 import { TaskModal } from './tasks/TaskModal';
 import { TaskList } from './tasks/TaskList';
-import { KanbanView } from './views';
+import { KanbanView, FocusView } from './views';
 import { useTasks } from '../hooks/useTasks';
 import { DeleteConfirmDialog, ReopenConfirmDialog } from './ui/ConfirmDialog';
 import { STATUSES } from '../utils/constants';
@@ -18,6 +18,7 @@ import { STATUSES } from '../utils/constants';
 const VIEW_TYPES = {
   LIST: 'list',
   KANBAN: 'kanban',
+  FOCUS: 'focus',
 };
 
 // Local storage key for view preference
@@ -228,8 +229,8 @@ function DashboardContent() {
                 type="button"
                 onClick={() => handleViewChange(VIEW_TYPES.LIST)}
                 className={`inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${currentView === VIEW_TYPES.LIST
-                    ? 'bg-white text-gray-900 shadow-sm'
-                    : 'text-gray-500 hover:text-gray-700'
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-500 hover:text-gray-700'
                   }`}
                 aria-pressed={currentView === VIEW_TYPES.LIST}
               >
@@ -242,8 +243,8 @@ function DashboardContent() {
                 type="button"
                 onClick={() => handleViewChange(VIEW_TYPES.KANBAN)}
                 className={`inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${currentView === VIEW_TYPES.KANBAN
-                    ? 'bg-white text-gray-900 shadow-sm'
-                    : 'text-gray-500 hover:text-gray-700'
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-500 hover:text-gray-700'
                   }`}
                 aria-pressed={currentView === VIEW_TYPES.KANBAN}
               >
@@ -252,19 +253,42 @@ function DashboardContent() {
                 </svg>
                 Kanban
               </button>
+              <button
+                type="button"
+                onClick={() => handleViewChange(VIEW_TYPES.FOCUS)}
+                className={`inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${currentView === VIEW_TYPES.FOCUS
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                aria-pressed={currentView === VIEW_TYPES.FOCUS}
+              >
+                <svg className="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+                Focus
+              </button>
             </div>
           </div>
 
           {/* Conditional view rendering */}
-          {currentView === VIEW_TYPES.LIST ? (
+          {currentView === VIEW_TYPES.LIST && (
             <TaskList
               onEditTask={handleEditTask}
               onDeleteTask={handleDeleteClick}
               onStatusChange={handleStatusChange}
               onCreateTask={handleCreateTask}
             />
-          ) : (
+          )}
+          {currentView === VIEW_TYPES.KANBAN && (
             <KanbanView
+              onEditTask={handleEditTask}
+              onDeleteTask={handleDeleteClick}
+              onCreateTask={handleCreateTask}
+            />
+          )}
+          {currentView === VIEW_TYPES.FOCUS && (
+            <FocusView
               onEditTask={handleEditTask}
               onDeleteTask={handleDeleteClick}
               onCreateTask={handleCreateTask}
