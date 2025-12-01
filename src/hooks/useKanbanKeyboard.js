@@ -24,11 +24,11 @@ export function useKanbanKeyboard({ groupedTasks = {}, onStatusChange, onCardSel
   // Current focus state
   const [focusedCardId, setFocusedCardId] = useState(null);
   const [focusedColumn, setFocusedColumn] = useState(null);
-  
+
   // Status dropdown state
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dropdownTaskId, setDropdownTaskId] = useState(null);
-  
+
   // Refs for focus management
   const boardRef = useRef(null);
   const cardRefs = useRef(new Map());
@@ -53,7 +53,7 @@ export function useKanbanKeyboard({ groupedTasks = {}, onStatusChange, onCardSel
   const setFocus = useCallback((cardId, column) => {
     setFocusedCardId(cardId);
     setFocusedColumn(column);
-    
+
     // Focus the actual DOM element
     const element = cardRefs.current.get(cardId);
     if (element) {
@@ -85,7 +85,7 @@ export function useKanbanKeyboard({ groupedTasks = {}, onStatusChange, onCardSel
   const closeDropdown = useCallback(() => {
     setIsDropdownOpen(false);
     setDropdownTaskId(null);
-    
+
     // Return focus to the card
     if (focusedCardId) {
       const element = cardRefs.current.get(focusedCardId);
@@ -100,16 +100,16 @@ export function useKanbanKeyboard({ groupedTasks = {}, onStatusChange, onCardSel
    */
   const getNextCardInColumn = useCallback((direction) => {
     if (!focusedColumn || !focusedCardId) return null;
-    
+
     const tasksInColumn = groupedTasks[focusedColumn] || [];
     const currentIndex = tasksInColumn.findIndex((t) => t.id === focusedCardId);
-    
+
     if (currentIndex === -1) return null;
-    
-    const nextIndex = direction === 'down' 
+
+    const nextIndex = direction === 'down'
       ? Math.min(currentIndex + 1, tasksInColumn.length - 1)
       : Math.max(currentIndex - 1, 0);
-    
+
     return tasksInColumn[nextIndex]?.id || null;
   }, [focusedColumn, focusedCardId, groupedTasks]);
 
@@ -118,24 +118,24 @@ export function useKanbanKeyboard({ groupedTasks = {}, onStatusChange, onCardSel
    */
   const getCardInAdjacentColumn = useCallback((direction) => {
     if (!focusedColumn) return { cardId: null, column: null };
-    
+
     const currentColumnIndex = COLUMN_ORDER.indexOf(focusedColumn);
     const nextColumnIndex = direction === 'right'
       ? Math.min(currentColumnIndex + 1, COLUMN_ORDER.length - 1)
       : Math.max(currentColumnIndex - 1, 0);
-    
+
     if (nextColumnIndex === currentColumnIndex) {
       return { cardId: focusedCardId, column: focusedColumn };
     }
-    
+
     const nextColumn = COLUMN_ORDER[nextColumnIndex];
     const tasksInNextColumn = groupedTasks[nextColumn] || [];
-    
+
     // Try to maintain relative position
     const currentTasks = groupedTasks[focusedColumn] || [];
     const currentIndex = currentTasks.findIndex((t) => t.id === focusedCardId);
     const targetIndex = Math.min(currentIndex, tasksInNextColumn.length - 1);
-    
+
     return {
       cardId: tasksInNextColumn[Math.max(0, targetIndex)]?.id || null,
       column: nextColumn,
@@ -281,14 +281,14 @@ export function useKanbanKeyboard({ groupedTasks = {}, onStatusChange, onCardSel
     focusedColumn,
     isDropdownOpen,
     dropdownTaskId,
-    
+
     // Actions
     setFocus,
     clearFocus,
     openDropdown,
     closeDropdown,
     registerCardRef,
-    
+
     // Handlers
     getKeyboardHandlers,
     getDropdownProps,

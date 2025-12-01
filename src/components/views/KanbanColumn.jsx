@@ -62,7 +62,7 @@ function KanbanColumnComponent({
   const expandedClasses = 'min-w-80 max-w-80';
   const collapsedClasses = 'min-w-12 max-w-12 cursor-pointer';
   const dropTargetClasses = isDragTarget && !isCollapsed ? 'bg-indigo-50 ring-2 ring-inset ring-indigo-400' : '';
-  
+
   const columnClasses = `${baseColumnClasses} ${isCollapsed ? collapsedClasses : expandedClasses} ${dropTargetClasses}`;
 
   // Collapsed column view

@@ -144,11 +144,10 @@ export function TaskSidePanel({
                   key={value}
                   type="button"
                   onClick={() => handleStatusChange(value)}
-                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
-                    task.status === value
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${task.status === value
                       ? `${STATUS_COLORS[value]} ring-2 ring-offset-1 ring-current`
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
+                    }`}
                 >
                   {STATUS_LABELS[value]}
                 </button>

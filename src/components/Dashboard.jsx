@@ -59,7 +59,7 @@ function DashboardContent() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [taskToReopen, setTaskToReopen] = useState(null);
   const [isReopening, setIsReopening] = useState(false);
-  
+
   // View state (List vs Kanban)
   const [currentView, setCurrentView] = useState(loadViewPreference);
 
@@ -221,17 +221,16 @@ function DashboardContent() {
             <h3 className="text-lg font-medium text-gray-900">
               Your Tasks
             </h3>
-            
+
             {/* View toggle buttons */}
             <div className="inline-flex rounded-lg border border-gray-200 bg-gray-50 p-1">
               <button
                 type="button"
                 onClick={() => handleViewChange(VIEW_TYPES.LIST)}
-                className={`inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
-                  currentView === VIEW_TYPES.LIST
+                className={`inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${currentView === VIEW_TYPES.LIST
                     ? 'bg-white text-gray-900 shadow-sm'
                     : 'text-gray-500 hover:text-gray-700'
-                }`}
+                  }`}
                 aria-pressed={currentView === VIEW_TYPES.LIST}
               >
                 <svg className="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -242,11 +241,10 @@ function DashboardContent() {
               <button
                 type="button"
                 onClick={() => handleViewChange(VIEW_TYPES.KANBAN)}
-                className={`inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
-                  currentView === VIEW_TYPES.KANBAN
+                className={`inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${currentView === VIEW_TYPES.KANBAN
                     ? 'bg-white text-gray-900 shadow-sm'
                     : 'text-gray-500 hover:text-gray-700'
-                }`}
+                  }`}
                 aria-pressed={currentView === VIEW_TYPES.KANBAN}
               >
                 <svg className="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

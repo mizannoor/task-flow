@@ -358,7 +358,7 @@ export function sortTasksInColumn(tasks) {
     // 1. Priority (higher priority value = more urgent = should come first)
     const priorityA = PRIORITY_ORDER[a.priority] || 0;
     const priorityB = PRIORITY_ORDER[b.priority] || 0;
-    
+
     if (priorityB !== priorityA) {
       return priorityB - priorityA; // Descending (Urgent first)
     }
@@ -366,7 +366,7 @@ export function sortTasksInColumn(tasks) {
     // 2. Deadline (earlier dates first, null/undefined last)
     const deadlineA = a.deadline ? new Date(a.deadline).getTime() : Infinity;
     const deadlineB = b.deadline ? new Date(b.deadline).getTime() : Infinity;
-    
+
     if (deadlineA !== deadlineB) {
       return deadlineA - deadlineB; // Ascending (earlier first)
     }
@@ -374,7 +374,7 @@ export function sortTasksInColumn(tasks) {
     // 3. CreatedAt (oldest first)
     const createdA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
     const createdB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-    
+
     return createdA - createdB; // Ascending (oldest first)
   });
 }

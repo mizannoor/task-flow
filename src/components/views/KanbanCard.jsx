@@ -29,12 +29,12 @@ function getUserInitials(user) {
  */
 function getDeadlineStatus(deadline) {
   if (!deadline) return { isOverdue: false, isDueToday: false };
-  
+
   const deadlineDate = deadline instanceof Date ? deadline : new Date(deadline);
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const deadlineDay = new Date(deadlineDate.getFullYear(), deadlineDate.getMonth(), deadlineDate.getDate());
-  
+
   return {
     isOverdue: deadlineDay < today,
     isDueToday: deadlineDay.getTime() === today.getTime(),
@@ -111,7 +111,7 @@ function KanbanCardComponent({
   const baseCardClasses = 'bg-white rounded-lg shadow-sm border border-gray-200 p-3 cursor-grab transition-all duration-200 ease-in-out hover:shadow-md hover:border-gray-300 active:cursor-grabbing';
   const draggingClasses = isDragging ? 'opacity-50 shadow-lg ring-2 ring-indigo-500 ring-offset-2' : '';
   const focusedClasses = isFocused ? 'ring-2 ring-indigo-500 ring-offset-2 outline-none' : '';
-  
+
   const cardClasses = `${baseCardClasses} ${draggingClasses} ${focusedClasses}`.trim();
 
   return (
@@ -137,9 +137,8 @@ function KanbanCardComponent({
       <div className="flex items-center justify-between gap-2 text-xs">
         {/* Priority badge */}
         <span
-          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-            PRIORITY_COLORS[task.priority] || 'bg-gray-100 text-gray-800'
-          }`}
+          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${PRIORITY_COLORS[task.priority] || 'bg-gray-100 text-gray-800'
+            }`}
         >
           {PRIORITY_LABELS[task.priority] || task.priority}
         </span>
@@ -158,9 +157,8 @@ function KanbanCardComponent({
         {/* Deadline */}
         {task.deadline ? (
           <span
-            className={`text-xs flex items-center gap-1 ${
-              isOverdue ? 'text-red-600 font-medium' : isDueToday ? 'text-orange-600 font-medium' : 'text-gray-500'
-            }`}
+            className={`text-xs flex items-center gap-1 ${isOverdue ? 'text-red-600 font-medium' : isDueToday ? 'text-orange-600 font-medium' : 'text-gray-500'
+              }`}
             title={isOverdue ? 'Overdue' : isDueToday ? 'Due today' : 'Deadline'}
           >
             {(isOverdue || isDueToday) && (

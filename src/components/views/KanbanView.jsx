@@ -60,20 +60,20 @@ export function KanbanView({
   onStatusChange,
 }) {
   const { tasks, updateTask, loading, error } = useTasks();
-  
+
   // Collapsed columns state (persisted to localStorage)
   const [collapsedColumns, setCollapsedColumns] = useState(loadCollapsedState);
-  
+
   // Selected task for side panel
   const [selectedTask, setSelectedTask] = useState(null);
-  
+
   // Preview popup state
   const [previewState, setPreviewState] = useState({
     isVisible: false,
     task: null,
     position: { x: 0, y: 0 },
   });
-  
+
   // Keyboard focus state
   const [focusedCardId, setFocusedCardId] = useState(null);
 
@@ -82,7 +82,7 @@ export function KanbanView({
     try {
       // Optimistic update handled by TaskContext
       await updateTask(taskId, { status: newStatus });
-      
+
       // Notify parent if needed
       onStatusChange?.({ taskId, newStatus, oldStatus });
     } catch (error) {
@@ -101,7 +101,7 @@ export function KanbanView({
   // Group and sort tasks by status
   const groupedTasks = useMemo(() => {
     const grouped = groupTasksByStatus(tasks);
-    
+
     // Sort tasks within each column
     return {
       [STATUSES.PENDING]: sortTasksInColumn(grouped[STATUSES.PENDING]),
@@ -116,12 +116,12 @@ export function KanbanView({
       // Ensure at least one column remains expanded
       const expandedCount = Object.values(prev).filter((v) => !v).length;
       const isCurrentlyCollapsed = prev[status];
-      
+
       // Don't collapse if this is the last expanded column
       if (!isCurrentlyCollapsed && expandedCount <= 1) {
         return prev;
       }
-      
+
       const newState = { ...prev, [status]: !prev[status] };
       saveCollapsedState(newState);
       return newState;

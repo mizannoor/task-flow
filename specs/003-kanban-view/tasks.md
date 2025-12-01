@@ -23,9 +23,9 @@
 
 **Purpose**: Project initialization and directory structure
 
-- [X] T001 Create views directory structure at src/components/views/
-- [X] T002 [P] Add Kanban-specific constants to src/utils/constants.js (KANBAN_STORAGE_KEY, column config)
-- [X] T003 [P] Add Kanban-specific Tailwind styles to src/styles/globals.css (drag states, column transitions)
+- [x] T001 Create views directory structure at src/components/views/
+- [x] T002 [P] Add Kanban-specific constants to src/utils/constants.js (KANBAN_STORAGE_KEY, column config)
+- [x] T003 [P] Add Kanban-specific Tailwind styles to src/styles/globals.css (drag states, column transitions)
 
 ---
 
@@ -35,11 +35,11 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [X] T004 Create useDragAndDrop hook in src/hooks/useDragAndDrop.js with DragState management
-- [X] T005 Implement drag handlers (getDragHandlers) in src/hooks/useDragAndDrop.js
-- [X] T006 Implement drop handlers (getDropHandlers) in src/hooks/useDragAndDrop.js
-- [X] T007 Add groupTasksByStatus utility function to src/utils/formatters.js
-- [X] T008 Add sortTasksInColumn utility function to src/utils/formatters.js (priority → deadline → createdAt)
+- [x] T004 Create useDragAndDrop hook in src/hooks/useDragAndDrop.js with DragState management
+- [x] T005 Implement drag handlers (getDragHandlers) in src/hooks/useDragAndDrop.js
+- [x] T006 Implement drop handlers (getDropHandlers) in src/hooks/useDragAndDrop.js
+- [x] T007 Add groupTasksByStatus utility function to src/utils/formatters.js
+- [x] T008 Add sortTasksInColumn utility function to src/utils/formatters.js (priority → deadline → createdAt)
 
 **Checkpoint**: Foundation ready - user story implementation can now begin
 
@@ -53,13 +53,13 @@
 
 ### Implementation for User Story 1
 
-- [X] T009 [P] [US1] Create KanbanCard component in src/components/views/KanbanCard.jsx with basic task display (name only)
-- [X] T010 [P] [US1] Create KanbanColumn component in src/components/views/KanbanColumn.jsx with column header and task count badge
-- [X] T011 [US1] Create KanbanView component in src/components/views/KanbanView.jsx with three-column layout
-- [X] T012 [US1] Integrate useTasks hook in KanbanView to fetch and group tasks by status
-- [X] T013 [US1] Implement empty state messaging in KanbanColumn for columns with no tasks
-- [X] T014 [US1] Add column scrolling support in KanbanColumn when tasks exceed visible area
-- [X] T015 [US1] Integrate KanbanView with Dashboard.jsx (add view toggle between List and Kanban)
+- [x] T009 [P] [US1] Create KanbanCard component in src/components/views/KanbanCard.jsx with basic task display (name only)
+- [x] T010 [P] [US1] Create KanbanColumn component in src/components/views/KanbanColumn.jsx with column header and task count badge
+- [x] T011 [US1] Create KanbanView component in src/components/views/KanbanView.jsx with three-column layout
+- [x] T012 [US1] Integrate useTasks hook in KanbanView to fetch and group tasks by status
+- [x] T013 [US1] Implement empty state messaging in KanbanColumn for columns with no tasks
+- [x] T014 [US1] Add column scrolling support in KanbanColumn when tasks exceed visible area
+- [x] T015 [US1] Integrate KanbanView with Dashboard.jsx (add view toggle between List and Kanban)
 
 **Checkpoint**: User Story 1 complete - Kanban board displays tasks in correct columns
 
@@ -73,14 +73,14 @@
 
 ### Implementation for User Story 2
 
-- [X] T016 [US2] Wire useDragAndDrop hook into KanbanView component
-- [X] T017 [US2] Add draggable attribute and drag handlers to KanbanCard component
-- [X] T018 [US2] Add drop zone handlers to KanbanColumn component
-- [X] T019 [US2] Implement visual feedback during drag (ghost card, drop zone highlighting) via CSS classes
-- [X] T020 [US2] Implement optimistic status update in KanbanView when card is dropped
-- [X] T021 [US2] Call taskService.updateTask on drop to persist status change to IndexedDB
-- [X] T022 [US2] Implement rollback animation if status update fails (edge case)
-- [X] T023 [US2] Add touch/pointer event support in useDragAndDrop for mobile devices
+- [x] T016 [US2] Wire useDragAndDrop hook into KanbanView component
+- [x] T017 [US2] Add draggable attribute and drag handlers to KanbanCard component
+- [x] T018 [US2] Add drop zone handlers to KanbanColumn component
+- [x] T019 [US2] Implement visual feedback during drag (ghost card, drop zone highlighting) via CSS classes
+- [x] T020 [US2] Implement optimistic status update in KanbanView when card is dropped
+- [x] T021 [US2] Call taskService.updateTask on drop to persist status change to IndexedDB
+- [x] T022 [US2] Implement rollback animation if status update fails (edge case)
+- [x] T023 [US2] Add touch/pointer event support in useDragAndDrop for mobile devices
 
 **Checkpoint**: User Story 2 complete - Drag-drop changes task status and persists to storage
 
@@ -94,14 +94,14 @@
 
 ### Implementation for User Story 3
 
-- [X] T024 [US3] Add priority badge with color-coding to KanbanCard component
-- [X] T025 [US3] Add assigned user avatar/initials display to KanbanCard component
-- [X] T026 [US3] Add deadline display with overdue warning indicator to KanbanCard component
-- [X] T027 [US3] Add complexity indicator to KanbanCard component
-- [X] T028 [US3] Create TaskSidePanel component in src/components/views/TaskSidePanel.jsx (portal-based slide-out)
-- [X] T029 [US3] Implement slide-in/slide-out animation for TaskSidePanel via CSS transforms
-- [X] T030 [US3] Wire card click handler to open TaskSidePanel in KanbanView
-- [X] T031 [US3] Add close button and backdrop click handler to TaskSidePanel
+- [x] T024 [US3] Add priority badge with color-coding to KanbanCard component
+- [x] T025 [US3] Add assigned user avatar/initials display to KanbanCard component
+- [x] T026 [US3] Add deadline display with overdue warning indicator to KanbanCard component
+- [x] T027 [US3] Add complexity indicator to KanbanCard component
+- [x] T028 [US3] Create TaskSidePanel component in src/components/views/TaskSidePanel.jsx (portal-based slide-out)
+- [x] T029 [US3] Implement slide-in/slide-out animation for TaskSidePanel via CSS transforms
+- [x] T030 [US3] Wire card click handler to open TaskSidePanel in KanbanView
+- [x] T031 [US3] Add close button and backdrop click handler to TaskSidePanel
 
 **Checkpoint**: User Story 3 complete - Cards show task details, clicking opens side panel
 
@@ -115,12 +115,12 @@
 
 ### Implementation for User Story 4
 
-- [X] T032 [US4] Create KanbanCardPreview component in src/components/views/KanbanCardPreview.jsx
-- [X] T033 [US4] Implement 500ms hover delay logic in KanbanCard (useRef + setTimeout)
-- [X] T034 [US4] Add preview positioning logic relative to card location
-- [X] T035 [US4] Display description, tags, and estimated/actual duration in preview
-- [X] T036 [US4] Implement preview close on mouse leave
-- [X] T037 [US4] Add long-press support for touch devices (500ms hold to show preview)
+- [x] T032 [US4] Create KanbanCardPreview component in src/components/views/KanbanCardPreview.jsx
+- [x] T033 [US4] Implement 500ms hover delay logic in KanbanCard (useRef + setTimeout)
+- [x] T034 [US4] Add preview positioning logic relative to card location
+- [x] T035 [US4] Display description, tags, and estimated/actual duration in preview
+- [x] T036 [US4] Implement preview close on mouse leave
+- [x] T037 [US4] Add long-press support for touch devices (500ms hold to show preview)
 
 **Checkpoint**: User Story 4 complete - Hover previews work on desktop, long-press on mobile
 
@@ -134,10 +134,10 @@
 
 ### Implementation for User Story 5
 
-- [X] T038 [US5] Verify sortTasksInColumn utility handles priority ordering (Urgent > High > Medium > Low)
-- [X] T039 [US5] Verify sortTasksInColumn handles deadline secondary sort (earliest first, null last)
-- [X] T040 [US5] Verify sortTasksInColumn handles createdAt tertiary sort (oldest first)
-- [X] T041 [US5] Apply sortTasksInColumn to each column in KanbanView before rendering
+- [x] T038 [US5] Verify sortTasksInColumn utility handles priority ordering (Urgent > High > Medium > Low)
+- [x] T039 [US5] Verify sortTasksInColumn handles deadline secondary sort (earliest first, null last)
+- [x] T040 [US5] Verify sortTasksInColumn handles createdAt tertiary sort (oldest first)
+- [x] T041 [US5] Apply sortTasksInColumn to each column in KanbanView before rendering
 
 **Checkpoint**: User Story 5 complete - Tasks sorted correctly within columns
 
@@ -149,21 +149,21 @@
 
 ### Column Collapse (FR-016)
 
-- [X] T042 Add collapsedColumns state to KanbanView with localStorage persistence
-- [X] T043 Add collapse/expand toggle button to KanbanColumn header
-- [X] T044 Implement collapsed column rendering (thin strip with name and count only)
-- [X] T045 Implement expand animation with CSS transitions
-- [X] T046 Persist collapse state to localStorage on change (key: taskflow_kanban_columns)
+- [x] T042 Add collapsedColumns state to KanbanView with localStorage persistence
+- [x] T043 Add collapse/expand toggle button to KanbanColumn header
+- [x] T044 Implement collapsed column rendering (thin strip with name and count only)
+- [x] T045 Implement expand animation with CSS transitions
+- [x] T046 Persist collapse state to localStorage on change (key: taskflow_kanban_columns)
 
 ### Keyboard Accessibility (FR-014)
 
-- [X] T047 Create useKanbanKeyboard hook in src/hooks/useKanbanKeyboard.js
-- [X] T048 Implement roving tabindex pattern in KanbanView
-- [X] T049 Add arrow key navigation (← → between columns, ↑ ↓ between cards)
-- [X] T050 Add Enter/Space key to open status dropdown on focused card
-- [X] T051 Create inline status dropdown component for keyboard status changes
-- [X] T052 Add Escape key to close dropdown and return focus to card
-- [X] T053 Add ARIA attributes for screen reader support
+- [x] T047 Create useKanbanKeyboard hook in src/hooks/useKanbanKeyboard.js
+- [x] T048 Implement roving tabindex pattern in KanbanView
+- [x] T049 Add arrow key navigation (← → between columns, ↑ ↓ between cards)
+- [x] T050 Add Enter/Space key to open status dropdown on focused card
+- [x] T051 Create inline status dropdown component for keyboard status changes
+- [x] T052 Add Escape key to close dropdown and return focus to card
+- [x] T053 Add ARIA attributes for screen reader support
 
 ---
 
@@ -171,12 +171,12 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [X] T054 [P] Add responsive breakpoints for mobile (320px+) in KanbanView
-- [X] T055 [P] Add responsive breakpoints for tablet (640px-1024px) in KanbanView
-- [X] T056 [P] Integrate existing FilterBar component into KanbanView
-- [X] T057 Performance optimization: implement windowed virtualization for columns with >50 cards
-- [X] T058 Run quickstart.md validation checklist
-- [X] T059 Create index.js export file for src/components/views/
+- [x] T054 [P] Add responsive breakpoints for mobile (320px+) in KanbanView
+- [x] T055 [P] Add responsive breakpoints for tablet (640px-1024px) in KanbanView
+- [x] T056 [P] Integrate existing FilterBar component into KanbanView
+- [x] T057 Performance optimization: implement windowed virtualization for columns with >50 cards
+- [x] T058 Run quickstart.md validation checklist
+- [x] T059 Create index.js export file for src/components/views/
 
 ---
 
