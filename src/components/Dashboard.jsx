@@ -3,8 +3,9 @@
  * Main view for authenticated users
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
+import { useTimer } from '../hooks/useTimer';
 import { UserSwitcher } from './auth/UserSwitcher';
 import { TaskProvider } from '../contexts/TaskContext';
 import { TaskModal } from './tasks/TaskModal';
@@ -12,7 +13,11 @@ import { TaskList } from './tasks/TaskList';
 import { KanbanView, FocusView } from './views';
 import { useTasks } from '../hooks/useTasks';
 import { DeleteConfirmDialog, ReopenConfirmDialog } from './ui/ConfirmDialog';
-import { STATUSES } from '../utils/constants';
+import { LongSessionModal } from './tasks/LongSessionModal';
+import { TimerRecoveryModal } from './tasks/TimerRecoveryModal';
+import { ToastContainer, useToast } from './ui/Toast';
+import { formatElapsedTime, formatDurationShort } from '../utils/formatters';
+import { STATUSES, TIMER_STATUS } from '../utils/constants';
 
 // View type constants
 const VIEW_TYPES = {
@@ -54,12 +59,42 @@ function saveViewPreference(view) {
 function DashboardContent() {
   const { currentUser } = useAuth();
   const { deleteTask, startTask, completeTask, reopenTask } = useTasks();
+  const {
+    activeTask,
+    elapsedSeconds,
+    isRunning,
+    isPaused,
+    pendingRecovery,
+    showLongSessionModal,
+    longSessionData,
+    lastAutoStoppedTask,
+    clearAutoStoppedTask,
+    confirmLongSessionStop,
+    cancelLongSessionModal,
+    recoverTimer,
+    dismissRecovery,
+    stopTimer,
+  } = useTimer();
+  
+  const { toasts, toast, removeToast } = useToast();
+  
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [taskToReopen, setTaskToReopen] = useState(null);
   const [isReopening, setIsReopening] = useState(false);
+
+  // Show toast when a timer is auto-stopped
+  useEffect(() => {
+    if (lastAutoStoppedTask) {
+      toast.info(
+        `Timer stopped for "${lastAutoStoppedTask.taskName}". ${formatDurationShort(lastAutoStoppedTask.savedMinutes)} saved.`,
+        5000
+      );
+      clearAutoStoppedTask();
+    }
+  }, [lastAutoStoppedTask, toast, clearAutoStoppedTask]);
 
   // View state (List vs Kanban)
   const [currentView, setCurrentView] = useState(loadViewPreference);
@@ -173,6 +208,36 @@ function DashboardContent() {
           <h1 className="text-2xl font-bold text-gray-900">
             TaskFlow
           </h1>
+          
+          {/* Global Timer Indicator */}
+          {activeTask && (
+            <div className="flex items-center gap-3 px-3 py-1.5 bg-gray-50 rounded-lg border border-gray-200">
+              <div className="flex items-center gap-2">
+                <span className={`w-2 h-2 rounded-full ${isRunning ? 'bg-green-500 animate-pulse' : isPaused ? 'bg-yellow-500' : 'bg-gray-400'}`} />
+                <span className="text-sm font-medium text-gray-700 truncate max-w-[150px]">
+                  {activeTask.taskName}
+                </span>
+              </div>
+              <span className="text-sm font-mono font-semibold text-gray-900">
+                {formatElapsedTime(elapsedSeconds)}
+              </span>
+              {isPaused && (
+                <span className="text-xs text-yellow-600 font-medium">Paused</span>
+              )}
+              <button
+                type="button"
+                onClick={() => stopTimer()}
+                className="p-1 text-gray-400 hover:text-red-500 rounded"
+                title="Stop timer"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
+                </svg>
+              </button>
+            </div>
+          )}
+          
           <UserSwitcher />
         </div>
       </header>
@@ -322,6 +387,25 @@ function DashboardContent() {
         taskName={taskToReopen?.taskName || ''}
         isLoading={isReopening}
       />
+      
+      {/* Long Session Modal */}
+      <LongSessionModal
+        isOpen={showLongSessionModal}
+        onClose={cancelLongSessionModal}
+        onConfirm={confirmLongSessionStop}
+        sessionData={longSessionData}
+      />
+      
+      {/* Timer Recovery Modal */}
+      <TimerRecoveryModal
+        isOpen={!!pendingRecovery}
+        onClose={dismissRecovery}
+        onRecover={recoverTimer}
+        recoveryInfo={pendingRecovery}
+      />
+      
+      {/* Toast Notifications */}
+      <ToastContainer toasts={toasts} onDismiss={removeToast} />
     </div>
   );
 }

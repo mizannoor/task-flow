@@ -392,3 +392,142 @@ export function getColumnCounts(groupedTasks) {
   };
 }
 
+// =============================================================================
+// Time Tracking Utilities
+// =============================================================================
+
+/**
+ * Format elapsed time in HH:MM:SS format for timer display
+ * @param {number} totalSeconds - The total elapsed seconds
+ * @returns {string} - Formatted time string (e.g., "01:23:45")
+ */
+export function formatElapsedTime(totalSeconds) {
+  if (totalSeconds === null || totalSeconds === undefined || isNaN(totalSeconds) || totalSeconds < 0) {
+    return '00:00:00';
+  }
+
+  const seconds = Math.floor(totalSeconds);
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+}
+
+/**
+ * Format duration in short format for compact display
+ * @param {number} minutes - The duration in minutes
+ * @returns {string} - Short formatted string (e.g., "1h 30m", "45m", "2h")
+ */
+export function formatDurationShort(minutes) {
+  if (minutes === null || minutes === undefined || isNaN(minutes) || minutes <= 0) {
+    return '0m';
+  }
+
+  const mins = Math.floor(Number(minutes));
+  const hours = Math.floor(mins / 60);
+  const remainingMins = mins % 60;
+
+  if (hours === 0) {
+    return `${remainingMins}m`;
+  }
+
+  if (remainingMins === 0) {
+    return `${hours}h`;
+  }
+
+  return `${hours}h ${remainingMins}m`;
+}
+
+/**
+ * Format time comparison between tracked and estimated time
+ * @param {number} actualMinutes - The actual tracked time in minutes
+ * @param {number} estimatedMinutes - The estimated time in minutes
+ * @returns {{ 
+ *   display: string, 
+ *   percentage: number | null, 
+ *   status: 'under' | 'on-track' | 'over' | 'no-estimate',
+ *   actualFormatted: string,
+ *   estimatedFormatted: string
+ * }}
+ */
+export function formatDurationComparison(actualMinutes, estimatedMinutes) {
+  const actual = Number(actualMinutes) || 0;
+  const estimated = Number(estimatedMinutes) || 0;
+
+  const actualFormatted = formatDurationShort(actual);
+  const estimatedFormatted = formatDurationShort(estimated);
+
+  // No estimate provided
+  if (estimated <= 0) {
+    return {
+      display: actualFormatted,
+      percentage: null,
+      status: 'no-estimate',
+      actualFormatted,
+      estimatedFormatted: '—',
+    };
+  }
+
+  const percentage = Math.round((actual / estimated) * 100);
+
+  let status;
+  if (percentage <= 75) {
+    status = 'under';
+  } else if (percentage <= 100) {
+    status = 'on-track';
+  } else {
+    status = 'over';
+  }
+
+  return {
+    display: `${actualFormatted} / ${estimatedFormatted} (${percentage}%)`,
+    percentage,
+    status,
+    actualFormatted,
+    estimatedFormatted,
+  };
+}
+
+/**
+ * Format tracked vs estimated for compact display (e.g., in task cards)
+ * @param {number} actualMinutes - The actual tracked time in minutes
+ * @param {number} estimatedMinutes - The estimated time in minutes
+ * @returns {string} - Compact comparison string (e.g., "1h / 2h")
+ */
+export function formatTimeCompact(actualMinutes, estimatedMinutes) {
+  const actual = Number(actualMinutes) || 0;
+  const estimated = Number(estimatedMinutes) || 0;
+
+  if (estimated <= 0) {
+    return actual > 0 ? formatDurationShort(actual) : '';
+  }
+
+  return `${formatDurationShort(actual)} / ${formatDurationShort(estimated)}`;
+}
+
+/**
+ * Get color class based on time tracking status
+ * @param {number} actualMinutes - The actual tracked time in minutes
+ * @param {number} estimatedMinutes - The estimated time in minutes
+ * @returns {string} - Tailwind CSS class for the status color
+ */
+export function getTimeStatusColor(actualMinutes, estimatedMinutes) {
+  const actual = Number(actualMinutes) || 0;
+  const estimated = Number(estimatedMinutes) || 0;
+
+  if (estimated <= 0) {
+    return 'text-gray-500'; // No estimate
+  }
+
+  const percentage = (actual / estimated) * 100;
+
+  if (percentage <= 75) {
+    return 'text-green-600'; // Under estimate - good
+  } else if (percentage <= 100) {
+    return 'text-yellow-600'; // Approaching estimate - caution
+  } else {
+    return 'text-red-600'; // Over estimate - warning
+  }
+}
+

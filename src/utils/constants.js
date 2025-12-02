@@ -307,3 +307,39 @@ export const FOCUS_TIER_COLORS = {
 // Priorities that qualify for Tier 4 (High Priority)
 export const HIGH_PRIORITY_VALUES = [PRIORITIES.URGENT, PRIORITIES.HIGH];
 
+// =============================================================================
+// Time Tracking Constants
+// =============================================================================
+
+// Timer status states
+export const TIMER_STATUS = {
+  IDLE: 'idle',
+  RUNNING: 'running',
+  PAUSED: 'paused',
+};
+
+// Timer configuration constants
+export const TIMER_CONSTANTS = {
+  // Update interval for timer display in milliseconds
+  DISPLAY_INTERVAL_MS: 1000,
+  // Threshold for long session warning in minutes (4 hours)
+  LONG_SESSION_THRESHOLD_MINUTES: 240,
+  // Maximum manual time entry in hours
+  MAX_MANUAL_HOURS: 999,
+  // Maximum manual time entry in minutes (for single field)
+  MAX_MANUAL_MINUTES: 59,
+  // Storage key for timer state backup
+  TIMER_STATE_KEY: 'taskflow_timer_state',
+};
+
+// Timer error messages
+export const TIMER_ERROR_MESSAGES = {
+  TASK_NOT_IN_PROGRESS: 'Timer can only be started on tasks that are in progress',
+  NO_ACTIVE_TIMER: 'No active timer to stop or pause',
+  TIMER_ALREADY_RUNNING: 'Timer is already running on this task',
+  INVALID_MANUAL_TIME: 'Please enter a valid time (hours and minutes must be non-negative)',
+  MANUAL_TIME_REQUIRED: 'Please enter at least 1 minute',
+  MANUAL_HOURS_EXCEEDED: 'Hours cannot exceed 999',
+  MANUAL_MINUTES_EXCEEDED: 'Minutes cannot exceed 59',
+};
+

@@ -7,6 +7,8 @@ import { useState } from 'react';
 import { StatusBadge, PriorityBadge, CategoryBadge } from '../ui/Badge';
 import { formatDate, formatRelativeDate, formatDateTime } from '../../utils/formatters';
 import { STATUSES, STATUS_LABELS } from '../../utils/constants';
+import { TaskTimer } from './TaskTimer';
+import { ManualTimeEntry } from './ManualTimeEntry';
 
 /**
  * TaskDetail component
@@ -26,6 +28,8 @@ export function TaskDetail({
   onDelete,
   onStatusChange,
 }) {
+  const [showManualEntry, setShowManualEntry] = useState(false);
+  
   if (!isExpanded) return null;
 
   // Calculate time tracking info
@@ -84,6 +88,18 @@ export function TaskDetail({
                 <span className="text-gray-400 italic">No description provided</span>
               )}
             </p>
+          </div>
+
+          {/* Time Tracking */}
+          <div>
+            <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
+              Time Tracking
+            </h4>
+            <TaskTimer 
+              task={task} 
+              variant="full" 
+              onManualEntry={() => setShowManualEntry(true)}
+            />
           </div>
 
           {/* Properties */}
@@ -249,6 +265,16 @@ export function TaskDetail({
           </div>
         </div>
       </div>
+      
+      {/* Manual Time Entry Modal */}
+      <ManualTimeEntry
+        isOpen={showManualEntry}
+        onClose={() => setShowManualEntry(false)}
+        task={task}
+        onSuccess={() => {
+          setShowManualEntry(false);
+        }}
+      />
     </div>
   );
 }

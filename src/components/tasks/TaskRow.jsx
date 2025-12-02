@@ -6,6 +6,7 @@
 import { PriorityBadge, StatusBadge, CategoryBadge } from '../ui/Badge';
 import { formatDate, formatDuration, formatDeadline } from '../../utils/formatters';
 import { TaskStatusButton } from './TaskActions';
+import { TaskTimer } from './TaskTimer';
 
 /**
  * TaskRow component
@@ -94,9 +95,18 @@ export function TaskRow({
         </span>
       </td>
 
-      {/* Duration */}
-      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {formatDuration(task.estimatedDuration)}
+      {/* Duration - now shows tracked/estimated with timer indicator */}
+      <td className="px-6 py-4 whitespace-nowrap text-sm">
+        <div className="flex flex-col items-start gap-1">
+          {/* Show timer indicator if applicable */}
+          <TaskTimer task={task} variant="compact" />
+          {/* Fallback to estimated only if no tracked time and no active timer */}
+          {!task.actualDuration && !task.timerStartedAt && (
+            <span className="text-gray-500">
+              {formatDuration(task.estimatedDuration)}
+            </span>
+          )}
+        </div>
       </td>
 
       {/* Created */}

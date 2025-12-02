@@ -9,8 +9,10 @@ import {
   PRIORITY_LABELS,
   FOCUS_TIER_COLORS,
   STATUSES,
+  TIMER_STATUS,
 } from '../../utils/constants';
-import { formatDate, formatDuration } from '../../utils/formatters';
+import { formatDate, formatDuration, formatTimeCompact, getTimeStatusColor, formatElapsedTime } from '../../utils/formatters';
+import { useTimer } from '../../hooks/useTimer';
 
 /**
  * Get user initials from display name or identifier
@@ -77,6 +79,11 @@ function FocusCardComponent({
   index = 0,
 }) {
   const cardRef = useRef(null);
+  const { getTaskTimerState, elapsedSeconds } = useTimer();
+  
+  // Get timer state for this task
+  const taskTimerState = getTaskTimerState(task.id);
+  const isTimerActive = taskTimerState.isActive;
 
   // Get deadline display
   const deadlineDisplay = getDeadlineDisplay(task.deadline, task.selectionTier);
@@ -192,6 +199,19 @@ function FocusCardComponent({
           >
             {PRIORITY_LABELS[task.priority] || task.priority}
           </span>
+
+          {/* Timer/Time tracking indicator */}
+          {(isTimerActive || task.actualDuration > 0 || task.estimatedDuration > 0) && (
+            <span className={`flex items-center gap-1 ${getTimeStatusColor(task.actualDuration || 0, task.estimatedDuration || 0)}`}>
+              {isTimerActive && (
+                <span className={`w-2 h-2 rounded-full ${taskTimerState.status === TIMER_STATUS.RUNNING ? 'bg-green-500 animate-pulse' : 'bg-yellow-500'}`} />
+              )}
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {isTimerActive ? formatElapsedTime(elapsedSeconds) : (formatTimeCompact(task.actualDuration || 0, task.estimatedDuration || 0) || formatDuration(task.estimatedDuration))}
+            </span>
+          )}
 
           {/* Deadline */}
           <span className={deadlineDisplay.className}>

@@ -3,9 +3,10 @@
  * Individual task card in the Kanban board with drag support
  */
 
-import { useState, useRef, useCallback, memo } from 'react';
-import { PRIORITY_COLORS, PRIORITY_LABELS, KANBAN_PREVIEW_DELAY } from '../../utils/constants';
-import { formatDate, formatDuration } from '../../utils/formatters';
+import { useRef, useCallback, memo } from 'react';
+import { PRIORITY_COLORS, PRIORITY_LABELS, KANBAN_PREVIEW_DELAY, TIMER_STATUS } from '../../utils/constants';
+import { formatDate, formatDuration, formatTimeCompact, getTimeStatusColor } from '../../utils/formatters';
+import { useTimer } from '../../hooks/useTimer';
 
 /**
  * Get user initials from display name or identifier
@@ -65,6 +66,11 @@ function KanbanCardComponent({
 }) {
   const hoverTimeoutRef = useRef(null);
   const cardRef = useRef(null);
+  const { getTaskTimerState } = useTimer();
+  
+  // Get timer state for this task
+  const taskTimerState = getTaskTimerState(task.id);
+  const isTimerActive = taskTimerState.isActive;
 
   // Handle mouse enter for preview
   const handleMouseEnter = useCallback(() => {
@@ -143,13 +149,28 @@ function KanbanCardComponent({
           {PRIORITY_LABELS[task.priority] || task.priority}
         </span>
 
-        {/* Complexity indicator */}
-        <div className="flex items-center gap-1 text-gray-500" title={`Complexity: ${task.complexity}/10`}>
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-          </svg>
-          <span>{task.complexity}</span>
-        </div>
+        {/* Timer/Time tracking indicator */}
+        {(isTimerActive || task.actualDuration > 0 || task.estimatedDuration > 0) && (
+          <div className={`flex items-center gap-1 text-xs ${getTimeStatusColor(task.actualDuration || 0, task.estimatedDuration || 0)}`}>
+            {isTimerActive && (
+              <span className={`w-2 h-2 rounded-full ${taskTimerState.status === TIMER_STATUS.RUNNING ? 'bg-green-500 animate-pulse' : 'bg-yellow-500'}`} />
+            )}
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>{formatTimeCompact(task.actualDuration || 0, task.estimatedDuration || 0) || formatDuration(task.estimatedDuration)}</span>
+          </div>
+        )}
+        
+        {/* Complexity indicator - only show if no time data */}
+        {!isTimerActive && !task.actualDuration && !task.estimatedDuration && (
+          <div className="flex items-center gap-1 text-gray-500" title={`Complexity: ${task.complexity}/10`}>
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            <span>{task.complexity}</span>
+          </div>
+        )}
       </div>
 
       {/* Bottom row: deadline and assignee */}
