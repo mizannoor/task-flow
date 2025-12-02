@@ -496,3 +496,63 @@ export const CALENDAR_PRIORITY_BORDER_COLORS = {
   [PRIORITIES.MEDIUM]: 'border-yellow-500',
   [PRIORITIES.LOW]: 'border-gray-400',
 };
+
+// =============================================================================
+// AI Service Constants
+// =============================================================================
+
+// AI Service Configuration
+export const AI_CONFIG = {
+  MODEL: 'gemini-pro',
+  ENDPOINT: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
+  MAX_TOKENS: 1024,
+  TEMPERATURE: 0.7,
+  TIMEOUT_MS: 10000,
+  MAX_DESCRIPTION_LENGTH: 2000,
+};
+
+// AI Suggestion Defaults (used when AI is unavailable)
+export const AI_DEFAULTS = {
+  COMPLEXITY: 5,
+  PRIORITY: PRIORITIES.MEDIUM,
+  CATEGORY: CATEGORIES.DEVELOPMENT,
+  TAGS: [],
+  ESTIMATED_DURATION: 60,
+  REASONING_DEFAULT: 'Using default values due to AI unavailability',
+  REASONING_OFFLINE: 'AI analysis unavailable - using default values',
+  REASONING_TIMEOUT: 'AI analysis timed out - using default values',
+};
+
+// AI Error Messages
+export const AI_ERROR_MESSAGES = {
+  NOT_CONFIGURED: 'AI not configured',
+  OFFLINE: 'AI analysis unavailable - using default values',
+  TIMEOUT: 'AI analysis timed out - using default values',
+  RATE_LIMIT: 'AI temporarily unavailable - please try again in a moment',
+  GENERIC: 'AI analysis unavailable - using default values',
+};
+
+// AI Analysis Prompt Template
+export const AI_ANALYSIS_PROMPT = `You are a task analysis assistant. Analyze the following task and provide structured suggestions.
+
+Task Name: {taskName}
+Description: {description}
+
+Respond with a JSON object containing EXACTLY these fields:
+{
+  "complexity": <number 1-10>,
+  "priority": <"urgent" | "high" | "medium" | "low">,
+  "category": <"development" | "fix" | "support">,
+  "tags": <array of 2-5 strings>,
+  "estimatedDuration": <number in minutes>,
+  "reasoning": <string explaining your analysis>
+}
+
+Guidelines:
+- Complexity: 1=trivial, 5=moderate, 10=extremely complex
+- Priority: urgent=blocking, high=important, medium=standard, low=backlog
+- Category: development=new features, fix=bugs, support=maintenance
+- Duration: Realistic minutes based on complexity
+- Tags: 2-5 relevant keywords
+
+Respond ONLY with the JSON object. No markdown, no explanation, no code blocks.`;
