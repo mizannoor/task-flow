@@ -169,3 +169,268 @@ export function getWeekNumber(date) {
   const yearStart = new Date(d.getFullYear(), 0, 1);
   return Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
 }
+
+// =============================================================================
+// Calendar View Date Utilities
+// =============================================================================
+
+/**
+ * Format a date as a key string for task grouping (YYYY-MM-DD)
+ * @param {Date | string} date - The date to format
+ * @returns {string} - Date key in YYYY-MM-DD format
+ */
+export function formatDateKey(date) {
+  if (!date) return '';
+  const d = date instanceof Date ? date : new Date(date);
+  if (isNaN(d.getTime())) return '';
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+/**
+ * Check if a date is today (local timezone)
+ * @param {Date | string} date - The date to check
+ * @returns {boolean} - True if the date is today
+ */
+export function isToday(date) {
+  if (!date) return false;
+  const d = date instanceof Date ? date : new Date(date);
+  if (isNaN(d.getTime())) return false;
+  const today = new Date();
+  return (
+    d.getFullYear() === today.getFullYear() &&
+    d.getMonth() === today.getMonth() &&
+    d.getDate() === today.getDate()
+  );
+}
+
+/**
+ * Check if a date is before today (overdue)
+ * @param {Date | string} date - The date to check
+ * @returns {boolean} - True if the date is before today
+ */
+export function isOverdue(date) {
+  if (!date) return false;
+  const d = date instanceof Date ? date : new Date(date);
+  if (isNaN(d.getTime())) return false;
+  const today = startOfDay(new Date());
+  return startOfDay(d) < today;
+}
+
+/**
+ * Get the first day of a month
+ * @param {number} year - The year
+ * @param {number} month - The month (0-indexed)
+ * @returns {Date} - First day of the month
+ */
+export function getFirstDayOfMonth(year, month) {
+  return new Date(year, month, 1);
+}
+
+/**
+ * Get the last day of a month
+ * @param {number} year - The year
+ * @param {number} month - The month (0-indexed)
+ * @returns {Date} - Last day of the month
+ */
+export function getLastDayOfMonth(year, month) {
+  return new Date(year, month + 1, 0);
+}
+
+/**
+ * Get the number of days in a month
+ * @param {number} year - The year
+ * @param {number} month - The month (0-indexed)
+ * @returns {number} - Number of days in the month
+ */
+export function getDaysInMonth(year, month) {
+  return new Date(year, month + 1, 0).getDate();
+}
+
+/**
+ * Generate a month grid for calendar display (42 cells = 6 weeks × 7 days)
+ * @param {number} year - The year
+ * @param {number} month - The month (0-indexed)
+ * @returns {Object} - Month grid data with days array
+ */
+export function getMonthGrid(year, month) {
+  const firstDay = getFirstDayOfMonth(year, month);
+  const lastDay = getLastDayOfMonth(year, month);
+  const daysInMonth = getDaysInMonth(year, month);
+
+  // Get the day of week for the first day (0 = Sunday)
+  const startDayOfWeek = firstDay.getDay();
+
+  // Calculate days from previous month to show
+  const prevMonthDays = startDayOfWeek;
+  const prevMonth = month === 0 ? 11 : month - 1;
+  const prevMonthYear = month === 0 ? year - 1 : year;
+  const daysInPrevMonth = getDaysInMonth(prevMonthYear, prevMonth);
+
+  const days = [];
+  const today = new Date();
+
+  // Add days from previous month
+  for (let i = prevMonthDays - 1; i >= 0; i--) {
+    const day = daysInPrevMonth - i;
+    const date = new Date(prevMonthYear, prevMonth, day);
+    days.push({
+      date,
+      dateKey: formatDateKey(date),
+      day,
+      isCurrentMonth: false,
+      isToday: isSameDay(date, today),
+    });
+  }
+
+  // Add days from current month
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = new Date(year, month, day);
+    days.push({
+      date,
+      dateKey: formatDateKey(date),
+      day,
+      isCurrentMonth: true,
+      isToday: isSameDay(date, today),
+    });
+  }
+
+  // Add days from next month to fill the grid (42 cells total)
+  const nextMonth = month === 11 ? 0 : month + 1;
+  const nextMonthYear = month === 11 ? year + 1 : year;
+  const remainingDays = 42 - days.length;
+
+  for (let day = 1; day <= remainingDays; day++) {
+    const date = new Date(nextMonthYear, nextMonth, day);
+    days.push({
+      date,
+      dateKey: formatDateKey(date),
+      day,
+      isCurrentMonth: false,
+      isToday: isSameDay(date, today),
+    });
+  }
+
+  return {
+    year,
+    month,
+    startDate: days[0].date,
+    endDate: days[days.length - 1].date,
+    days,
+  };
+}
+
+/**
+ * Generate a week grid for calendar display (7 days)
+ * @param {Date} date - Any date within the desired week
+ * @returns {Object} - Week grid data with days array
+ */
+export function getWeekGrid(date) {
+  const d = new Date(date);
+  const dayOfWeek = d.getDay(); // 0 = Sunday
+
+  // Get Sunday of the week
+  const weekStart = new Date(d);
+  weekStart.setDate(d.getDate() - dayOfWeek);
+  weekStart.setHours(0, 0, 0, 0);
+
+  // Get Saturday of the week
+  const weekEnd = new Date(weekStart);
+  weekEnd.setDate(weekStart.getDate() + 6);
+  weekEnd.setHours(23, 59, 59, 999);
+
+  const days = [];
+  const today = new Date();
+
+  for (let i = 0; i < 7; i++) {
+    const dayDate = new Date(weekStart);
+    dayDate.setDate(weekStart.getDate() + i);
+    days.push({
+      date: dayDate,
+      dateKey: formatDateKey(dayDate),
+      day: dayDate.getDate(),
+      isCurrentMonth: true, // In week view, all days are "current"
+      isToday: isSameDay(dayDate, today),
+    });
+  }
+
+  return {
+    weekStart,
+    weekEnd,
+    days,
+  };
+}
+
+/**
+ * Get day view data for a single date
+ * @param {Date} date - The date to display
+ * @returns {Object} - Day view data
+ */
+export function getDayView(date) {
+  const d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+
+  return {
+    date: d,
+    dateKey: formatDateKey(d),
+    isToday: isToday(d),
+  };
+}
+
+/**
+ * Add months to a date
+ * @param {Date} date - The starting date
+ * @param {number} months - Number of months to add (can be negative)
+ * @returns {Date} - New date with months added
+ */
+export function addMonths(date, months) {
+  const d = new Date(date);
+  d.setMonth(d.getMonth() + months);
+  return d;
+}
+
+/**
+ * Add weeks to a date
+ * @param {Date} date - The starting date
+ * @param {number} weeks - Number of weeks to add (can be negative)
+ * @returns {Date} - New date with weeks added
+ */
+export function addWeeks(date, weeks) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + weeks * 7);
+  return d;
+}
+
+/**
+ * Add days to a date
+ * @param {Date} date - The starting date
+ * @param {number} days - Number of days to add (can be negative)
+ * @returns {Date} - New date with days added
+ */
+export function addDays(date, days) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + days);
+  return d;
+}
+
+/**
+ * Format a date for calendar header display
+ * @param {Date} date - The date to format
+ * @param {string} viewMode - The current view mode (month, week, day)
+ * @returns {string} - Formatted date string
+ */
+export function formatCalendarHeader(date, viewMode) {
+  if (!date) return '';
+  const d = date instanceof Date ? date : new Date(date);
+  if (isNaN(d.getTime())) return '';
+
+  const options = {
+    month: { year: 'numeric', month: 'long' },
+    week: { year: 'numeric', month: 'long' },
+    day: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
+  };
+
+  return d.toLocaleDateString('en-US', options[viewMode] || options.month);
+}
