@@ -11,6 +11,8 @@ Auto-generated from all feature plans. Last updated: 2025-12-01
 - IndexedDB via Dexie.js (existing - no schema changes needed) (004-todays-focus-view)
 - JavaScript ES2022+ (React 18+) + React Context API, Dexie.js (IndexedDB), Tailwind CSS (005-time-tracking)
 - IndexedDB via Dexie.js - extends existing Task table with timer fields (005-time-tracking)
+- JavaScript ES2022+ (React 18+) + React Context API, Dexie.js (IndexedDB), Recharts (NEW), Tailwind CSS (006-personal-analytics)
+- IndexedDB via Dexie.js - reads from existing Task table, no schema changes needed (006-personal-analytics)
 
 - JavaScript/TypeScript ES2022+ + React 18+, Dexie.js (IndexedDB wrapper), Tailwind CSS (001-auth-system)
 
@@ -31,9 +33,9 @@ npm test; npm run lint
 JavaScript/TypeScript ES2022+: Follow standard conventions
 
 ## Recent Changes
+- 006-personal-analytics: Added JavaScript ES2022+ (React 18+) + React Context API, Dexie.js (IndexedDB), Recharts (NEW), Tailwind CSS
 - 005-time-tracking: Added JavaScript ES2022+ (React 18+) + React Context API, Dexie.js (IndexedDB), Tailwind CSS
 - 004-todays-focus-view: Added JavaScript ES2022+ (React 18+) + React, Tailwind CSS, Dexie.js (existing stack)
-- 003-kanban-view: Added JavaScript ES2022+ (React 19.x) + React 19, Tailwind CSS, Dexie.js (existing)
 
 
 <!-- MANUAL ADDITIONS START -->

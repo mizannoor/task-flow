@@ -343,3 +343,48 @@ export const TIMER_ERROR_MESSAGES = {
   MANUAL_MINUTES_EXCEEDED: 'Minutes cannot exceed 59',
 };
 
+// =============================================================================
+// Analytics Constants
+// =============================================================================
+
+// Date range options for analytics filtering
+export const DATE_RANGES = {
+  TODAY: 'today',
+  THIS_WEEK: 'thisWeek',
+  LAST_WEEK: 'lastWeek',
+  THIS_MONTH: 'thisMonth',
+  LAST_MONTH: 'lastMonth',
+  LAST_30_DAYS: 'last30Days',
+};
+
+// Human-readable labels for date range options
+export const PERIOD_LABELS = {
+  [DATE_RANGES.TODAY]: 'Today',
+  [DATE_RANGES.THIS_WEEK]: 'This Week',
+  [DATE_RANGES.LAST_WEEK]: 'Last Week',
+  [DATE_RANGES.THIS_MONTH]: 'This Month',
+  [DATE_RANGES.LAST_MONTH]: 'Last Month',
+  [DATE_RANGES.LAST_30_DAYS]: 'Last 30 Days',
+};
+
+// Chart colors for task categories (hex values for Recharts)
+export const ANALYTICS_CATEGORY_COLORS = {
+  [CATEGORIES.DEVELOPMENT]: '#3B82F6', // Blue-500
+  [CATEGORIES.FIX]: '#EF4444', // Red-500
+  [CATEGORIES.SUPPORT]: '#10B981', // Emerald-500
+};
+
+// Complexity level color ranges
+export const COMPLEXITY_COLORS = {
+  LOW: '#10B981', // Emerald-500 (1-3)
+  MEDIUM: '#F59E0B', // Amber-500 (4-6)
+  HIGH: '#EF4444', // Red-500 (7-10)
+};
+
+// localStorage key for analytics preferences
+export const ANALYTICS_STORAGE_KEY = 'taskflow_analytics_preferences';
+
+// Default analytics preferences
+export const DEFAULT_ANALYTICS_PREFERENCES = {
+  selectedDateRange: DATE_RANGES.THIS_WEEK,
+};
