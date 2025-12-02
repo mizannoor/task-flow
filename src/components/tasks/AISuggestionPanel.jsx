@@ -53,9 +53,8 @@ function SuggestionField({
 }) {
   return (
     <div
-      className={`flex items-center justify-between py-2 px-3 rounded-lg ${
-        isHighlighted ? 'bg-indigo-50 dark:bg-indigo-900/20' : ''
-      }`}
+      className={`flex items-center justify-between py-2 px-3 rounded-lg ${isHighlighted ? 'bg-indigo-50 dark:bg-indigo-900/20' : ''
+        }`}
     >
       <div className="flex items-center gap-2">
         <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -295,9 +294,8 @@ export function AISuggestionPanel({
         >
           <span>{isReasoningExpanded ? 'Hide Reasoning' : 'Show Reasoning'}</span>
           <svg
-            className={`h-4 w-4 transition-transform ${
-              isReasoningExpanded ? 'rotate-180' : ''
-            }`}
+            className={`h-4 w-4 transition-transform ${isReasoningExpanded ? 'rotate-180' : ''
+              }`}
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

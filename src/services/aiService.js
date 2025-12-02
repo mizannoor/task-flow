@@ -75,7 +75,7 @@ export function truncateDescription(description, maxLength = AI_CONFIG.MAX_DESCR
  */
 export function buildPrompt(taskName, description = '') {
   const truncatedDescription = truncateDescription(description);
-  
+
   return AI_ANALYSIS_PROMPT
     .replace('{taskName}', taskName)
     .replace('{description}', truncatedDescription || 'No description provided');

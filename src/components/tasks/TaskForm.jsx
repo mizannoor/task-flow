@@ -278,8 +278,8 @@ export function TaskForm({
           onChange={handleChange}
           maxLength={TASK_LIMITS.NAME_MAX_LENGTH}
           className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${errors.taskName
-              ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
-              : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
+            ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
+            : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
             }`}
           placeholder="Enter task name"
           disabled={isLoading}
@@ -306,8 +306,8 @@ export function TaskForm({
           rows={3}
           maxLength={TASK_LIMITS.DESCRIPTION_MAX_LENGTH}
           className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${errors.description
-              ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
-              : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
+            ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
+            : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
             }`}
           placeholder="Enter task description (optional)"
           disabled={isLoading}
@@ -334,8 +334,8 @@ export function TaskForm({
                 !isAIConfigured
                   ? AI_ERROR_MESSAGES.NOT_CONFIGURED
                   : !formData.taskName.trim()
-                  ? 'Enter a task name first'
-                  : 'Get AI suggestions for this task'
+                    ? 'Enter a task name first'
+                    : 'Get AI suggestions for this task'
               }
             >
               <SparkleIcon size={16} />
@@ -433,8 +433,8 @@ export function TaskForm({
             min={TASK_LIMITS.COMPLEXITY_MIN}
             max={TASK_LIMITS.COMPLEXITY_MAX}
             className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm dark:bg-gray-700 dark:text-white ${errors.complexity
-                ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
-                : 'border-gray-300 dark:border-gray-600 focus:border-indigo-500 focus:ring-indigo-500'
+              ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
+              : 'border-gray-300 dark:border-gray-600 focus:border-indigo-500 focus:ring-indigo-500'
               }`}
             disabled={isLoading}
           />
@@ -460,8 +460,8 @@ export function TaskForm({
             min={TASK_LIMITS.DURATION_MIN}
             max={TASK_LIMITS.DURATION_MAX}
             className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm dark:bg-gray-700 dark:text-white ${errors.estimatedDuration
-                ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
-                : 'border-gray-300 dark:border-gray-600 focus:border-indigo-500 focus:ring-indigo-500'
+              ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
+              : 'border-gray-300 dark:border-gray-600 focus:border-indigo-500 focus:ring-indigo-500'
               }`}
             disabled={isLoading}
           />
@@ -483,8 +483,8 @@ export function TaskForm({
           value={formData.deadline}
           onChange={handleChange}
           className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${errors.deadline
-              ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
-              : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
+            ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
+            : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
             }`}
           disabled={isLoading}
         />

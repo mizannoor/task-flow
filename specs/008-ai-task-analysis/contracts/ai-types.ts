@@ -27,25 +27,25 @@ export type Category = 'development' | 'fix' | 'support';
 export interface AISuggestion {
   /** Suggested complexity score (1-10) */
   complexity: number;
-  
+
   /** Suggested priority level */
   priority: Priority;
-  
+
   /** Suggested task category */
   category: Category;
-  
+
   /** Suggested tags (2-5 keywords) */
   tags: string[];
-  
+
   /** Suggested time estimate in minutes */
   estimatedDuration: number;
-  
+
   /** AI's explanation of the suggestions */
   reasoning: string;
-  
+
   /** Whether this came from AI (true) or defaults (false) */
   isAISuggested: boolean;
-  
+
   /** Timestamp when analysis was performed */
   timestamp: Date;
 }
@@ -56,7 +56,7 @@ export interface AISuggestion {
 export interface AnalysisRequest {
   /** Task name to analyze (required, 1-200 chars) */
   taskName: string;
-  
+
   /** Task description (optional, max 2000 chars - truncated if longer) */
   description?: string;
 }
@@ -79,16 +79,16 @@ export interface AnalysisResult extends AISuggestion {
 export interface AISuggestionState {
   /** Current suggestions (null if not yet analyzed) */
   suggestions: AISuggestion | null;
-  
+
   /** Whether analysis is in progress */
   isLoading: boolean;
-  
+
   /** Error message if analysis failed */
   error: string | null;
-  
+
   /** Whether API key is configured */
   isConfigured: boolean;
-  
+
   /** Input used for last successful analysis */
   lastAnalyzedInput: AnalysisRequest | null;
 }
@@ -99,16 +99,16 @@ export interface AISuggestionState {
 export interface AISuggestionActions {
   /** Trigger AI analysis for given task name and description */
   analyzeTask: (taskName: string, description?: string) => Promise<void>;
-  
+
   /** Get single suggestion value (marks as accepted) */
   acceptSuggestion: <K extends keyof AISuggestion>(field: K) => AISuggestion[K] | undefined;
-  
+
   /** Get all suggestion values */
   acceptAll: () => Partial<AISuggestion>;
-  
+
   /** Clear current suggestions */
   dismiss: () => void;
-  
+
   /** Re-analyze with previously used input */
   reanalyze: () => Promise<void>;
 }
@@ -128,10 +128,10 @@ export type UseAISuggestionsReturn = AISuggestionState & AISuggestionActions;
 export interface IAIService {
   /** Check if service is configured (API key present) */
   isConfigured(): boolean;
-  
+
   /** Analyze task and return suggestions */
   analyzeTask(request: AnalysisRequest): Promise<AnalysisResult>;
-  
+
   /** Get default suggestions (for fallback) */
   getDefaults(reason?: string): AnalysisResult;
 }
@@ -177,31 +177,31 @@ export interface RawAISuggestion {
 export interface AISuggestionPanelProps {
   /** Current AI suggestions */
   suggestions: AISuggestion | null;
-  
+
   /** Whether analysis is loading */
   isLoading: boolean;
-  
+
   /** Error message to display */
   error: string | null;
-  
+
   /** Whether AI is configured */
   isConfigured: boolean;
-  
+
   /** Callback when user clicks "Get AI Suggestions" */
   onAnalyze: () => void;
-  
+
   /** Callback when user accepts a single field */
   onAcceptField: (field: keyof AISuggestion, value: unknown) => void;
-  
+
   /** Callback when user accepts all suggestions */
   onAcceptAll: () => void;
-  
+
   /** Callback when user dismisses suggestions */
   onDismiss: () => void;
-  
+
   /** Whether re-analyze should be shown (input changed since last analysis) */
   showReanalyze: boolean;
-  
+
   /** Callback for re-analyze button */
   onReanalyze: () => void;
 }
@@ -212,13 +212,13 @@ export interface AISuggestionPanelProps {
 export interface SuggestionFieldProps {
   /** Field label */
   label: string;
-  
+
   /** Suggested value */
   value: string | number | string[];
-  
+
   /** Callback when accepted */
   onAccept: () => void;
-  
+
   /** Whether this field can be individually accepted */
   canAccept?: boolean;
 }

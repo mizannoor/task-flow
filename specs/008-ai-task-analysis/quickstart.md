@@ -31,16 +31,9 @@ import { useAISuggestions } from '../hooks/useAISuggestions';
 function TaskForm() {
   const [taskName, setTaskName] = useState('');
   const [description, setDescription] = useState('');
-  
-  const {
-    suggestions,
-    isLoading,
-    isConfigured,
-    error,
-    analyzeTask,
-    acceptAll,
-    dismiss
-  } = useAISuggestions();
+
+  const { suggestions, isLoading, isConfigured, error, analyzeTask, acceptAll, dismiss } =
+    useAISuggestions();
 
   const handleGetSuggestions = async () => {
     await analyzeTask(taskName, description);
@@ -57,8 +50,8 @@ function TaskForm() {
   return (
     <form>
       {/* Task name and description inputs */}
-      
-      <button 
+
+      <button
         type="button"
         onClick={handleGetSuggestions}
         disabled={!isConfigured || isLoading || !taskName}
@@ -85,27 +78,29 @@ function TaskForm() {
 import { AISuggestionPanel } from '../components/tasks/AISuggestionPanel';
 
 // Inside your form component
-{suggestions && (
-  <AISuggestionPanel
-    suggestions={suggestions}
-    isLoading={isLoading}
-    error={error}
-    isConfigured={isConfigured}
-    onAnalyze={handleGetSuggestions}
-    onAcceptField={(field, value) => {
-      // Update individual form field
-      updateField(field, value);
-    }}
-    onAcceptAll={() => {
-      // Apply all suggestions to form
-      const values = acceptAll();
-      applyAllValues(values);
-    }}
-    onDismiss={dismiss}
-    showReanalyze={hasInputChanged}
-    onReanalyze={handleGetSuggestions}
-  />
-)}
+{
+  suggestions && (
+    <AISuggestionPanel
+      suggestions={suggestions}
+      isLoading={isLoading}
+      error={error}
+      isConfigured={isConfigured}
+      onAnalyze={handleGetSuggestions}
+      onAcceptField={(field, value) => {
+        // Update individual form field
+        updateField(field, value);
+      }}
+      onAcceptAll={() => {
+        // Apply all suggestions to form
+        const values = acceptAll();
+        applyAllValues(values);
+      }}
+      onDismiss={dismiss}
+      showReanalyze={hasInputChanged}
+      onReanalyze={handleGetSuggestions}
+    />
+  );
+}
 ```
 
 ### 4. Marking AI-Suggested Fields
@@ -117,15 +112,15 @@ const [aiSuggestedFields, setAiSuggestedFields] = useState(new Set());
 
 // When accepting AI suggestions
 const handleAcceptField = (field, value) => {
-  setFormData(prev => ({ ...prev, [field]: value }));
-  setAiSuggestedFields(prev => new Set([...prev, field]));
+  setFormData((prev) => ({ ...prev, [field]: value }));
+  setAiSuggestedFields((prev) => new Set([...prev, field]));
 };
 
 // When user manually changes a field
 const handleChange = (field, value) => {
-  setFormData(prev => ({ ...prev, [field]: value }));
+  setFormData((prev) => ({ ...prev, [field]: value }));
   // Remove AI indicator when user modifies
-  setAiSuggestedFields(prev => {
+  setAiSuggestedFields((prev) => {
     const next = new Set(prev);
     next.delete(field);
     return next;
@@ -136,30 +131,30 @@ const handleChange = (field, value) => {
 <label>
   Complexity
   {aiSuggestedFields.has('complexity') && <SparkleIcon />}
-</label>
+</label>;
 ```
 
 ## Key Files
 
-| File | Purpose |
-|------|---------|
-| `src/services/aiService.js` | Gemini API integration |
-| `src/hooks/useAISuggestions.js` | AI state management hook |
-| `src/components/tasks/AISuggestionPanel.jsx` | Suggestions UI component |
-| `src/components/ui/SparkleIcon.jsx` | AI indicator icon |
-| `src/utils/constants.js` | AI configuration constants |
+| File                                         | Purpose                    |
+| -------------------------------------------- | -------------------------- |
+| `src/services/aiService.js`                  | Gemini API integration     |
+| `src/hooks/useAISuggestions.js`              | AI state management hook   |
+| `src/components/tasks/AISuggestionPanel.jsx` | Suggestions UI component   |
+| `src/components/ui/SparkleIcon.jsx`          | AI indicator icon          |
+| `src/utils/constants.js`                     | AI configuration constants |
 
 ## Error Handling
 
 The hook handles all error cases automatically:
 
-| Scenario | User Experience |
-|----------|-----------------|
-| No API key | Button disabled with tooltip "AI not configured" |
-| Offline | Shows defaults with "AI analysis unavailable" message |
-| Timeout (10s) | Shows defaults with "AI analysis timed out" message |
-| Rate limited | Shows defaults with "AI temporarily unavailable" message |
-| Malformed response | Shows defaults with generic message |
+| Scenario           | User Experience                                          |
+| ------------------ | -------------------------------------------------------- |
+| No API key         | Button disabled with tooltip "AI not configured"         |
+| Offline            | Shows defaults with "AI analysis unavailable" message    |
+| Timeout (10s)      | Shows defaults with "AI analysis timed out" message      |
+| Rate limited       | Shows defaults with "AI temporarily unavailable" message |
+| Malformed response | Shows defaults with generic message                      |
 
 ## Testing
 
@@ -173,7 +168,7 @@ jest.mock('../services/aiService', () => ({
     tags: ['bug', 'auth'],
     estimatedDuration: 120,
     reasoning: 'Test reasoning',
-    isAISuggested: true
+    isAISuggested: true,
   }),
   isConfigured: jest.fn().mockReturnValue(true),
   getDefaults: jest.fn().mockReturnValue({
@@ -183,8 +178,8 @@ jest.mock('../services/aiService', () => ({
     tags: [],
     estimatedDuration: 60,
     reasoning: 'Using defaults',
-    isAISuggested: false
-  })
+    isAISuggested: false,
+  }),
 }));
 ```
 

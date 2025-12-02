@@ -21,16 +21,16 @@ Implement AI-powered task property suggestions using Google Gemini API. When use
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
-| Principle | Status | Evidence |
-|-----------|--------|----------|
-| **I. Client-Side First** | ✅ PASS | AI service runs entirely in browser; calls external API but no backend server required |
-| **II. AI-Augmented Intelligence** | ✅ PASS | Feature IS this principle - graceful degradation, user override, manual/AI-assisted/hybrid modes, visual distinction |
-| **III. Performance Excellence** | ✅ PASS | Local operations remain <100ms; AI is async with 10s timeout |
-| **IV. Multi-User Experience** | ✅ PASS | AI suggestions work per-user; no impact on user switching |
-| **V. Data Integrity** | ✅ PASS | Suggestions are ephemeral until accepted; existing validation applies to final values |
-| **VI. Responsive & Accessible Design** | ✅ PASS | AI UI components will follow existing responsive patterns; keyboard accessible |
+| Principle                              | Status  | Evidence                                                                                                             |
+| -------------------------------------- | ------- | -------------------------------------------------------------------------------------------------------------------- |
+| **I. Client-Side First**               | ✅ PASS | AI service runs entirely in browser; calls external API but no backend server required                               |
+| **II. AI-Augmented Intelligence**      | ✅ PASS | Feature IS this principle - graceful degradation, user override, manual/AI-assisted/hybrid modes, visual distinction |
+| **III. Performance Excellence**        | ✅ PASS | Local operations remain <100ms; AI is async with 10s timeout                                                         |
+| **IV. Multi-User Experience**          | ✅ PASS | AI suggestions work per-user; no impact on user switching                                                            |
+| **V. Data Integrity**                  | ✅ PASS | Suggestions are ephemeral until accepted; existing validation applies to final values                                |
+| **VI. Responsive & Accessible Design** | ✅ PASS | AI UI components will follow existing responsive patterns; keyboard accessible                                       |
 
 **Gate Result**: ✅ PASS - No violations. Feature aligns with all constitutional principles.
 
@@ -85,15 +85,15 @@ tests/
 
 ## Post-Design Constitution Re-Check
 
-*Re-evaluated after Phase 1 design completion.*
+_Re-evaluated after Phase 1 design completion._
 
-| Principle | Status | Post-Design Evidence |
-|-----------|--------|----------------------|
-| **I. Client-Side First** | ✅ PASS | AIService uses native `fetch()` - no server required. All logic runs in browser. |
-| **II. AI-Augmented Intelligence** | ✅ PASS | Full implementation: useAISuggestions hook supports all three modes, FallbackDefaults ensure graceful degradation, AISuggestedFields track visual distinction |
-| **III. Performance Excellence** | ✅ PASS | AbortController with 10s timeout ensures predictable UX. Local state updates remain <100ms. |
-| **IV. Multi-User Experience** | ✅ PASS | Hook is stateless between sessions. No user-specific AI state persisted. |
-| **V. Data Integrity** | ✅ PASS | AISuggestion validation ensures only valid values pass through. Existing Task validators apply on save. |
-| **VI. Responsive & Accessible Design** | ✅ PASS | AISuggestionPanel will use existing Tailwind responsive classes. Button states support keyboard navigation. |
+| Principle                              | Status  | Post-Design Evidence                                                                                                                                          |
+| -------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **I. Client-Side First**               | ✅ PASS | AIService uses native `fetch()` - no server required. All logic runs in browser.                                                                              |
+| **II. AI-Augmented Intelligence**      | ✅ PASS | Full implementation: useAISuggestions hook supports all three modes, FallbackDefaults ensure graceful degradation, AISuggestedFields track visual distinction |
+| **III. Performance Excellence**        | ✅ PASS | AbortController with 10s timeout ensures predictable UX. Local state updates remain <100ms.                                                                   |
+| **IV. Multi-User Experience**          | ✅ PASS | Hook is stateless between sessions. No user-specific AI state persisted.                                                                                      |
+| **V. Data Integrity**                  | ✅ PASS | AISuggestion validation ensures only valid values pass through. Existing Task validators apply on save.                                                       |
+| **VI. Responsive & Accessible Design** | ✅ PASS | AISuggestionPanel will use existing Tailwind responsive classes. Button states support keyboard navigation.                                                   |
 
 **Post-Design Gate Result**: ✅ PASS - Design artifacts confirm constitutional compliance.

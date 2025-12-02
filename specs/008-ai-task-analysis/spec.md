@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "AI-Powered Task Analysis feature based on PRD.md and FEATURES.md - Intelligent task property suggestions using Google Gemini AI including complexity estimation, priority assignment, category classification, tag suggestions, and duration estimation"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Get AI Suggestions for a New Task (Priority: P1)
 
@@ -120,7 +120,7 @@ A power user (Manager Mike) prefers to set all task properties manually without 
 - What happens when the AI rate limit is exceeded? → Show "AI temporarily unavailable - please try again in a moment" and use defaults
 - What happens when the API key is invalid or missing? → Show disabled "Get AI Suggestions" button with tooltip "AI not configured"; if clicked, silently use defaults
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -149,7 +149,7 @@ A power user (Manager Mike) prefers to set all task properties manually without 
 - **Analysis Request**: Represents a request to the AI service containing taskName and description
 - **Fallback Defaults**: Predefined default values used when AI is unavailable (complexity: 5, priority: "medium", category: "development", tags: [], duration: 60)
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

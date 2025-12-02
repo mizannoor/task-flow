@@ -201,14 +201,14 @@
 
 ### User Story Dependencies
 
-| Story | Priority | Dependencies | Can Parallel With |
-|-------|----------|--------------|-------------------|
-| US1 | P1 | Foundational | - |
-| US2 | P1 | US1 (acceptance UI) | US3 |
-| US3 | P1 | Foundational | US1, US2 |
-| US4 | P2 | US1 (suggestions display) | US5, US6 |
-| US5 | P2 | US1 (suggestions state) | US4, US6 |
-| US6 | P3 | Foundational | US4, US5 |
+| Story | Priority | Dependencies              | Can Parallel With |
+| ----- | -------- | ------------------------- | ----------------- |
+| US1   | P1       | Foundational              | -                 |
+| US2   | P1       | US1 (acceptance UI)       | US3               |
+| US3   | P1       | Foundational              | US1, US2          |
+| US4   | P2       | US1 (suggestions display) | US5, US6          |
+| US5   | P2       | US1 (suggestions state)   | US4, US6          |
+| US6   | P3       | Foundational              | US4, US5          |
 
 ### Within Each User Story
 
@@ -231,7 +231,7 @@
 ```bash
 # All can run in parallel - different files/sections:
 T001: Add AI_CONFIG constants in src/utils/constants.js
-T002: Add AI_DEFAULTS constants in src/utils/constants.js  
+T002: Add AI_DEFAULTS constants in src/utils/constants.js
 T003: Add AI_ERROR_MESSAGES constants in src/utils/constants.js
 T004: Create SparkleIcon component in src/components/ui/SparkleIcon.jsx
 ```
@@ -272,18 +272,18 @@ T041: Network error handling
 
 ### Task Count Summary
 
-| Phase | Tasks | Priority |
-|-------|-------|----------|
-| Setup | 4 | - |
-| Foundational | 9 | CRITICAL |
-| US1 (P1) | 13 | MVP |
-| US2 (P1) | 9 | Core |
-| US3 (P1) | 10 | Core |
-| US4 (P2) | 5 | Enhancement |
-| US5 (P2) | 8 | Enhancement |
-| US6 (P3) | 4 | Verification |
-| Polish | 6 | Final |
-| **Total** | **68** | |
+| Phase        | Tasks  | Priority     |
+| ------------ | ------ | ------------ |
+| Setup        | 4      | -            |
+| Foundational | 9      | CRITICAL     |
+| US1 (P1)     | 13     | MVP          |
+| US2 (P1)     | 9      | Core         |
+| US3 (P1)     | 10     | Core         |
+| US4 (P2)     | 5      | Enhancement  |
+| US5 (P2)     | 8      | Enhancement  |
+| US6 (P3)     | 4      | Verification |
+| Polish       | 6      | Final        |
+| **Total**    | **68** |              |
 
 ---
 
