@@ -32,7 +32,7 @@ export function PeriodFilter({ value, onChange, className = '' }) {
           </option>
         ))}
       </select>
-      
+
       {/* Custom dropdown arrow */}
       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500 dark:text-gray-400">
         <svg

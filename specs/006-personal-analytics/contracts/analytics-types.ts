@@ -192,14 +192,14 @@ export interface AnalyticsData {
   // Lifetime stats (not filtered by date)
   summary: TaskSummary;
   streak: StreakData;
-  
+
   // Date-filtered metrics
   accuracy: EstimationAccuracy;
   categoryDistribution: CategoryDistribution;
   complexityDistribution: ComplexityDistribution;
   velocity: VelocityTrend;
   timeTracked: TimeTrackedSummary;
-  
+
   // Meta information
   dateRange: DateRange;
   isLoading: boolean;

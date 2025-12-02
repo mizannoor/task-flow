@@ -13,7 +13,7 @@ function getStreakMessage(current, best) {
   if (current === 0 && best === 0) {
     return { text: 'Complete your first task to start your streak!', type: 'encourage' };
   }
-  
+
   if (current === 0 && best > 0) {
     return { text: 'Start a new streak today!', type: 'encourage' };
   }
@@ -101,13 +101,12 @@ export function StreakDisplay({ streak }) {
         </div>
 
         {/* Motivational message */}
-        <p className={`text-sm text-center mb-4 ${
-          message.type === 'legendary' ? 'text-red-600 font-semibold' :
-          message.type === 'celebrate' ? 'text-orange-600 font-semibold' :
-          message.type === 'success' ? 'text-green-600' :
-          message.type === 'progress' ? 'text-amber-600' :
-          'text-gray-500 dark:text-gray-400'
-        }`}>
+        <p className={`text-sm text-center mb-4 ${message.type === 'legendary' ? 'text-red-600 font-semibold' :
+            message.type === 'celebrate' ? 'text-orange-600 font-semibold' :
+              message.type === 'success' ? 'text-green-600' :
+                message.type === 'progress' ? 'text-amber-600' :
+                  'text-gray-500 dark:text-gray-400'
+          }`}>
           {message.text}
         </p>
 

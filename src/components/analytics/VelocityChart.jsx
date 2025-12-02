@@ -53,11 +53,10 @@ function AggregationToggle({ aggregation, onToggle }) {
       <button
         type="button"
         onClick={aggregation === 'week' ? onToggle : undefined}
-        className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
-          aggregation === 'day'
+        className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${aggregation === 'day'
             ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm'
             : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
-        }`}
+          }`}
         aria-pressed={aggregation === 'day'}
       >
         Daily
@@ -65,11 +64,10 @@ function AggregationToggle({ aggregation, onToggle }) {
       <button
         type="button"
         onClick={aggregation === 'day' ? onToggle : undefined}
-        className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
-          aggregation === 'week'
+        className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${aggregation === 'week'
             ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm'
             : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
-        }`}
+          }`}
         aria-pressed={aggregation === 'week'}
       >
         Weekly
@@ -135,11 +133,10 @@ export function VelocityChart({ data, aggregation, onToggleAggregation }) {
           <p className="text-2xl font-bold text-blue-600">{data.periodTotal}</p>
         </div>
         {data.changePercent !== null && (
-          <div className={`px-3 py-1 rounded-full text-sm font-medium ${
-            data.changePercent >= 0
+          <div className={`px-3 py-1 rounded-full text-sm font-medium ${data.changePercent >= 0
               ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'
               : 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'
-          }`}>
+            }`}>
             {formatChangePercentage(data.changePercent)} vs last period
           </div>
         )}

@@ -77,18 +77,18 @@ import { DATE_RANGES } from './constants';
 export function getDateRange(rangeKey) {
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  
+
   switch (rangeKey) {
     case DATE_RANGES.TODAY:
       return { key: rangeKey, start: today, end: now };
-      
+
     case DATE_RANGES.THIS_WEEK: {
       const dayOfWeek = today.getDay();
       const monday = new Date(today);
       monday.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
       return { key: rangeKey, start: monday, end: now };
     }
-    
+
     case DATE_RANGES.LAST_WEEK: {
       const dayOfWeek = today.getDay();
       const thisMonday = new Date(today);
@@ -100,25 +100,25 @@ export function getDateRange(rangeKey) {
       lastSunday.setHours(23, 59, 59, 999);
       return { key: rangeKey, start: lastMonday, end: lastSunday };
     }
-    
+
     case DATE_RANGES.THIS_MONTH: {
       const firstOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
       return { key: rangeKey, start: firstOfMonth, end: now };
     }
-    
+
     case DATE_RANGES.LAST_MONTH: {
       const firstOfLastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
       const lastOfLastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
       lastOfLastMonth.setHours(23, 59, 59, 999);
       return { key: rangeKey, start: firstOfLastMonth, end: lastOfLastMonth };
     }
-    
+
     case DATE_RANGES.LAST_30_DAYS: {
       const start = new Date(today);
       start.setDate(today.getDate() - 29);
       return { key: rangeKey, start, end: now };
     }
-    
+
     default:
       return getDateRange(DATE_RANGES.THIS_WEEK);
   }
@@ -151,9 +151,9 @@ Create `src/services/analyticsService.js`:
 export function calculateTaskSummary(tasks) {
   return {
     total: tasks.length,
-    completed: tasks.filter(t => t.status === 'completed').length,
-    inProgress: tasks.filter(t => t.status === 'in-progress').length,
-    pending: tasks.filter(t => t.status === 'pending').length,
+    completed: tasks.filter((t) => t.status === 'completed').length,
+    inProgress: tasks.filter((t) => t.status === 'in-progress').length,
+    pending: tasks.filter((t) => t.status === 'pending').length,
   };
 }
 
@@ -161,10 +161,8 @@ export function calculateTaskSummary(tasks) {
  * Calculate estimation accuracy (variance-based formula)
  */
 export function calculateEstimationAccuracy(tasks) {
-  const validTasks = tasks.filter(t =>
-    t.status === 'completed' &&
-    t.estimatedDuration > 0 &&
-    t.actualDuration > 0
+  const validTasks = tasks.filter(
+    (t) => t.status === 'completed' && t.estimatedDuration > 0 && t.actualDuration > 0
   );
 
   if (validTasks.length === 0) {
@@ -190,7 +188,7 @@ export function calculateEstimationAccuracy(tasks) {
  * Calculate completion streak
  */
 export function calculateStreak(tasks) {
-  const completedTasks = tasks.filter(t => t.status === 'completed' && t.completedAt);
+  const completedTasks = tasks.filter((t) => t.status === 'completed' && t.completedAt);
 
   if (completedTasks.length === 0) {
     return { current: 0, best: 0, lastCompletionDate: null };
@@ -198,7 +196,7 @@ export function calculateStreak(tasks) {
 
   // Group by local date string
   const completionDays = new Set(
-    completedTasks.map(t => new Date(t.completedAt).toLocaleDateString())
+    completedTasks.map((t) => new Date(t.completedAt).toLocaleDateString())
   );
 
   // Calculate current streak
@@ -245,8 +243,8 @@ export function calculateStreak(tasks) {
  */
 export function calculateCategoryDistribution(tasks) {
   const counts = { development: 0, fix: 0, support: 0 };
-  
-  tasks.forEach(t => {
+
+  tasks.forEach((t) => {
     if (counts.hasOwnProperty(t.category)) {
       counts[t.category]++;
     }
@@ -269,16 +267,14 @@ export function calculateComplexityDistribution(tasks) {
   const counts = Array.from({ length: 10 }, (_, i) => ({ level: i + 1, count: 0 }));
   let totalComplexity = 0;
 
-  tasks.forEach(t => {
+  tasks.forEach((t) => {
     if (t.complexity >= 1 && t.complexity <= 10) {
       counts[t.complexity - 1].count++;
       totalComplexity += t.complexity;
     }
   });
 
-  const average = tasks.length > 0 
-    ? Math.round((totalComplexity / tasks.length) * 10) / 10 
-    : 0;
+  const average = tasks.length > 0 ? Math.round((totalComplexity / tasks.length) * 10) / 10 : 0;
 
   return { data: counts, average, total: tasks.length };
 }
@@ -294,7 +290,11 @@ import { useTasks } from './useTasks';
 import { useAuth } from './useAuth';
 import * as analyticsService from '../services/analyticsService';
 import { getDateRange, isDateInRange } from '../utils/dateUtils';
-import { DATE_RANGES, ANALYTICS_STORAGE_KEY, DEFAULT_ANALYTICS_PREFERENCES } from '../utils/constants';
+import {
+  DATE_RANGES,
+  ANALYTICS_STORAGE_KEY,
+  DEFAULT_ANALYTICS_PREFERENCES,
+} from '../utils/constants';
 
 export function useAnalytics() {
   const { tasks, loading } = useTasks();
@@ -314,12 +314,15 @@ export function useAnalytics() {
 
   // Persist preferences
   useEffect(() => {
-    localStorage.setItem(ANALYTICS_STORAGE_KEY, JSON.stringify({ selectedDateRange: dateRangeKey }));
+    localStorage.setItem(
+      ANALYTICS_STORAGE_KEY,
+      JSON.stringify({ selectedDateRange: dateRangeKey })
+    );
   }, [dateRangeKey]);
 
   // Filter tasks for current user
-  const userTasks = useMemo(() =>
-    tasks.filter(t => t.userId === currentUser?.id),
+  const userTasks = useMemo(
+    () => tasks.filter((t) => t.userId === currentUser?.id),
     [tasks, currentUser?.id]
   );
 
@@ -327,27 +330,31 @@ export function useAnalytics() {
   const dateRange = useMemo(() => getDateRange(dateRangeKey), [dateRangeKey]);
 
   // Filter tasks by date range (using completedAt or createdAt)
-  const filteredTasks = useMemo(() =>
-    userTasks.filter(t => {
-      const taskDate = t.completedAt || t.createdAt;
-      return isDateInRange(taskDate, dateRange);
-    }),
+  const filteredTasks = useMemo(
+    () =>
+      userTasks.filter((t) => {
+        const taskDate = t.completedAt || t.createdAt;
+        return isDateInRange(taskDate, dateRange);
+      }),
     [userTasks, dateRange]
   );
 
   // Calculate all analytics
-  const analytics = useMemo(() => ({
-    summary: analyticsService.calculateTaskSummary(userTasks),
-    streak: analyticsService.calculateStreak(userTasks),
-    accuracy: analyticsService.calculateEstimationAccuracy(filteredTasks),
-    categoryDistribution: analyticsService.calculateCategoryDistribution(filteredTasks),
-    complexityDistribution: analyticsService.calculateComplexityDistribution(filteredTasks),
-    velocity: null, // Implement calculateVelocity
-    timeTracked: null, // Implement calculateTimeTracked
-    dateRange,
-    isLoading: loading,
-    isEmpty: userTasks.length === 0,
-  }), [userTasks, filteredTasks, dateRange, loading]);
+  const analytics = useMemo(
+    () => ({
+      summary: analyticsService.calculateTaskSummary(userTasks),
+      streak: analyticsService.calculateStreak(userTasks),
+      accuracy: analyticsService.calculateEstimationAccuracy(filteredTasks),
+      categoryDistribution: analyticsService.calculateCategoryDistribution(filteredTasks),
+      complexityDistribution: analyticsService.calculateComplexityDistribution(filteredTasks),
+      velocity: null, // Implement calculateVelocity
+      timeTracked: null, // Implement calculateTimeTracked
+      dateRange,
+      isLoading: loading,
+      isEmpty: userTasks.length === 0,
+    }),
+    [userTasks, filteredTasks, dateRange, loading]
+  );
 
   return {
     ...analytics,
@@ -428,24 +435,25 @@ Modify `src/components/Dashboard.jsx` to add analytics navigation:
 
 ## Key Files Summary
 
-| File | Purpose |
-|------|---------|
-| `src/hooks/useAnalytics.js` | Main hook for analytics data |
-| `src/services/analyticsService.js` | Pure calculation functions |
-| `src/utils/dateUtils.js` | Date range utilities |
-| `src/utils/constants.js` | Analytics constants (add to existing) |
-| `src/components/analytics/PersonalDashboard.jsx` | Main dashboard container |
-| `src/components/analytics/StatCards.jsx` | Task summary cards |
-| `src/components/analytics/EstimationAccuracy.jsx` | Accuracy display + chart |
-| `src/components/analytics/StreakDisplay.jsx` | Streak counter |
-| `src/components/analytics/CategoryChart.jsx` | Pie chart (Recharts) |
-| `src/components/analytics/ComplexityChart.jsx` | Bar chart (Recharts) |
-| `src/components/analytics/PeriodFilter.jsx` | Date range dropdown |
-| `src/components/analytics/AnalyticsEmptyState.jsx` | Empty state component |
+| File                                               | Purpose                               |
+| -------------------------------------------------- | ------------------------------------- |
+| `src/hooks/useAnalytics.js`                        | Main hook for analytics data          |
+| `src/services/analyticsService.js`                 | Pure calculation functions            |
+| `src/utils/dateUtils.js`                           | Date range utilities                  |
+| `src/utils/constants.js`                           | Analytics constants (add to existing) |
+| `src/components/analytics/PersonalDashboard.jsx`   | Main dashboard container              |
+| `src/components/analytics/StatCards.jsx`           | Task summary cards                    |
+| `src/components/analytics/EstimationAccuracy.jsx`  | Accuracy display + chart              |
+| `src/components/analytics/StreakDisplay.jsx`       | Streak counter                        |
+| `src/components/analytics/CategoryChart.jsx`       | Pie chart (Recharts)                  |
+| `src/components/analytics/ComplexityChart.jsx`     | Bar chart (Recharts)                  |
+| `src/components/analytics/PeriodFilter.jsx`        | Date range dropdown                   |
+| `src/components/analytics/AnalyticsEmptyState.jsx` | Empty state component                 |
 
 ## Testing
 
 Run the dashboard by:
+
 1. Ensure you have tasks with various statuses, categories, and complexities
 2. Complete some tasks with time tracking to see accuracy metrics
 3. Complete tasks on consecutive days to see streak data
@@ -454,6 +462,7 @@ Run the dashboard by:
 ## Next Steps
 
 After implementing the basic dashboard:
+
 1. Add velocity trend line chart
 2. Add time tracked summary card
 3. Implement period comparison (vs previous period)

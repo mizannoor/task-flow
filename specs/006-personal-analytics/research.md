@@ -60,20 +60,18 @@
 
 ```javascript
 function calculateEstimationAccuracy(tasks) {
-  const validTasks = tasks.filter(t => 
-    t.status === 'completed' && 
-    t.estimatedDuration > 0 && 
-    t.actualDuration > 0
+  const validTasks = tasks.filter(
+    (t) => t.status === 'completed' && t.estimatedDuration > 0 && t.actualDuration > 0
   );
-  
+
   if (validTasks.length === 0) return null;
-  
+
   const totalEstimated = validTasks.reduce((sum, t) => sum + t.estimatedDuration, 0);
   const totalActual = validTasks.reduce((sum, t) => sum + t.actualDuration, 0);
-  
+
   const variance = Math.abs((totalActual - totalEstimated) / totalEstimated);
   const accuracy = Math.max(0, Math.min(100, (1 - variance) * 100));
-  
+
   return Math.round(accuracy);
 }
 ```
@@ -100,22 +98,22 @@ function calculateEstimationAccuracy(tasks) {
 
 ```javascript
 function calculateStreak(tasks) {
-  const completedTasks = tasks.filter(t => t.status === 'completed' && t.completedAt);
-  
+  const completedTasks = tasks.filter((t) => t.status === 'completed' && t.completedAt);
+
   // Group by local date string
   const completionDays = new Set(
-    completedTasks.map(t => new Date(t.completedAt).toLocaleDateString())
+    completedTasks.map((t) => new Date(t.completedAt).toLocaleDateString())
   );
-  
+
   let streak = 0;
   const today = new Date();
-  
+
   // Check from today backward
   for (let i = 0; i <= 365; i++) {
     const checkDate = new Date(today);
     checkDate.setDate(checkDate.getDate() - i);
     const dateStr = checkDate.toLocaleDateString();
-    
+
     if (completionDays.has(dateStr)) {
       streak++;
     } else if (i > 0) {
@@ -123,7 +121,7 @@ function calculateStreak(tasks) {
       break;
     }
   }
-  
+
   return { current: streak, best: Math.max(streak, calculateBestStreak(completionDays)) };
 }
 ```
@@ -161,18 +159,18 @@ export const DATE_RANGES = {
 export function getDateRange(rangeKey) {
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  
+
   switch (rangeKey) {
     case DATE_RANGES.TODAY:
       return { start: today, end: now };
-      
+
     case DATE_RANGES.THIS_WEEK: {
       const dayOfWeek = today.getDay();
       const monday = new Date(today);
       monday.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
       return { start: monday, end: now };
     }
-    
+
     case DATE_RANGES.LAST_30_DAYS: {
       const start = new Date(today);
       start.setDate(today.getDate() - 29);
@@ -207,27 +205,30 @@ export function getDateRange(rangeKey) {
 function useAnalytics(dateRange = DATE_RANGES.THIS_WEEK) {
   const { tasks } = useTasks();
   const { currentUser } = useAuth();
-  
-  const userTasks = useMemo(() => 
-    tasks.filter(t => t.userId === currentUser?.id),
+
+  const userTasks = useMemo(
+    () => tasks.filter((t) => t.userId === currentUser?.id),
     [tasks, currentUser?.id]
   );
-  
-  const filteredTasks = useMemo(() => 
-    filterTasksByDateRange(userTasks, dateRange),
+
+  const filteredTasks = useMemo(
+    () => filterTasksByDateRange(userTasks, dateRange),
     [userTasks, dateRange]
   );
-  
-  const stats = useMemo(() => ({
-    summary: calculateTaskSummary(userTasks), // Not filtered by date
-    accuracy: calculateEstimationAccuracy(filteredTasks),
-    streak: calculateStreak(userTasks), // Uses all historical data
-    categoryDistribution: calculateCategoryDistribution(filteredTasks),
-    complexityDistribution: calculateComplexityDistribution(filteredTasks),
-    velocity: calculateVelocity(filteredTasks, dateRange),
-    timeTracked: calculateTimeTracked(filteredTasks),
-  }), [userTasks, filteredTasks, dateRange]);
-  
+
+  const stats = useMemo(
+    () => ({
+      summary: calculateTaskSummary(userTasks), // Not filtered by date
+      accuracy: calculateEstimationAccuracy(filteredTasks),
+      streak: calculateStreak(userTasks), // Uses all historical data
+      categoryDistribution: calculateCategoryDistribution(filteredTasks),
+      complexityDistribution: calculateComplexityDistribution(filteredTasks),
+      velocity: calculateVelocity(filteredTasks, dateRange),
+      timeTracked: calculateTimeTracked(filteredTasks),
+    }),
+    [userTasks, filteredTasks, dateRange]
+  );
+
   return stats;
 }
 ```
@@ -263,7 +264,7 @@ function EstimationAccuracy({ accuracy }) {
       />
     );
   }
-  
+
   return <AccuracyChart accuracy={accuracy} />;
 }
 ```
@@ -290,15 +291,15 @@ function EstimationAccuracy({ accuracy }) {
 ```javascript
 function calculateVelocity(tasks, dateRange) {
   const { start, end } = getDateRange(dateRange);
-  const completedTasks = tasks.filter(t => t.status === 'completed' && t.completedAt);
-  
+  const completedTasks = tasks.filter((t) => t.status === 'completed' && t.completedAt);
+
   // Create map of date -> count
   const countByDate = new Map();
-  completedTasks.forEach(task => {
+  completedTasks.forEach((task) => {
     const dateStr = new Date(task.completedAt).toLocaleDateString();
     countByDate.set(dateStr, (countByDate.get(dateStr) || 0) + 1);
   });
-  
+
   // Generate all dates in range with counts (including zeros)
   const data = [];
   const current = new Date(start);
@@ -310,22 +311,22 @@ function calculateVelocity(tasks, dateRange) {
     });
     current.setDate(current.getDate() + 1);
   }
-  
+
   return data;
 }
 ```
 
 ## Technology Decisions Summary
 
-| Area                 | Decision                                       | Confidence |
-| -------------------- | ---------------------------------------------- | ---------- |
-| Chart Library        | Recharts with ResponsiveContainer              | High       |
-| Accuracy Formula     | Variance-based with aggregated totals          | High       |
-| Streak Calculation   | Local timezone, backward iteration             | High       |
-| Date Range Filtering | Preset periods via dateUtils.js                | High       |
-| Real-Time Updates    | TaskContext subscription + useMemo             | High       |
-| Empty States         | Null return + component-level empty states     | High       |
-| Velocity Data        | Full date range with zero-filled gaps          | High       |
+| Area                 | Decision                                   | Confidence |
+| -------------------- | ------------------------------------------ | ---------- |
+| Chart Library        | Recharts with ResponsiveContainer          | High       |
+| Accuracy Formula     | Variance-based with aggregated totals      | High       |
+| Streak Calculation   | Local timezone, backward iteration         | High       |
+| Date Range Filtering | Preset periods via dateUtils.js            | High       |
+| Real-Time Updates    | TaskContext subscription + useMemo         | High       |
+| Empty States         | Null return + component-level empty states | High       |
+| Velocity Data        | Full date range with zero-filled gaps      | High       |
 
 ## Dependencies
 
@@ -334,10 +335,10 @@ function calculateVelocity(tasks, dateRange) {
 
 ## Risks & Mitigations
 
-| Risk                                  | Likelihood | Impact | Mitigation                                          |
-| ------------------------------------- | ---------- | ------ | --------------------------------------------------- |
-| Recharts bundle size impact           | Medium     | Low    | Tree-shaking imports; only import used chart types  |
-| Performance with 10,000+ tasks        | Low        | Medium | Memoization; consider virtualization if needed      |
-| Timezone inconsistencies              | Low        | Medium | Use toLocaleDateString consistently                 |
-| Chart responsiveness on mobile        | Low        | Low    | Test ResponsiveContainer at 320px breakpoint        |
-| User confusion with empty metrics     | Medium     | Low    | Clear empty states with actionable guidance         |
+| Risk                              | Likelihood | Impact | Mitigation                                         |
+| --------------------------------- | ---------- | ------ | -------------------------------------------------- |
+| Recharts bundle size impact       | Medium     | Low    | Tree-shaking imports; only import used chart types |
+| Performance with 10,000+ tasks    | Low        | Medium | Memoization; consider virtualization if needed     |
+| Timezone inconsistencies          | Low        | Medium | Use toLocaleDateString consistently                |
+| Chart responsiveness on mobile    | Low        | Low    | Test ResponsiveContainer at 320px breakpoint       |
+| User confusion with empty metrics | Medium     | Low    | Clear empty states with actionable guidance        |

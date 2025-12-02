@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "Personal Analytics Dashboard"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - View Task Summary Statistics (Priority: P1)
 
@@ -136,7 +136,7 @@ As a user who tracks time on tasks, I want to see my total time tracked this wee
 - What happens when user views analytics on mobile? → Charts should be responsive and scrollable
 - How does system handle historical data if user deletes tasks? → Analytics reflect current data only (no historical snapshots)
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -157,14 +157,14 @@ As a user who tracks time on tasks, I want to see my total time tracked this wee
 - **FR-015**: System MUST persist the user's preferred time period filter across sessions
 - **FR-016**: System MUST apply the selected time period filter globally to all applicable metrics (velocity, time tracked, category distribution)
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **Task Statistics**: Aggregated counts and calculations derived from user's task data (total count, status breakdown, completion dates)
 - **Time Metrics**: Calculated values from estimated and actual duration fields (accuracy percentage, total tracked time)
 - **Streak Data**: Derived from task completion timestamps (current streak, best streak, last completion date)
 - **Distribution Data**: Aggregated task counts grouped by category and complexity level
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

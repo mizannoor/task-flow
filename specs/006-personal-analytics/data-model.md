@@ -12,17 +12,17 @@ The Personal Analytics Dashboard is a **read-only** feature that derives all dat
 
 The dashboard reads from existing Task fields in IndexedDB:
 
-| Field               | Type         | Used For                                        |
-| ------------------- | ------------ | ----------------------------------------------- |
-| `id`                | string       | Unique task identifier                          |
-| `userId`            | string       | Filter tasks to current user                    |
-| `status`            | string       | Task summary counts, completion tracking        |
-| `category`          | string       | Category distribution chart                     |
-| `complexity`        | number (1-10)| Complexity distribution chart, average          |
-| `estimatedDuration` | number       | Estimation accuracy calculation                 |
-| `actualDuration`    | number       | Estimation accuracy, time tracked summary       |
-| `completedAt`       | Date \| null | Streak calculation, velocity trend, date filter |
-| `createdAt`         | Date         | Date range filtering (for pending tasks)        |
+| Field               | Type          | Used For                                        |
+| ------------------- | ------------- | ----------------------------------------------- |
+| `id`                | string        | Unique task identifier                          |
+| `userId`            | string        | Filter tasks to current user                    |
+| `status`            | string        | Task summary counts, completion tracking        |
+| `category`          | string        | Category distribution chart                     |
+| `complexity`        | number (1-10) | Complexity distribution chart, average          |
+| `estimatedDuration` | number        | Estimation accuracy calculation                 |
+| `actualDuration`    | number        | Estimation accuracy, time tracked summary       |
+| `completedAt`       | Date \| null  | Streak calculation, velocity trend, date filter |
+| `createdAt`         | Date          | Date range filtering (for pending tasks)        |
 
 ## Derived Data Structures
 
@@ -32,10 +32,10 @@ Aggregated counts of tasks by status. Not filtered by date range.
 
 ```typescript
 interface TaskSummary {
-  total: number;       // All tasks assigned to user
-  completed: number;   // status === 'completed'
-  inProgress: number;  // status === 'in-progress'
-  pending: number;     // status === 'pending'
+  total: number; // All tasks assigned to user
+  completed: number; // status === 'completed'
+  inProgress: number; // status === 'in-progress'
+  pending: number; // status === 'pending'
 }
 ```
 
@@ -45,18 +45,20 @@ Accuracy metrics derived from completed tasks with time data.
 
 ```typescript
 interface EstimationAccuracy {
-  percentage: number | null;  // 0-100, null if insufficient data
-  totalEstimated: number;     // Sum of estimatedDuration (minutes)
-  totalActual: number;        // Sum of actualDuration (minutes)
-  taskCount: number;          // Number of tasks in calculation
-  trend: 'improving' | 'declining' | 'stable' | null;  // Compared to previous period
+  percentage: number | null; // 0-100, null if insufficient data
+  totalEstimated: number; // Sum of estimatedDuration (minutes)
+  totalActual: number; // Sum of actualDuration (minutes)
+  taskCount: number; // Number of tasks in calculation
+  trend: 'improving' | 'declining' | 'stable' | null; // Compared to previous period
 }
 ```
 
 **Calculation Formula** (from clarification):
+
 ```
 accuracy = 100 - abs((totalActual - totalEstimated) / totalEstimated) * 100
 ```
+
 Capped to 0-100 range.
 
 ### StreakData
@@ -65,13 +67,14 @@ Completion streak information derived from completedAt timestamps.
 
 ```typescript
 interface StreakData {
-  current: number;     // Consecutive days with completions (including today)
-  best: number;        // Highest streak ever achieved
-  lastCompletionDate: string | null;  // ISO date string of most recent completion
+  current: number; // Consecutive days with completions (including today)
+  best: number; // Highest streak ever achieved
+  lastCompletionDate: string | null; // ISO date string of most recent completion
 }
 ```
 
 **Calculation Rules**:
+
 - Uses local timezone for day boundaries
 - Today without completion continues streak if yesterday had completion
 - Streak resets to 0 if gap > 1 day
@@ -85,7 +88,7 @@ interface CategoryDistribution {
   data: Array<{
     category: 'development' | 'fix' | 'support';
     count: number;
-    percentage: number;  // Rounded to 1 decimal
+    percentage: number; // Rounded to 1 decimal
   }>;
   total: number;
 }
@@ -98,10 +101,10 @@ Task counts grouped by complexity level for bar chart.
 ```typescript
 interface ComplexityDistribution {
   data: Array<{
-    level: number;  // 1-10
+    level: number; // 1-10
     count: number;
   }>;
-  average: number;  // Mean complexity, rounded to 1 decimal
+  average: number; // Mean complexity, rounded to 1 decimal
   total: number;
 }
 ```
@@ -113,12 +116,12 @@ Daily completion counts for line chart.
 ```typescript
 interface VelocityTrend {
   data: Array<{
-    date: string;    // Formatted date label (e.g., "Dec 2")
-    count: number;   // Completions on this day (0 if none)
+    date: string; // Formatted date label (e.g., "Dec 2")
+    count: number; // Completions on this day (0 if none)
   }>;
-  periodTotal: number;       // Total completions in period
-  previousPeriodTotal: number | null;  // For comparison
-  changePercent: number | null;        // Percentage change from previous
+  periodTotal: number; // Total completions in period
+  previousPeriodTotal: number | null; // For comparison
+  changePercent: number | null; // Percentage change from previous
 }
 ```
 
@@ -128,10 +131,10 @@ Aggregated time tracking data for the selected period.
 
 ```typescript
 interface TimeTrackedSummary {
-  totalMinutes: number;     // Sum of actualDuration in period
-  formattedTotal: string;   // Human-readable (e.g., "12h 45m")
-  dailyAverage: number;     // Average minutes per day in period
-  taskCount: number;        // Tasks with tracked time in period
+  totalMinutes: number; // Sum of actualDuration in period
+  formattedTotal: string; // Human-readable (e.g., "12h 45m")
+  dailyAverage: number; // Average minutes per day in period
+  taskCount: number; // Tasks with tracked time in period
 }
 ```
 
@@ -142,9 +145,9 @@ interface TimeTrackedSummary {
 User-selected time period filter persisted to localStorage.
 
 ```typescript
-type DateRangeKey = 
+type DateRangeKey =
   | 'today'
-  | 'thisWeek'      // Default
+  | 'thisWeek' // Default
   | 'lastWeek'
   | 'thisMonth'
   | 'lastMonth'
@@ -163,7 +166,7 @@ User preferences stored in localStorage.
 
 ```typescript
 interface AnalyticsPreferences {
-  selectedDateRange: DateRangeKey;  // Default: 'thisWeek'
+  selectedDateRange: DateRangeKey; // Default: 'thisWeek'
 }
 ```
 
@@ -215,18 +218,18 @@ interface AnalyticsData {
   // Not filtered by date (lifetime stats)
   summary: TaskSummary;
   streak: StreakData;
-  
+
   // Filtered by selected date range
   accuracy: EstimationAccuracy;
   categoryDistribution: CategoryDistribution;
   complexityDistribution: ComplexityDistribution;
   velocity: VelocityTrend;
   timeTracked: TimeTrackedSummary;
-  
+
   // Meta
   dateRange: DateRange;
   isLoading: boolean;
-  isEmpty: boolean;  // True if user has no tasks at all
+  isEmpty: boolean; // True if user has no tasks at all
 }
 ```
 
@@ -236,9 +239,9 @@ interface AnalyticsData {
 
 ```typescript
 const CATEGORY_COLORS = {
-  development: '#3B82F6',  // Blue
-  fix: '#EF4444',          // Red
-  support: '#10B981',      // Green
+  development: '#3B82F6', // Blue
+  fix: '#EF4444', // Red
+  support: '#10B981', // Green
 };
 ```
 
@@ -246,9 +249,9 @@ const CATEGORY_COLORS = {
 
 ```typescript
 const COMPLEXITY_COLORS = {
-  low: '#10B981',      // Green (1-3)
-  medium: '#F59E0B',   // Amber (4-6)
-  high: '#EF4444',     // Red (7-10)
+  low: '#10B981', // Green (1-3)
+  medium: '#F59E0B', // Amber (4-6)
+  high: '#EF4444', // Red (7-10)
 };
 ```
 

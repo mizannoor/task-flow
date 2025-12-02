@@ -318,7 +318,7 @@ export function calculateTimeTracked(tasks, dateRange) {
 
   const totalMinutes = trackedTasks.reduce((sum, t) => sum + (t.actualDuration || 0), 0);
   const formattedTotal = formatDuration(totalMinutes, { short: true });
-  
+
   // Calculate daily average
   const daysInRange = getDaysInRange(dateRange);
   const dailyAverage = daysInRange > 0 ? Math.round(totalMinutes / daysInRange) : 0;
