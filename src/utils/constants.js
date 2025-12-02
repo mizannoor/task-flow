@@ -388,3 +388,111 @@ export const ANALYTICS_STORAGE_KEY = 'taskflow_analytics_preferences';
 export const DEFAULT_ANALYTICS_PREFERENCES = {
   selectedDateRange: DATE_RANGES.THIS_WEEK,
 };
+
+// =============================================================================
+// Calendar View Constants
+// =============================================================================
+
+// Calendar view modes
+export const CALENDAR_VIEW_MODES = {
+  MONTH: 'month',
+  WEEK: 'week',
+  DAY: 'day',
+};
+
+// Calendar view mode labels
+export const CALENDAR_VIEW_MODE_LABELS = {
+  [CALENDAR_VIEW_MODES.MONTH]: 'Month',
+  [CALENDAR_VIEW_MODES.WEEK]: 'Week',
+  [CALENDAR_VIEW_MODES.DAY]: 'Day',
+};
+
+// Days of week (Sunday start)
+export const DAYS_OF_WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+// Full day names
+export const DAYS_OF_WEEK_FULL = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+];
+
+// Month names
+export const MONTH_NAMES = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+// Short month names
+export const MONTH_NAMES_SHORT = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
+
+// Calendar constants
+export const CALENDAR_CONSTANTS = {
+  // Grid dimensions
+  DAYS_IN_WEEK: 7,
+  WEEKS_IN_MONTH_GRID: 6,
+  TOTAL_CELLS: 42, // 6 weeks × 7 days
+
+  // Task display limits per cell
+  MAX_VISIBLE_TASKS_MOBILE: 2,
+  MAX_VISIBLE_TASKS_TABLET: 3,
+  MAX_VISIBLE_TASKS_DESKTOP: 4,
+
+  // Touch interaction
+  LONG_PRESS_DURATION_MS: 500,
+
+  // Drag-and-drop data transfer type
+  DND_TYPE: 'application/taskflow-calendar-task',
+};
+
+// Calendar localStorage keys
+export const CALENDAR_STORAGE_KEY = 'taskflow_calendar_preferences';
+
+// Default calendar preferences
+export const DEFAULT_CALENDAR_PREFERENCES = {
+  viewMode: CALENDAR_VIEW_MODES.MONTH,
+  sidebarOpen: false,
+};
+
+// Calendar priority colors (solid backgrounds for indicators)
+export const CALENDAR_PRIORITY_COLORS = {
+  [PRIORITIES.URGENT]: 'bg-red-500',
+  [PRIORITIES.HIGH]: 'bg-orange-500',
+  [PRIORITIES.MEDIUM]: 'bg-yellow-500',
+  [PRIORITIES.LOW]: 'bg-gray-400',
+};
+
+// Calendar priority border colors (for hover/focus states)
+export const CALENDAR_PRIORITY_BORDER_COLORS = {
+  [PRIORITIES.URGENT]: 'border-red-500',
+  [PRIORITIES.HIGH]: 'border-orange-500',
+  [PRIORITIES.MEDIUM]: 'border-yellow-500',
+  [PRIORITIES.LOW]: 'border-gray-400',
+};

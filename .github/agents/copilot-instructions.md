@@ -33,9 +33,9 @@ npm test; npm run lint
 JavaScript/TypeScript ES2022+: Follow standard conventions
 
 ## Recent Changes
+- 007-calendar-view: Added JavaScript ES2022+ (React 19.x) + React 19, Tailwind CSS, Dexie.js (existing)
 - 006-personal-analytics: Added JavaScript ES2022+ (React 18+) + React Context API, Dexie.js (IndexedDB), Recharts (NEW), Tailwind CSS
 - 005-time-tracking: Added JavaScript ES2022+ (React 18+) + React Context API, Dexie.js (IndexedDB), Tailwind CSS
-- 004-todays-focus-view: Added JavaScript ES2022+ (React 18+) + React, Tailwind CSS, Dexie.js (existing stack)
 
 
 <!-- MANUAL ADDITIONS START -->

@@ -10,7 +10,7 @@ import { UserSwitcher } from './auth/UserSwitcher';
 import { TaskProvider } from '../contexts/TaskContext';
 import { TaskModal } from './tasks/TaskModal';
 import { TaskList } from './tasks/TaskList';
-import { KanbanView, FocusView } from './views';
+import { KanbanView, FocusView, CalendarView } from './views';
 import { PersonalDashboard } from './analytics/PersonalDashboard';
 import { useTasks } from '../hooks/useTasks';
 import { DeleteConfirmDialog, ReopenConfirmDialog } from './ui/ConfirmDialog';
@@ -25,6 +25,7 @@ const VIEW_TYPES = {
   LIST: 'list',
   KANBAN: 'kanban',
   FOCUS: 'focus',
+  CALENDAR: 'calendar',
   STATISTICS: 'statistics',
 };
 
@@ -337,6 +338,20 @@ function DashboardContent() {
               </button>
               <button
                 type="button"
+                onClick={() => handleViewChange(VIEW_TYPES.CALENDAR)}
+                className={`inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${currentView === VIEW_TYPES.CALENDAR
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                aria-pressed={currentView === VIEW_TYPES.CALENDAR}
+              >
+                <svg className="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Calendar
+              </button>
+              <button
+                type="button"
                 onClick={() => handleViewChange(VIEW_TYPES.STATISTICS)}
                 className={`inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${currentView === VIEW_TYPES.STATISTICS
                   ? 'bg-white text-gray-900 shadow-sm'
@@ -374,6 +389,11 @@ function DashboardContent() {
               onDeleteTask={handleDeleteClick}
               onCreateTask={handleCreateTask}
             />
+          )}
+          {currentView === VIEW_TYPES.CALENDAR && (
+            <div className="h-[600px] -mx-6 -mb-6">
+              <CalendarView />
+            </div>
           )}
           {currentView === VIEW_TYPES.STATISTICS && (
             <PersonalDashboard />
