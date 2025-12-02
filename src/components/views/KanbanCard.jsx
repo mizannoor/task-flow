@@ -67,7 +67,7 @@ function KanbanCardComponent({
   const hoverTimeoutRef = useRef(null);
   const cardRef = useRef(null);
   const { getTaskTimerState } = useTimer();
-  
+
   // Get timer state for this task
   const taskTimerState = getTaskTimerState(task.id);
   const isTimerActive = taskTimerState.isActive;
@@ -161,7 +161,7 @@ function KanbanCardComponent({
             <span>{formatTimeCompact(task.actualDuration || 0, task.estimatedDuration || 0) || formatDuration(task.estimatedDuration)}</span>
           </div>
         )}
-        
+
         {/* Complexity indicator - only show if no time data */}
         {!isTimerActive && !task.actualDuration && !task.estimatedDuration && (
           <div className="flex items-center gap-1 text-gray-500" title={`Complexity: ${task.complexity}/10`}>

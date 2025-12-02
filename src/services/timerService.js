@@ -22,7 +22,7 @@ export function calculateElapsedSeconds(task) {
   }
 
   const startTime = new Date(task.timerStartedAt).getTime();
-  
+
   // If paused, use pause time as end; otherwise use current time
   const endTime = task.timerPausedAt
     ? new Date(task.timerPausedAt).getTime()
@@ -30,7 +30,7 @@ export function calculateElapsedSeconds(task) {
 
   // Calculate seconds from current timing segment
   const sessionSeconds = Math.max(0, Math.floor((endTime - startTime) / 1000));
-  
+
   // Add any accumulated time from previous pause/resume cycles
   const accumulatedSeconds = (task.accumulatedDuration || 0) * 60;
 
@@ -102,7 +102,7 @@ export async function hasActiveTimer(userId) {
  */
 export async function startTaskTimer(taskId) {
   const task = await db.tasks.get(taskId);
-  
+
   if (!task) {
     throw new Error('Task not found');
   }
@@ -151,7 +151,7 @@ export async function pauseTaskTimer(taskId) {
   }
 
   const now = new Date();
-  
+
   // Calculate elapsed time since timer started and add to accumulated
   const elapsedMinutes = calculateElapsedMinutes(task);
   const newAccumulated = elapsedMinutes;
@@ -214,9 +214,9 @@ export async function stopTaskTimer(taskId, adjustedMinutes = null) {
 
   // Calculate session time
   const elapsedMinutes = calculateElapsedMinutes(task);
-  
+
   // Use adjusted time if provided (from long session review), otherwise use calculated
-  const minutesToAdd = adjustedMinutes !== null 
+  const minutesToAdd = adjustedMinutes !== null
     ? Math.max(0, Math.min(adjustedMinutes, elapsedMinutes)) // Clamp to 0..elapsed
     : elapsedMinutes;
 

@@ -75,9 +75,9 @@ function DashboardContent() {
     dismissRecovery,
     stopTimer,
   } = useTimer();
-  
+
   const { toasts, toast, removeToast } = useToast();
-  
+
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [taskToDelete, setTaskToDelete] = useState(null);
@@ -208,7 +208,7 @@ function DashboardContent() {
           <h1 className="text-2xl font-bold text-gray-900">
             TaskFlow
           </h1>
-          
+
           {/* Global Timer Indicator */}
           {activeTask && (
             <div className="flex items-center gap-3 px-3 py-1.5 bg-gray-50 rounded-lg border border-gray-200">
@@ -237,7 +237,7 @@ function DashboardContent() {
               </button>
             </div>
           )}
-          
+
           <UserSwitcher />
         </div>
       </header>
@@ -387,7 +387,7 @@ function DashboardContent() {
         taskName={taskToReopen?.taskName || ''}
         isLoading={isReopening}
       />
-      
+
       {/* Long Session Modal */}
       <LongSessionModal
         isOpen={showLongSessionModal}
@@ -395,7 +395,7 @@ function DashboardContent() {
         onConfirm={confirmLongSessionStop}
         sessionData={longSessionData}
       />
-      
+
       {/* Timer Recovery Modal */}
       <TimerRecoveryModal
         isOpen={!!pendingRecovery}
@@ -403,7 +403,7 @@ function DashboardContent() {
         onRecover={recoverTimer}
         recoveryInfo={pendingRecovery}
       />
-      
+
       {/* Toast Notifications */}
       <ToastContainer toasts={toasts} onDismiss={removeToast} />
     </div>

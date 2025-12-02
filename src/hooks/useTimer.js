@@ -18,7 +18,7 @@ import { TIMER_STATUS, TIMER_CONSTANTS } from '../utils/constants';
 export function useTimer() {
   const { currentUser } = useAuth();
   const { tasks, refreshTasks } = useTasks();
-  
+
   // Timer state
   const [activeTaskId, setActiveTaskId] = useState(null);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
@@ -27,7 +27,7 @@ export function useTimer() {
   const [showLongSessionModal, setShowLongSessionModal] = useState(false);
   const [longSessionData, setLongSessionData] = useState(null);
   const [lastAutoStoppedTask, setLastAutoStoppedTask] = useState(null);
-  
+
   // Refs for interval management
   const intervalRef = useRef(null);
   const activeTaskRef = useRef(null);
@@ -102,7 +102,7 @@ export function useTimer() {
 
         if (taskWithTimer) {
           setActiveTaskId(taskWithTimer.id);
-          
+
           // Determine status
           const status = timerService.getTimerStatus(taskWithTimer);
           setTimerStatus(status);
@@ -154,10 +154,10 @@ export function useTimer() {
       if (activeTaskId && activeTaskId !== taskId) {
         const previousTask = tasks.find(t => t.id === activeTaskId);
         const previousElapsed = timerService.calculateElapsedMinutes(previousTask);
-        
+
         await timerService.stopTaskTimer(activeTaskId);
         await refreshTasks();
-        
+
         // Store info about auto-stopped task for toast notification
         if (previousTask) {
           setLastAutoStoppedTask({
@@ -170,13 +170,13 @@ export function useTimer() {
 
       // Start the new timer
       const updatedTask = await timerService.startTaskTimer(taskId);
-      
+
       setActiveTaskId(taskId);
       setTimerStatus(TIMER_STATUS.RUNNING);
       setElapsedSeconds(0);
-      
+
       await refreshTasks();
-      
+
       return updatedTask;
     } catch (error) {
       console.error('Failed to start timer:', error);
@@ -241,15 +241,15 @@ export function useTimer() {
 
       // Stop and save
       const updatedTask = await timerService.stopTaskTimer(activeTaskId, adjustedMinutes);
-      
+
       setActiveTaskId(null);
       setTimerStatus(TIMER_STATUS.IDLE);
       setElapsedSeconds(0);
       setShowLongSessionModal(false);
       setLongSessionData(null);
-      
+
       await refreshTasks();
-      
+
       return updatedTask;
     } catch (error) {
       console.error('Failed to stop timer:', error);
@@ -280,12 +280,12 @@ export function useTimer() {
 
     try {
       await timerService.discardTaskTimer(activeTaskId);
-      
+
       setActiveTaskId(null);
       setTimerStatus(TIMER_STATUS.IDLE);
       setElapsedSeconds(0);
       setPendingRecovery(null);
-      
+
       await refreshTasks();
     } catch (error) {
       console.error('Failed to discard timer:', error);
@@ -316,7 +316,7 @@ export function useTimer() {
       setTimerStatus(TIMER_STATUS.IDLE);
       setElapsedSeconds(0);
       setPendingRecovery(null);
-      
+
       await refreshTasks();
     } catch (error) {
       console.error('Failed to recover timer:', error);
@@ -400,18 +400,18 @@ export function useTimer() {
     isRunning: timerStatus === TIMER_STATUS.RUNNING,
     isPaused: timerStatus === TIMER_STATUS.PAUSED,
     isIdle: timerStatus === TIMER_STATUS.IDLE,
-    
+
     // Recovery state
     pendingRecovery,
-    
+
     // Long session modal state
     showLongSessionModal,
     longSessionData,
-    
+
     // Auto-stop notification
     lastAutoStoppedTask,
     clearAutoStoppedTask,
-    
+
     // Actions
     startTimer,
     pauseTimer,
@@ -419,15 +419,15 @@ export function useTimer() {
     stopTimer,
     discardTimer,
     addManualTime,
-    
+
     // Recovery actions
     recoverTimer,
     dismissRecovery,
-    
+
     // Long session actions
     confirmLongSessionStop,
     cancelLongSessionModal,
-    
+
     // Helpers
     getTaskTimerState,
   };

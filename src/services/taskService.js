@@ -172,7 +172,7 @@ export async function completeTask(id) {
   if (task?.timerStartedAt) {
     await timerService.stopTaskTimer(id);
   }
-  
+
   return updateTask(id, { status: STATUSES.COMPLETED });
 }
 
@@ -197,7 +197,7 @@ export async function deleteTask(id) {
   if (task?.timerStartedAt) {
     await timerService.discardTaskTimer(id);
   }
-  
+
   return db.tasks.delete(id);
 }
 

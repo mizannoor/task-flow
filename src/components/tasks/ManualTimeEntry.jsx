@@ -22,7 +22,7 @@ export function ManualTimeEntry({ isOpen, onClose, task, onSuccess }) {
   const [minutes, setMinutes] = useState('');
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const { addManualTime } = useTimer();
 
   // Reset form when modal opens

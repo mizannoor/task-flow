@@ -80,7 +80,7 @@ function FocusCardComponent({
 }) {
   const cardRef = useRef(null);
   const { getTaskTimerState, elapsedSeconds } = useTimer();
-  
+
   // Get timer state for this task
   const taskTimerState = getTaskTimerState(task.id);
   const isTimerActive = taskTimerState.isActive;

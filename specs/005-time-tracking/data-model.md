@@ -12,29 +12,29 @@ The existing Task entity is extended with timer-related fields. No new entities 
 
 #### New Fields
 
-| Field | Type | Required | Default | Description |
-|-------|------|----------|---------|-------------|
-| `timerStartedAt` | Date \| null | No | null | Timestamp when timer was started; null if timer is not running |
-| `timerPausedAt` | Date \| null | No | null | Timestamp when timer was paused; null if not paused |
-| `accumulatedDuration` | number | No | 0 | Minutes accumulated in current session before pause; resets when timer stops |
+| Field                 | Type         | Required | Default | Description                                                                  |
+| --------------------- | ------------ | -------- | ------- | ---------------------------------------------------------------------------- |
+| `timerStartedAt`      | Date \| null | No       | null    | Timestamp when timer was started; null if timer is not running               |
+| `timerPausedAt`       | Date \| null | No       | null    | Timestamp when timer was paused; null if not paused                          |
+| `accumulatedDuration` | number       | No       | 0       | Minutes accumulated in current session before pause; resets when timer stops |
 
 #### Existing Fields (Used by Timer)
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `actualDuration` | number | Total tracked time in minutes (cumulative across all sessions) |
-| `estimatedDuration` | number | AI or user-provided estimate in minutes |
-| `status` | string | Task status; timer only available when "in-progress" |
+| Field               | Type   | Description                                                    |
+| ------------------- | ------ | -------------------------------------------------------------- |
+| `actualDuration`    | number | Total tracked time in minutes (cumulative across all sessions) |
+| `estimatedDuration` | number | AI or user-provided estimate in minutes                        |
+| `status`            | string | Task status; timer only available when "in-progress"           |
 
 ### Timer State (Transient)
 
 Application state stored in React Context, not persisted to IndexedDB.
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `activeTaskId` | string \| null | ID of task with currently running timer; null if no timer active |
-| `displaySeconds` | number | Current elapsed seconds for UI display (updated every second) |
-| `timerStatus` | 'idle' \| 'running' \| 'paused' | Current timer state for active task |
+| Field            | Type                            | Description                                                      |
+| ---------------- | ------------------------------- | ---------------------------------------------------------------- |
+| `activeTaskId`   | string \| null                  | ID of task with currently running timer; null if no timer active |
+| `displaySeconds` | number                          | Current elapsed seconds for UI display (updated every second)    |
+| `timerStatus`    | 'idle' \| 'running' \| 'paused' | Current timer state for active task                              |
 
 ## Schema Migration
 
@@ -93,28 +93,26 @@ db.version(3).stores({...}).upgrade(tx => {
 
 ### Field Updates by Action
 
-| Action | `timerStartedAt` | `timerPausedAt` | `accumulatedDuration` | `actualDuration` |
-|--------|------------------|-----------------|----------------------|------------------|
-| **start** | Set to `Date.now()` | Clear (null) | Reset to 0 | No change |
-| **pause** | No change | Set to `Date.now()` | Add elapsed since start | No change |
-| **resume** | Set to `Date.now()` | Clear (null) | No change | No change |
-| **stop** | Clear (null) | Clear (null) | Reset to 0 | Add session total |
-| **complete** | Clear (null) | Clear (null) | Reset to 0 | Add session total |
+| Action       | `timerStartedAt`    | `timerPausedAt`     | `accumulatedDuration`   | `actualDuration`  |
+| ------------ | ------------------- | ------------------- | ----------------------- | ----------------- |
+| **start**    | Set to `Date.now()` | Clear (null)        | Reset to 0              | No change         |
+| **pause**    | No change           | Set to `Date.now()` | Add elapsed since start | No change         |
+| **resume**   | Set to `Date.now()` | Clear (null)        | No change               | No change         |
+| **stop**     | Clear (null)        | Clear (null)        | Reset to 0              | Add session total |
+| **complete** | Clear (null)        | Clear (null)        | Reset to 0              | Add session total |
 
 ### Elapsed Time Calculation
 
 ```javascript
 function calculateElapsedSeconds(task) {
   if (!task.timerStartedAt) return 0;
-  
+
   const startTime = new Date(task.timerStartedAt).getTime();
-  const endTime = task.timerPausedAt 
-    ? new Date(task.timerPausedAt).getTime() 
-    : Date.now();
-  
+  const endTime = task.timerPausedAt ? new Date(task.timerPausedAt).getTime() : Date.now();
+
   const sessionSeconds = Math.floor((endTime - startTime) / 1000);
   const accumulatedSeconds = (task.accumulatedDuration || 0) * 60;
-  
+
   return sessionSeconds + accumulatedSeconds;
 }
 ```
@@ -122,20 +120,23 @@ function calculateElapsedSeconds(task) {
 ## Validation Rules
 
 ### Timer Start
+
 - Task status MUST be "in-progress"
 - Task MUST exist in database
 - No validation on existing `actualDuration` (can track more time)
 
 ### Timer Stop/Save
+
 - Session duration MUST be >= 0
 - If session > 240 minutes (4 hours), MUST prompt user for review
 - Adjusted time MUST be >= 0 and <= calculated elapsed time
 
 ### Manual Time Entry
+
 - Hours MUST be >= 0 and <= 999 (reasonable upper bound)
 - Minutes MUST be >= 0 and <= 59
 - Total added time MUST be > 0 (no zero entries)
-- Combined time (hours * 60 + minutes) added to `actualDuration`
+- Combined time (hours \* 60 + minutes) added to `actualDuration`
 
 ## Relationships
 

@@ -13,14 +13,14 @@ import { formatDurationComparison, getTimeStatusColor } from '../../utils/format
  * @param {string} [props.variant='default'] - Display variant: 'default' | 'compact' | 'bar'
  * @param {string} [props.className] - Additional CSS classes
  */
-export function TimeProgressDisplay({ 
-  actualMinutes = 0, 
-  estimatedMinutes = 0, 
+export function TimeProgressDisplay({
+  actualMinutes = 0,
+  estimatedMinutes = 0,
   variant = 'default',
-  className = '' 
+  className = ''
 }) {
   const comparison = formatDurationComparison(actualMinutes, estimatedMinutes);
-  
+
   // Don't render anything if no time data
   if (actualMinutes <= 0 && estimatedMinutes <= 0) {
     return null;
@@ -38,15 +38,15 @@ export function TimeProgressDisplay({
 
   // Bar variant - with progress bar
   if (variant === 'bar') {
-    const progressPercent = comparison.percentage !== null 
-      ? Math.min(100, comparison.percentage) 
+    const progressPercent = comparison.percentage !== null
+      ? Math.min(100, comparison.percentage)
       : 0;
-    
-    const barColor = 
+
+    const barColor =
       comparison.status === 'under' ? 'bg-green-500' :
-      comparison.status === 'on-track' ? 'bg-yellow-500' :
-      comparison.status === 'over' ? 'bg-red-500' :
-      'bg-gray-300';
+        comparison.status === 'on-track' ? 'bg-yellow-500' :
+          comparison.status === 'over' ? 'bg-red-500' :
+            'bg-gray-300';
 
     return (
       <div className={`space-y-1 ${className}`}>
@@ -57,7 +57,7 @@ export function TimeProgressDisplay({
           </span>
         </div>
         <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-          <div 
+          <div
             className={`h-full ${barColor} transition-all duration-300`}
             style={{ width: `${progressPercent}%` }}
           />
@@ -71,11 +71,11 @@ export function TimeProgressDisplay({
   }
 
   // Default variant - text with icon
-  const iconColor = 
+  const iconColor =
     comparison.status === 'under' ? 'text-green-500' :
-    comparison.status === 'on-track' ? 'text-yellow-500' :
-    comparison.status === 'over' ? 'text-red-500' :
-    'text-gray-400';
+      comparison.status === 'on-track' ? 'text-yellow-500' :
+        comparison.status === 'over' ? 'text-red-500' :
+          'text-gray-400';
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>

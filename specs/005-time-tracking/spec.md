@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "Develop Time Tracking / Task Timer feature for tracking actual time spent on tasks with start/pause/stop controls, persistent timing across page refreshes, and estimation accuracy tracking"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Start and Track Time on a Task (Priority: P1)
 
@@ -116,7 +116,7 @@ As a user who forgot to start the timer or worked offline, I want to manually en
 - What happens during poor device performance (timer display freezes)? → Timer logic based on timestamps, not intervals; display may lag but saved time remains accurate
 - What happens when user switches between different user accounts? → Each user's timer state is independent; switching accounts pauses/saves current timer and restores target user's timer state
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -134,12 +134,12 @@ As a user who forgot to start the timer or worked offline, I want to manually en
 - **FR-012**: System MUST notify user when auto-stopping a timer due to starting another task's timer
 - **FR-013**: System MUST prompt user to review and optionally adjust elapsed time before saving when a session exceeds 4 hours, to prevent accidental time inflation from forgotten timers
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **Task Timer State**: Per-task tracking data stored directly on the task entity, including cumulative `actualDuration` (total minutes tracked), `timerStartedAt` (timestamp if timer active), and `timerPausedAt` (timestamp if paused). No separate session history is maintained; only the running total is persisted.
 - **Active Timer Reference**: Transient application state tracking which task (if any) has the currently running timer for the logged-in user, enabling single-active-timer enforcement.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

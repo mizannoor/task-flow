@@ -25,9 +25,9 @@
 
 **Purpose**: Timer constants, utilities, and database schema preparation
 
-- [X] T001 Add timer constants (TIMER_STATUS, TIMER_CONSTANTS) to `src/utils/constants.js`
-- [X] T002 [P] Add duration formatting utilities (formatElapsedTime, formatDurationShort, formatDurationComparison) to `src/utils/formatters.js`
-- [X] T003 [P] Add time validation utilities (validateManualTimeEntry) to `src/utils/validators.js`
+- [x] T001 Add timer constants (TIMER_STATUS, TIMER_CONSTANTS) to `src/utils/constants.js`
+- [x] T002 [P] Add duration formatting utilities (formatElapsedTime, formatDurationShort, formatDurationComparison) to `src/utils/formatters.js`
+- [x] T003 [P] Add time validation utilities (validateManualTimeEntry) to `src/utils/validators.js`
 
 ---
 
@@ -37,11 +37,11 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [X] T004 Add Dexie.js schema version 3 with timer fields (timerStartedAt index) to `src/services/db.js`
-- [X] T005 Add schema upgrade handler to set default timer field values for existing tasks in `src/services/db.js`
-- [X] T006 Create timerService.js with calculateElapsedSeconds function in `src/services/timerService.js`
-- [X] T007 Add isLongSession threshold check function (240 minutes) to `src/services/timerService.js`
-- [X] T008 Add getActiveTimerTask query function to find task with timerStartedAt set in `src/services/timerService.js`
+- [x] T004 Add Dexie.js schema version 3 with timer fields (timerStartedAt index) to `src/services/db.js`
+- [x] T005 Add schema upgrade handler to set default timer field values for existing tasks in `src/services/db.js`
+- [x] T006 Create timerService.js with calculateElapsedSeconds function in `src/services/timerService.js`
+- [x] T007 Add isLongSession threshold check function (240 minutes) to `src/services/timerService.js`
+- [x] T008 Add getActiveTimerTask query function to find task with timerStartedAt set in `src/services/timerService.js`
 
 **Checkpoint**: Foundation ready - timer calculation and persistence infrastructure complete
 
@@ -55,13 +55,13 @@
 
 ### Implementation for User Story 1
 
-- [X] T009 [US1] Add startTaskTimer function to persist timerStartedAt timestamp in `src/services/timerService.js`
-- [X] T010 [US1] Create useTimer hook with timer state management and 1-second interval in `src/hooks/useTimer.js`
-- [X] T011 [US1] Implement startTimer action in useTimer hook calling timerService in `src/hooks/useTimer.js`
-- [X] T012 [US1] Create TaskTimer component with Start button and HH:MM:SS display in `src/components/tasks/TaskTimer.jsx`
-- [X] T013 [US1] Add timer status checking (canStartTimer based on task.status === 'in-progress') to `src/components/tasks/TaskTimer.jsx`
-- [X] T014 [US1] Add disabled state with tooltip for non-in-progress tasks in `src/components/tasks/TaskTimer.jsx`
-- [X] T015 [US1] Integrate TaskTimer component into TaskDetail expanded view in `src/components/tasks/TaskDetail.jsx`
+- [x] T009 [US1] Add startTaskTimer function to persist timerStartedAt timestamp in `src/services/timerService.js`
+- [x] T010 [US1] Create useTimer hook with timer state management and 1-second interval in `src/hooks/useTimer.js`
+- [x] T011 [US1] Implement startTimer action in useTimer hook calling timerService in `src/hooks/useTimer.js`
+- [x] T012 [US1] Create TaskTimer component with Start button and HH:MM:SS display in `src/components/tasks/TaskTimer.jsx`
+- [x] T013 [US1] Add timer status checking (canStartTimer based on task.status === 'in-progress') to `src/components/tasks/TaskTimer.jsx`
+- [x] T014 [US1] Add disabled state with tooltip for non-in-progress tasks in `src/components/tasks/TaskTimer.jsx`
+- [x] T015 [US1] Integrate TaskTimer component into TaskDetail expanded view in `src/components/tasks/TaskDetail.jsx`
 
 **Checkpoint**: User Story 1 complete - timer can be started and displays elapsed time
 
@@ -75,12 +75,12 @@
 
 ### Implementation for User Story 2
 
-- [X] T016 [US2] Add pauseTaskTimer function to set timerPausedAt and update accumulatedDuration in `src/services/timerService.js`
-- [X] T017 [US2] Add resumeTaskTimer function to clear timerPausedAt and reset timerStartedAt in `src/services/timerService.js`
-- [X] T018 [US2] Implement pauseTimer and resumeTimer actions in useTimer hook in `src/hooks/useTimer.js`
-- [X] T019 [US2] Update calculateElapsedSeconds to handle paused state (use timerPausedAt instead of Date.now) in `src/services/timerService.js`
-- [X] T020 [US2] Add Pause/Resume button toggle to TaskTimer component in `src/components/tasks/TaskTimer.jsx`
-- [X] T021 [US2] Add "Paused" visual indicator when timer is paused in `src/components/tasks/TaskTimer.jsx`
+- [x] T016 [US2] Add pauseTaskTimer function to set timerPausedAt and update accumulatedDuration in `src/services/timerService.js`
+- [x] T017 [US2] Add resumeTaskTimer function to clear timerPausedAt and reset timerStartedAt in `src/services/timerService.js`
+- [x] T018 [US2] Implement pauseTimer and resumeTimer actions in useTimer hook in `src/hooks/useTimer.js`
+- [x] T019 [US2] Update calculateElapsedSeconds to handle paused state (use timerPausedAt instead of Date.now) in `src/services/timerService.js`
+- [x] T020 [US2] Add Pause/Resume button toggle to TaskTimer component in `src/components/tasks/TaskTimer.jsx`
+- [x] T021 [US2] Add "Paused" visual indicator when timer is paused in `src/components/tasks/TaskTimer.jsx`
 
 **Checkpoint**: User Story 2 complete - timer can be paused and resumed accurately
 
@@ -94,16 +94,16 @@
 
 ### Implementation for User Story 3
 
-- [X] T022 [US3] Add stopTaskTimer function to calculate session total and update actualDuration in `src/services/timerService.js`
-- [X] T023 [US3] Add timer field reset (clear timerStartedAt, timerPausedAt, accumulatedDuration) on stop in `src/services/timerService.js`
-- [X] T024 [US3] Implement stopTimer action in useTimer hook in `src/hooks/useTimer.js`
-- [X] T025 [US3] Add "Stop & Save" button to TaskTimer component in `src/components/tasks/TaskTimer.jsx`
-- [X] T026 [US3] Create LongSessionModal component for 4+ hour session review in `src/components/tasks/LongSessionModal.jsx`
-- [X] T027 [US3] Add long session detection (>240 min) and modal trigger on stop in `src/components/tasks/TaskTimer.jsx`
-- [X] T028 [US3] Add time adjustment input in LongSessionModal before save in `src/components/tasks/LongSessionModal.jsx`
+- [x] T022 [US3] Add stopTaskTimer function to calculate session total and update actualDuration in `src/services/timerService.js`
+- [x] T023 [US3] Add timer field reset (clear timerStartedAt, timerPausedAt, accumulatedDuration) on stop in `src/services/timerService.js`
+- [x] T024 [US3] Implement stopTimer action in useTimer hook in `src/hooks/useTimer.js`
+- [x] T025 [US3] Add "Stop & Save" button to TaskTimer component in `src/components/tasks/TaskTimer.jsx`
+- [x] T026 [US3] Create LongSessionModal component for 4+ hour session review in `src/components/tasks/LongSessionModal.jsx`
+- [x] T027 [US3] Add long session detection (>240 min) and modal trigger on stop in `src/components/tasks/TaskTimer.jsx`
+- [x] T028 [US3] Add time adjustment input in LongSessionModal before save in `src/components/tasks/LongSessionModal.jsx`
 - [ ] T029 [US3] Add timer recovery check on app load in TaskContext provider in `src/contexts/TaskContext.jsx`
-- [X] T030 [US3] Create TimerRecoveryModal for abandoned timer sessions in `src/components/tasks/TimerRecoveryModal.jsx`
-- [X] T031 [US3] Display total tracked time (actualDuration) in TaskDetail when no timer active in `src/components/tasks/TaskDetail.jsx`
+- [x] T030 [US3] Create TimerRecoveryModal for abandoned timer sessions in `src/components/tasks/TimerRecoveryModal.jsx`
+- [x] T031 [US3] Display total tracked time (actualDuration) in TaskDetail when no timer active in `src/components/tasks/TaskDetail.jsx`
 
 **Checkpoint**: User Story 3 complete - timer saves time and handles edge cases (long sessions, recovery)
 
@@ -117,10 +117,10 @@
 
 ### Implementation for User Story 4
 
-- [X] T032 [US4] Add activeTaskId tracking to timer context state in `src/hooks/useTimer.js`
-- [X] T033 [US4] Modify startTimer to check for existing active timer and auto-stop it in `src/hooks/useTimer.js`
-- [X] T034 [US4] Add toast notification when auto-stopping previous timer in `src/hooks/useTimer.js`
-- [X] T035 [US4] Add global timer indicator showing active task name in app header in `src/components/Dashboard.jsx`
+- [x] T032 [US4] Add activeTaskId tracking to timer context state in `src/hooks/useTimer.js`
+- [x] T033 [US4] Modify startTimer to check for existing active timer and auto-stop it in `src/hooks/useTimer.js`
+- [x] T034 [US4] Add toast notification when auto-stopping previous timer in `src/hooks/useTimer.js`
+- [x] T035 [US4] Add global timer indicator showing active task name in app header in `src/components/Dashboard.jsx`
 
 **Checkpoint**: User Story 4 complete - single active timer enforced with user notification
 
@@ -134,13 +134,13 @@
 
 ### Implementation for User Story 5
 
-- [X] T036 [US5] Add time comparison calculation (percentage, over/under) to `src/utils/formatters.js`
-- [X] T037 [US5] Create TimeProgressDisplay component showing tracked vs estimated in `src/components/tasks/TimeProgressDisplay.jsx`
-- [X] T038 [US5] Add color-coded indicator (green/yellow/red) for estimate status in `src/components/tasks/TimeProgressDisplay.jsx`
-- [X] T039 [US5] Integrate TimeProgressDisplay into TaskTimer (full variant) in `src/components/tasks/TaskTimer.jsx`
-- [X] T040 [US5] Add compact time indicator to TaskRow for list view in `src/components/tasks/TaskRow.jsx`
-- [X] T041 [P] [US5] Add compact time indicator to KanbanCard for board view in `src/components/views/KanbanCard.jsx`
-- [X] T042 [P] [US5] Add compact time indicator to FocusCard for focus view in `src/components/views/FocusCard.jsx`
+- [x] T036 [US5] Add time comparison calculation (percentage, over/under) to `src/utils/formatters.js`
+- [x] T037 [US5] Create TimeProgressDisplay component showing tracked vs estimated in `src/components/tasks/TimeProgressDisplay.jsx`
+- [x] T038 [US5] Add color-coded indicator (green/yellow/red) for estimate status in `src/components/tasks/TimeProgressDisplay.jsx`
+- [x] T039 [US5] Integrate TimeProgressDisplay into TaskTimer (full variant) in `src/components/tasks/TaskTimer.jsx`
+- [x] T040 [US5] Add compact time indicator to TaskRow for list view in `src/components/tasks/TaskRow.jsx`
+- [x] T041 [P] [US5] Add compact time indicator to KanbanCard for board view in `src/components/views/KanbanCard.jsx`
+- [x] T042 [P] [US5] Add compact time indicator to FocusCard for focus view in `src/components/views/FocusCard.jsx`
 
 **Checkpoint**: User Story 5 complete - time progress visible across all views
 
@@ -154,11 +154,11 @@
 
 ### Implementation for User Story 6
 
-- [X] T043 [US6] Add addManualTimeEntry function to timerService in `src/services/timerService.js`
-- [X] T044 [US6] Create ManualTimeEntry component with hours/minutes inputs in `src/components/tasks/ManualTimeEntry.jsx`
-- [X] T045 [US6] Add validation for manual entry (non-negative, valid numbers) in `src/components/tasks/ManualTimeEntry.jsx`
-- [X] T046 [US6] Add "Add Time Manually" button/link to TaskTimer component in `src/components/tasks/TaskTimer.jsx`
-- [X] T047 [US6] Show success toast with added time confirmation in `src/components/tasks/ManualTimeEntry.jsx`
+- [x] T043 [US6] Add addManualTimeEntry function to timerService in `src/services/timerService.js`
+- [x] T044 [US6] Create ManualTimeEntry component with hours/minutes inputs in `src/components/tasks/ManualTimeEntry.jsx`
+- [x] T045 [US6] Add validation for manual entry (non-negative, valid numbers) in `src/components/tasks/ManualTimeEntry.jsx`
+- [x] T046 [US6] Add "Add Time Manually" button/link to TaskTimer component in `src/components/tasks/TaskTimer.jsx`
+- [x] T047 [US6] Show success toast with added time confirmation in `src/components/tasks/ManualTimeEntry.jsx`
 
 **Checkpoint**: User Story 6 complete - manual time entry available as fallback
 
@@ -168,12 +168,12 @@
 
 **Purpose**: Integration, edge cases, and cleanup across all user stories
 
-- [X] T048 Auto-stop timer when task status changes to "completed" in `src/services/taskService.js`
-- [X] T049 Handle timer cleanup when task is deleted in `src/services/taskService.js`
+- [x] T048 Auto-stop timer when task status changes to "completed" in `src/services/taskService.js`
+- [x] T049 Handle timer cleanup when task is deleted in `src/services/taskService.js`
 - [ ] T050 [P] Handle user account switching - save/restore timer state in `src/contexts/AuthContext.jsx`
 - [ ] T051 [P] Add keyboard shortcuts for timer controls (if keyboard shortcuts enabled) in `src/hooks/useTimer.js`
-- [X] T052 Ensure timer controls are keyboard accessible (tab navigation, enter/space) in `src/components/tasks/TaskTimer.jsx`
-- [X] T053 Add ARIA labels for timer status and controls in `src/components/tasks/TaskTimer.jsx`
+- [x] T052 Ensure timer controls are keyboard accessible (tab navigation, enter/space) in `src/components/tasks/TaskTimer.jsx`
+- [x] T053 Add ARIA labels for timer status and controls in `src/components/tasks/TaskTimer.jsx`
 - [ ] T054 Run quickstart.md validation - verify all documented scenarios work
 
 ---
@@ -229,18 +229,21 @@ Phase 7: US5 (Progress Display)    Phase 8: US6 (Manual Entry)
 ### Parallel Opportunities per Phase
 
 **Phase 1 (Setup)**:
+
 ```
 T002 formatters.js  ─┬─ parallel
 T003 validators.js  ─┘
 ```
 
 **Phase 7 (US5 Progress Display)**:
+
 ```
 T041 KanbanCard.jsx  ─┬─ parallel (different files)
 T042 FocusCard.jsx   ─┘
 ```
 
 **Phase 9 (Polish)**:
+
 ```
 T050 AuthContext.jsx ─┬─ parallel (different files)
 T051 useTimer.js     ─┘
@@ -281,30 +284,30 @@ T043-T047 in sequence
 
 ### Incremental Delivery
 
-| Increment | User Stories | Value Delivered |
-|-----------|--------------|-----------------|
-| MVP | US1, US2, US3 | Full timer lifecycle (start/pause/stop/save) |
-| +1 | US4 | Single active timer protection |
-| +2 | US5 | Time vs estimate comparison |
-| +3 | US6 | Manual time entry fallback |
-| Final | Polish | Accessibility, keyboard, edge cases |
+| Increment | User Stories  | Value Delivered                              |
+| --------- | ------------- | -------------------------------------------- |
+| MVP       | US1, US2, US3 | Full timer lifecycle (start/pause/stop/save) |
+| +1        | US4           | Single active timer protection               |
+| +2        | US5           | Time vs estimate comparison                  |
+| +3        | US6           | Manual time entry fallback                   |
+| Final     | Polish        | Accessibility, keyboard, edge cases          |
 
 ---
 
 ## Task Count Summary
 
-| Phase | Tasks | Parallel |
-|-------|-------|----------|
-| Phase 1: Setup | 3 | 2 |
-| Phase 2: Foundational | 5 | 0 |
-| Phase 3: US1 (Start Timer) | 7 | 0 |
-| Phase 4: US2 (Pause/Resume) | 6 | 0 |
-| Phase 5: US3 (Stop/Save) | 10 | 0 |
-| Phase 6: US4 (Single Timer) | 4 | 0 |
-| Phase 7: US5 (Progress Display) | 7 | 2 |
-| Phase 8: US6 (Manual Entry) | 5 | 0 |
-| Phase 9: Polish | 7 | 2 |
-| **Total** | **54** | **6** |
+| Phase                           | Tasks  | Parallel |
+| ------------------------------- | ------ | -------- |
+| Phase 1: Setup                  | 3      | 2        |
+| Phase 2: Foundational           | 5      | 0        |
+| Phase 3: US1 (Start Timer)      | 7      | 0        |
+| Phase 4: US2 (Pause/Resume)     | 6      | 0        |
+| Phase 5: US3 (Stop/Save)        | 10     | 0        |
+| Phase 6: US4 (Single Timer)     | 4      | 0        |
+| Phase 7: US5 (Progress Display) | 7      | 2        |
+| Phase 8: US6 (Manual Entry)     | 5      | 0        |
+| Phase 9: Polish                 | 7      | 2        |
+| **Total**                       | **54** | **6**    |
 
 ---
 

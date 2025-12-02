@@ -29,7 +29,7 @@ export function TaskDetail({
   onStatusChange,
 }) {
   const [showManualEntry, setShowManualEntry] = useState(false);
-  
+
   if (!isExpanded) return null;
 
   // Calculate time tracking info
@@ -95,9 +95,9 @@ export function TaskDetail({
             <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
               Time Tracking
             </h4>
-            <TaskTimer 
-              task={task} 
-              variant="full" 
+            <TaskTimer
+              task={task}
+              variant="full"
               onManualEntry={() => setShowManualEntry(true)}
             />
           </div>
@@ -265,7 +265,7 @@ export function TaskDetail({
           </div>
         </div>
       </div>
-      
+
       {/* Manual Time Entry Modal */}
       <ManualTimeEntry
         isOpen={showManualEntry}

@@ -83,12 +83,12 @@ export function TaskRow({
       <td className="px-6 py-4 whitespace-nowrap">
         <span
           className={`text-sm ${deadline.isOverdue
-              ? 'text-red-600 font-medium'
-              : deadline.isToday
-                ? 'text-orange-600 font-medium'
-                : deadline.isSoon
-                  ? 'text-yellow-600'
-                  : 'text-gray-500'
+            ? 'text-red-600 font-medium'
+            : deadline.isToday
+              ? 'text-orange-600 font-medium'
+              : deadline.isSoon
+                ? 'text-yellow-600'
+                : 'text-gray-500'
             }`}
         >
           {deadline.text}

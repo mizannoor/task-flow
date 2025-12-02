@@ -21,20 +21,21 @@ Implement a built-in timer for tracking actual time spent on tasks with Start/Pa
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
-| Principle | Status | Notes |
-|-----------|--------|-------|
-| I. Client-Side First | ✅ PASS | All timer logic executes in browser; IndexedDB stores timer state; no backend required |
-| II. AI-Augmented Intelligence | ✅ N/A | Timer feature does not involve AI |
-| III. Performance Excellence | ✅ PASS | Timer operations are local (<100ms); timestamp-based calculation ensures accuracy at scale |
-| IV. Multi-User Experience | ✅ PASS | Timer state is per-user; user switching saves/restores timer state |
-| V. Data Integrity | ✅ PASS | Timer state persists in IndexedDB; validation prevents negative time entries |
-| VI. Responsive & Accessible Design | ✅ PASS | Timer controls work across all breakpoints; keyboard accessible |
+| Principle                          | Status  | Notes                                                                                      |
+| ---------------------------------- | ------- | ------------------------------------------------------------------------------------------ |
+| I. Client-Side First               | ✅ PASS | All timer logic executes in browser; IndexedDB stores timer state; no backend required     |
+| II. AI-Augmented Intelligence      | ✅ N/A  | Timer feature does not involve AI                                                          |
+| III. Performance Excellence        | ✅ PASS | Timer operations are local (<100ms); timestamp-based calculation ensures accuracy at scale |
+| IV. Multi-User Experience          | ✅ PASS | Timer state is per-user; user switching saves/restores timer state                         |
+| V. Data Integrity                  | ✅ PASS | Timer state persists in IndexedDB; validation prevents negative time entries               |
+| VI. Responsive & Accessible Design | ✅ PASS | Timer controls work across all breakpoints; keyboard accessible                            |
 
 **Pre-Design Result**: All applicable gates pass. No violations requiring justification.
 
 **Post-Design Re-Check** (December 1, 2025):
+
 - ✅ Data model extends existing Task entity (no new tables) - aligns with V. Data Integrity
 - ✅ Timer service uses Dexie.js schema migration - aligns with I. Client-Side First
 - ✅ useTimer hook uses standard React patterns - aligns with III. Performance Excellence
