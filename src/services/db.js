@@ -23,6 +23,26 @@ db.version(2).stores({
   tasks: '&id, userId, createdBy, status, priority, category, createdAt, deadline',
 });
 
+// Version 3: Add timer fields to tasks table for time tracking feature
+db.version(3)
+  .stores({
+    users: '&id, &identifier, identifierType, createdAt',
+    tasks: '&id, userId, createdBy, status, priority, category, createdAt, deadline, timerStartedAt',
+  })
+  .upgrade((tx) => {
+    // Set default values for existing tasks
+    return tx
+      .table('tasks')
+      .toCollection()
+      .modify((task) => {
+        task.timerStartedAt = task.timerStartedAt ?? null;
+        task.timerPausedAt = task.timerPausedAt ?? null;
+        task.accumulatedDuration = task.accumulatedDuration ?? 0;
+        // actualDuration should already exist, but ensure it does
+        task.actualDuration = task.actualDuration ?? 0;
+      });
+  });
+
 // Export the database instance
 export { db };
 

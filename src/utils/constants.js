@@ -236,3 +236,110 @@ export const PAGINATION_DEFAULTS = {
 export const TASK_STORAGE_KEYS = {
   SORT_PREFERENCE: 'taskflow_sort',
 };
+
+// =============================================================================
+// Kanban View Constants
+// =============================================================================
+
+// Kanban storage key for localStorage
+export const KANBAN_STORAGE_KEY = 'taskflow_kanban_columns';
+
+// Kanban column configuration
+export const KANBAN_COLUMNS = [
+  { id: STATUSES.PENDING, title: 'Pending', status: STATUSES.PENDING },
+  { id: STATUSES.IN_PROGRESS, title: 'In Progress', status: STATUSES.IN_PROGRESS },
+  { id: STATUSES.COMPLETED, title: 'Completed', status: STATUSES.COMPLETED },
+];
+
+// Default collapsed columns state
+export const DEFAULT_COLLAPSED_COLUMNS = {
+  [STATUSES.PENDING]: false,
+  [STATUSES.IN_PROGRESS]: false,
+  [STATUSES.COMPLETED]: false,
+};
+
+// Kanban drag-and-drop data transfer type
+export const KANBAN_DND_TYPE = 'application/taskflow-kanban-card';
+
+// Kanban hover preview delay (milliseconds)
+export const KANBAN_PREVIEW_DELAY = 500;
+
+// Kanban column width constraints
+export const KANBAN_COLUMN_WIDTH = {
+  EXPANDED: 320,
+  COLLAPSED: 48,
+};
+
+// Kanban card height estimate (for virtualization)
+export const KANBAN_CARD_HEIGHT = 120;
+
+// =============================================================================
+// Focus View Constants
+// =============================================================================
+
+// Maximum tasks to display in Focus View
+export const FOCUS_VIEW_MAX_TASKS = 10;
+
+// Focus View selection tiers (lower = higher priority)
+export const FOCUS_VIEW_TIERS = {
+  OVERDUE: 1,
+  DUE_TODAY: 2,
+  IN_PROGRESS: 3,
+  HIGH_PRIORITY: 4,
+};
+
+// Focus View tier labels for display
+export const FOCUS_TIER_LABELS = {
+  [FOCUS_VIEW_TIERS.OVERDUE]: 'Overdue',
+  [FOCUS_VIEW_TIERS.DUE_TODAY]: 'Due Today',
+  [FOCUS_VIEW_TIERS.IN_PROGRESS]: 'In Progress',
+  [FOCUS_VIEW_TIERS.HIGH_PRIORITY]: 'High Priority',
+};
+
+// Focus View tier colors (Tailwind classes)
+export const FOCUS_TIER_COLORS = {
+  [FOCUS_VIEW_TIERS.OVERDUE]: 'bg-red-100 text-red-800 border-red-200',
+  [FOCUS_VIEW_TIERS.DUE_TODAY]: 'bg-amber-100 text-amber-800 border-amber-200',
+  [FOCUS_VIEW_TIERS.IN_PROGRESS]: 'bg-blue-100 text-blue-800 border-blue-200',
+  [FOCUS_VIEW_TIERS.HIGH_PRIORITY]: 'bg-purple-100 text-purple-800 border-purple-200',
+};
+
+// Priorities that qualify for Tier 4 (High Priority)
+export const HIGH_PRIORITY_VALUES = [PRIORITIES.URGENT, PRIORITIES.HIGH];
+
+// =============================================================================
+// Time Tracking Constants
+// =============================================================================
+
+// Timer status states
+export const TIMER_STATUS = {
+  IDLE: 'idle',
+  RUNNING: 'running',
+  PAUSED: 'paused',
+};
+
+// Timer configuration constants
+export const TIMER_CONSTANTS = {
+  // Update interval for timer display in milliseconds
+  DISPLAY_INTERVAL_MS: 1000,
+  // Threshold for long session warning in minutes (4 hours)
+  LONG_SESSION_THRESHOLD_MINUTES: 240,
+  // Maximum manual time entry in hours
+  MAX_MANUAL_HOURS: 999,
+  // Maximum manual time entry in minutes (for single field)
+  MAX_MANUAL_MINUTES: 59,
+  // Storage key for timer state backup
+  TIMER_STATE_KEY: 'taskflow_timer_state',
+};
+
+// Timer error messages
+export const TIMER_ERROR_MESSAGES = {
+  TASK_NOT_IN_PROGRESS: 'Timer can only be started on tasks that are in progress',
+  NO_ACTIVE_TIMER: 'No active timer to stop or pause',
+  TIMER_ALREADY_RUNNING: 'Timer is already running on this task',
+  INVALID_MANUAL_TIME: 'Please enter a valid time (hours and minutes must be non-negative)',
+  MANUAL_TIME_REQUIRED: 'Please enter at least 1 minute',
+  MANUAL_HOURS_EXCEEDED: 'Hours cannot exceed 999',
+  MANUAL_MINUTES_EXCEEDED: 'Minutes cannot exceed 59',
+};
+

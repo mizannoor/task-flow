@@ -10,6 +10,8 @@ import {
   PRIORITIES,
   CATEGORIES,
   STATUSES,
+  TIMER_CONSTANTS,
+  TIMER_ERROR_MESSAGES,
 } from './constants';
 
 /**
@@ -427,5 +429,99 @@ export function validateUpdateTaskInput(input) {
   return {
     valid: Object.keys(errors).length === 0,
     errors,
+  };
+}
+
+// =============================================================================
+// Time Tracking Validation Functions
+// =============================================================================
+
+/**
+ * Validate manual time entry input
+ * @param {number} hours - The hours value
+ * @param {number} minutes - The minutes value
+ * @returns {{ isValid: boolean, error: string | null, totalMinutes: number }}
+ */
+export function validateManualTimeEntry(hours, minutes) {
+  const h = Number(hours);
+  const m = Number(minutes);
+
+  // Check for NaN or non-numeric
+  if (isNaN(h) || isNaN(m)) {
+    return {
+      isValid: false,
+      error: TIMER_ERROR_MESSAGES.INVALID_MANUAL_TIME,
+      totalMinutes: 0,
+    };
+  }
+
+  // Check for negative values
+  if (h < 0 || m < 0) {
+    return {
+      isValid: false,
+      error: TIMER_ERROR_MESSAGES.INVALID_MANUAL_TIME,
+      totalMinutes: 0,
+    };
+  }
+
+  // Check hours limit
+  if (h > TIMER_CONSTANTS.MAX_MANUAL_HOURS) {
+    return {
+      isValid: false,
+      error: TIMER_ERROR_MESSAGES.MANUAL_HOURS_EXCEEDED,
+      totalMinutes: 0,
+    };
+  }
+
+  // Check minutes limit
+  if (m > TIMER_CONSTANTS.MAX_MANUAL_MINUTES) {
+    return {
+      isValid: false,
+      error: TIMER_ERROR_MESSAGES.MANUAL_MINUTES_EXCEEDED,
+      totalMinutes: 0,
+    };
+  }
+
+  const totalMinutes = Math.floor(h) * 60 + Math.floor(m);
+
+  // Must be at least 1 minute
+  if (totalMinutes <= 0) {
+    return {
+      isValid: false,
+      error: TIMER_ERROR_MESSAGES.MANUAL_TIME_REQUIRED,
+      totalMinutes: 0,
+    };
+  }
+
+  return {
+    isValid: true,
+    error: null,
+    totalMinutes,
+  };
+}
+
+/**
+ * Validate that a task can have its timer started
+ * @param {object} task - The task object
+ * @returns {{ canStart: boolean, error: string | null }}
+ */
+export function validateTimerStart(task) {
+  if (!task) {
+    return {
+      canStart: false,
+      error: 'Task not found',
+    };
+  }
+
+  if (task.status !== STATUSES.IN_PROGRESS) {
+    return {
+      canStart: false,
+      error: TIMER_ERROR_MESSAGES.TASK_NOT_IN_PROGRESS,
+    };
+  }
+
+  return {
+    canStart: true,
+    error: null,
   };
 }

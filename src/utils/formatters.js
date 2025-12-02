@@ -304,3 +304,230 @@ export function formatDateTimeForInput(date) {
 
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
+
+// =============================================================================
+// Kanban View Utilities
+// =============================================================================
+
+import { STATUSES, PRIORITY_ORDER } from './constants';
+
+/**
+ * Group tasks by their status for Kanban view
+ * @param {Array} tasks - Array of task objects
+ * @returns {object} - Tasks grouped by status { pending: [], 'in-progress': [], completed: [] }
+ */
+export function groupTasksByStatus(tasks) {
+  const grouped = {
+    [STATUSES.PENDING]: [],
+    [STATUSES.IN_PROGRESS]: [],
+    [STATUSES.COMPLETED]: [],
+  };
+
+  if (!Array.isArray(tasks)) {
+    return grouped;
+  }
+
+  for (const task of tasks) {
+    const status = task.status || STATUSES.PENDING;
+    if (grouped[status]) {
+      grouped[status].push(task);
+    } else {
+      // Fallback to pending if unknown status
+      grouped[STATUSES.PENDING].push(task);
+    }
+  }
+
+  return grouped;
+}
+
+/**
+ * Sort tasks within a column by priority, then deadline, then creation date
+ * Priority: Urgent > High > Medium > Low
+ * Deadline: Earlier dates first, null/undefined last
+ * CreatedAt: Oldest first (ascending)
+ * 
+ * @param {Array} tasks - Array of task objects to sort
+ * @returns {Array} - Sorted array of tasks
+ */
+export function sortTasksInColumn(tasks) {
+  if (!Array.isArray(tasks) || tasks.length === 0) {
+    return [];
+  }
+
+  return [...tasks].sort((a, b) => {
+    // 1. Priority (higher priority value = more urgent = should come first)
+    const priorityA = PRIORITY_ORDER[a.priority] || 0;
+    const priorityB = PRIORITY_ORDER[b.priority] || 0;
+
+    if (priorityB !== priorityA) {
+      return priorityB - priorityA; // Descending (Urgent first)
+    }
+
+    // 2. Deadline (earlier dates first, null/undefined last)
+    const deadlineA = a.deadline ? new Date(a.deadline).getTime() : Infinity;
+    const deadlineB = b.deadline ? new Date(b.deadline).getTime() : Infinity;
+
+    if (deadlineA !== deadlineB) {
+      return deadlineA - deadlineB; // Ascending (earlier first)
+    }
+
+    // 3. CreatedAt (oldest first)
+    const createdA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+    const createdB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+
+    return createdA - createdB; // Ascending (oldest first)
+  });
+}
+
+/**
+ * Get column counts for Kanban badges
+ * @param {object} groupedTasks - Tasks grouped by status from groupTasksByStatus
+ * @returns {object} - Counts by status { pending: number, 'in-progress': number, completed: number }
+ */
+export function getColumnCounts(groupedTasks) {
+  return {
+    [STATUSES.PENDING]: groupedTasks[STATUSES.PENDING]?.length || 0,
+    [STATUSES.IN_PROGRESS]: groupedTasks[STATUSES.IN_PROGRESS]?.length || 0,
+    [STATUSES.COMPLETED]: groupedTasks[STATUSES.COMPLETED]?.length || 0,
+  };
+}
+
+// =============================================================================
+// Time Tracking Utilities
+// =============================================================================
+
+/**
+ * Format elapsed time in HH:MM:SS format for timer display
+ * @param {number} totalSeconds - The total elapsed seconds
+ * @returns {string} - Formatted time string (e.g., "01:23:45")
+ */
+export function formatElapsedTime(totalSeconds) {
+  if (totalSeconds === null || totalSeconds === undefined || isNaN(totalSeconds) || totalSeconds < 0) {
+    return '00:00:00';
+  }
+
+  const seconds = Math.floor(totalSeconds);
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+}
+
+/**
+ * Format duration in short format for compact display
+ * @param {number} minutes - The duration in minutes
+ * @returns {string} - Short formatted string (e.g., "1h 30m", "45m", "2h")
+ */
+export function formatDurationShort(minutes) {
+  if (minutes === null || minutes === undefined || isNaN(minutes) || minutes <= 0) {
+    return '0m';
+  }
+
+  const mins = Math.floor(Number(minutes));
+  const hours = Math.floor(mins / 60);
+  const remainingMins = mins % 60;
+
+  if (hours === 0) {
+    return `${remainingMins}m`;
+  }
+
+  if (remainingMins === 0) {
+    return `${hours}h`;
+  }
+
+  return `${hours}h ${remainingMins}m`;
+}
+
+/**
+ * Format time comparison between tracked and estimated time
+ * @param {number} actualMinutes - The actual tracked time in minutes
+ * @param {number} estimatedMinutes - The estimated time in minutes
+ * @returns {{ 
+ *   display: string, 
+ *   percentage: number | null, 
+ *   status: 'under' | 'on-track' | 'over' | 'no-estimate',
+ *   actualFormatted: string,
+ *   estimatedFormatted: string
+ * }}
+ */
+export function formatDurationComparison(actualMinutes, estimatedMinutes) {
+  const actual = Number(actualMinutes) || 0;
+  const estimated = Number(estimatedMinutes) || 0;
+
+  const actualFormatted = formatDurationShort(actual);
+  const estimatedFormatted = formatDurationShort(estimated);
+
+  // No estimate provided
+  if (estimated <= 0) {
+    return {
+      display: actualFormatted,
+      percentage: null,
+      status: 'no-estimate',
+      actualFormatted,
+      estimatedFormatted: '—',
+    };
+  }
+
+  const percentage = Math.round((actual / estimated) * 100);
+
+  let status;
+  if (percentage <= 75) {
+    status = 'under';
+  } else if (percentage <= 100) {
+    status = 'on-track';
+  } else {
+    status = 'over';
+  }
+
+  return {
+    display: `${actualFormatted} / ${estimatedFormatted} (${percentage}%)`,
+    percentage,
+    status,
+    actualFormatted,
+    estimatedFormatted,
+  };
+}
+
+/**
+ * Format tracked vs estimated for compact display (e.g., in task cards)
+ * @param {number} actualMinutes - The actual tracked time in minutes
+ * @param {number} estimatedMinutes - The estimated time in minutes
+ * @returns {string} - Compact comparison string (e.g., "1h / 2h")
+ */
+export function formatTimeCompact(actualMinutes, estimatedMinutes) {
+  const actual = Number(actualMinutes) || 0;
+  const estimated = Number(estimatedMinutes) || 0;
+
+  if (estimated <= 0) {
+    return actual > 0 ? formatDurationShort(actual) : '';
+  }
+
+  return `${formatDurationShort(actual)} / ${formatDurationShort(estimated)}`;
+}
+
+/**
+ * Get color class based on time tracking status
+ * @param {number} actualMinutes - The actual tracked time in minutes
+ * @param {number} estimatedMinutes - The estimated time in minutes
+ * @returns {string} - Tailwind CSS class for the status color
+ */
+export function getTimeStatusColor(actualMinutes, estimatedMinutes) {
+  const actual = Number(actualMinutes) || 0;
+  const estimated = Number(estimatedMinutes) || 0;
+
+  if (estimated <= 0) {
+    return 'text-gray-500'; // No estimate
+  }
+
+  const percentage = (actual / estimated) * 100;
+
+  if (percentage <= 75) {
+    return 'text-green-600'; // Under estimate - good
+  } else if (percentage <= 100) {
+    return 'text-yellow-600'; // Approaching estimate - caution
+  } else {
+    return 'text-red-600'; // Over estimate - warning
+  }
+}
+

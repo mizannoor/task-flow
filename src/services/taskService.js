@@ -6,6 +6,7 @@
 import { db } from './db';
 import { v4 as uuidv4 } from 'uuid';
 import { TASK_DEFAULTS, STATUSES } from '../utils/constants';
+import * as timerService from './timerService';
 
 /**
  * Create a new task in the database
@@ -161,10 +162,17 @@ export async function startTask(id) {
 
 /**
  * Complete a task (change status to completed)
+ * Auto-stops any active timer and saves tracked time
  * @param {string} id - The task ID
  * @returns {Promise<object>} - The updated task object
  */
 export async function completeTask(id) {
+  // Check if task has an active timer and stop it first
+  const task = await getTaskById(id);
+  if (task?.timerStartedAt) {
+    await timerService.stopTaskTimer(id);
+  }
+
   return updateTask(id, { status: STATUSES.COMPLETED });
 }
 
@@ -179,10 +187,17 @@ export async function reopenTask(id) {
 
 /**
  * Delete a task from the database
+ * Discards any active timer without saving
  * @param {string} id - The task ID
  * @returns {Promise<void>}
  */
 export async function deleteTask(id) {
+  // If task has active timer, discard it (don't save)
+  const task = await getTaskById(id);
+  if (task?.timerStartedAt) {
+    await timerService.discardTaskTimer(id);
+  }
+
   return db.tasks.delete(id);
 }
 
