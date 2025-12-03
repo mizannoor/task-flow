@@ -159,19 +159,38 @@ function validateDuration(value) {
  */
 export function parseResponse(data) {
   try {
+    // Log raw response for debugging
+    console.log('AI Raw Response:', JSON.stringify(data, null, 2));
+
     // Extract text from Gemini response structure
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
+    console.log('AI Response Text:', text);
+
+    if (!text) {
+      console.warn('AI response text is empty');
+      return getDefaults('parse_error');
+    }
+
     // Extract JSON even if wrapped in markdown code blocks
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    // Handle ```json ... ``` format
+    let jsonText = text;
+    const codeBlockMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+    if (codeBlockMatch) {
+      jsonText = codeBlockMatch[1].trim();
+    }
+
+    // Extract JSON object
+    const jsonMatch = jsonText.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
-      console.warn('AI response did not contain valid JSON');
+      console.warn('AI response did not contain valid JSON:', text);
       return getDefaults('parse_error');
     }
 
     const parsed = JSON.parse(jsonMatch[0]);
+    console.log('AI Parsed JSON:', parsed);
 
-    return {
+    const result = {
       complexity: validateComplexity(parsed.complexity),
       priority: validatePriority(parsed.priority),
       category: validateCategory(parsed.category),
@@ -183,6 +202,9 @@ export function parseResponse(data) {
       isAISuggested: true,
       timestamp: new Date(),
     };
+
+    console.log('AI Final Result:', result);
+    return result;
   } catch (error) {
     console.error('Failed to parse AI response:', error);
     return getDefaults('parse_error');

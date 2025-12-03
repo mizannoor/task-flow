@@ -304,13 +304,23 @@ export function KeyboardShortcutProvider({
         return;
       }
 
+      // Prevent default BEFORE executing handler for shortcuts with modifiers
+      // This is critical for browser-reserved shortcuts like Ctrl+N, Ctrl+S, etc.
+      if (shortcut.modifiers && shortcut.modifiers.length > 0) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
       // Get handler and execute
       const handler = handlersRef.current.get(shortcut.action);
       if (handler) {
         const handled = handler();
         if (handled) {
-          event.preventDefault();
-          event.stopPropagation();
+          // Prevent default for non-modifier shortcuts (single keys) if handled
+          if (!shortcut.modifiers || shortcut.modifiers.length === 0) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
           dispatch({ type: ACTIONS.SET_LAST_SHORTCUT, payload: shortcut.action });
           recordUsage(shortcut, state.focusedView);
         }

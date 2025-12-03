@@ -636,8 +636,8 @@ export const CALENDAR_PRIORITY_BORDER_COLORS = {
 
 // AI Service Configuration
 export const AI_CONFIG = {
-  MODEL: 'gemini-pro',
-  ENDPOINT: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
+  MODEL: 'gemini-2.0-flash',
+  ENDPOINT: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
   MAX_TOKENS: 1024,
   TEMPERATURE: 0.7,
   TIMEOUT_MS: 10000,
@@ -726,7 +726,7 @@ export const KEYBOARD_SHORTCUTS = [
   // Global shortcuts (work from anywhere)
   {
     key: 'n',
-    modifiers: ['ctrl'],
+    modifiers: ['alt'],
     action: 'createTask',
     context: SHORTCUT_CONTEXTS.GLOBAL,
     category: SHORTCUT_CATEGORIES.GLOBAL,

@@ -26,7 +26,7 @@ export function CalendarView() {
   const calendar = useCalendar();
 
   // Task data from context
-  const { filteredTasks: tasks, updateTask } = useTasks();
+  const { tasks, updateTask } = useTasks();
 
   // Selected task for side panel
   const [selectedTask, setSelectedTask] = useState(null);

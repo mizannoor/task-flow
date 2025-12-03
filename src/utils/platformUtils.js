@@ -77,6 +77,11 @@ export function isInputElement(target) {
  * @returns {boolean} True if the event matches the shortcut
  */
 export function matchShortcut(event, shortcut) {
+  // Guard against undefined event.key or shortcut.key
+  if (!event?.key || !shortcut?.key) {
+    return false;
+  }
+
   // Normalize key comparison (case-insensitive for letters)
   const eventKey = event.key.toLowerCase();
   const shortcutKey = shortcut.key.toLowerCase();
