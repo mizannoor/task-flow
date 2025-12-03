@@ -5,6 +5,7 @@
  */
 
 import { useTheme } from '../../contexts/ThemeContext';
+import { useTranslation } from '../../hooks/useTranslation';
 
 /**
  * Sun icon for dark mode (click to switch to light)
@@ -54,16 +55,17 @@ function MoonIcon({ className = 'w-5 h-5' }) {
  */
 export function ThemeToggle({ className = '' }) {
   const { isDark, toggleTheme } = useTheme();
+  const { t } = useTranslation();
 
   // Determine tooltip text based on current theme
   const tooltipText = isDark
-    ? 'Switch to light mode (Ctrl+Alt+L)'
-    : 'Switch to dark mode (Ctrl+Alt+D)';
+    ? t('settings.theme.switchToLight')
+    : t('settings.theme.switchToDark');
 
   // Determine aria-label for accessibility
   const ariaLabel = isDark
-    ? 'Switch to light mode'
-    : 'Switch to dark mode';
+    ? t('settings.theme.switchToLightLabel')
+    : t('settings.theme.switchToDarkLabel');
 
   return (
     <button

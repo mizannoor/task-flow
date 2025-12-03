@@ -25,12 +25,12 @@ Based on plan.md structure:
 
 **Purpose**: Create i18n infrastructure and translation files
 
-- [ ] T001 [P] Add i18n constants to `src/utils/constants.js` (LANGUAGE_STORAGE_KEY, SUPPORTED_LANGUAGES, DEFAULT_LANGUAGE)
-- [ ] T002 [P] Create TypeScript types in `src/i18n/types.ts` (SupportedLanguage, TranslationParams, TranslationFunction, LanguageContextValue)
-- [ ] T003 [P] Create i18n utility functions in `src/i18n/utils.ts` (detectLanguage, interpolate, getNestedValue, isValidLanguage)
-- [ ] T004 [P] Create English translation file `src/i18n/locales/en.ts` with all translation keys from contracts/translation-keys.md
-- [ ] T005 [P] Create Malay translation file `src/i18n/locales/ms.ts` with all translation keys from contracts/translation-keys.md
-- [ ] T006 Create barrel file `src/i18n/index.ts` exporting translations, SUPPORTED_LANGUAGES array, types, and utils
+- [x] T001 [P] Add i18n constants to `src/utils/constants.js` (LANGUAGE_STORAGE_KEY, SUPPORTED_LANGUAGES, DEFAULT_LANGUAGE)
+- [x] T002 [P] Create TypeScript types in `src/i18n/types.ts` (SupportedLanguage, TranslationParams, TranslationFunction, LanguageContextValue)
+- [x] T003 [P] Create i18n utility functions in `src/i18n/utils.ts` (detectLanguage, interpolate, getNestedValue, isValidLanguage)
+- [x] T004 [P] Create English translation file `src/i18n/locales/en.ts` with all translation keys from contracts/translation-keys.md
+- [x] T005 [P] Create Malay translation file `src/i18n/locales/ms.ts` with all translation keys from contracts/translation-keys.md
+- [x] T006 Create barrel file `src/i18n/index.ts` exporting translations, SUPPORTED_LANGUAGES array, types, and utils
 
 ---
 
@@ -40,11 +40,11 @@ Based on plan.md structure:
 
 **⚠️ CRITICAL**: No component migration can begin until this phase is complete
 
-- [ ] T007 Create LanguageContext in `src/contexts/LanguageContext.jsx` with language state, setLanguage, and t() function
-- [ ] T008 Create useTranslation hook in `src/hooks/useTranslation.js` that consumes LanguageContext
-- [ ] T009 Create useTranslatedLabels hook in `src/hooks/useTranslatedLabels.js` for PRIORITY_LABELS, STATUS_LABELS, CATEGORY_LABELS helpers
-- [ ] T010 Wrap App with LanguageProvider in `src/main.jsx`
-- [ ] T011 Create LanguageSelector dropdown component in `src/components/ui/LanguageSelector.jsx`
+- [x] T007 Create LanguageContext in `src/contexts/LanguageContext.jsx` with language state, setLanguage, and t() function
+- [x] T008 Create useTranslation hook in `src/hooks/useTranslation.js` that consumes LanguageContext
+- [x] T009 Create useTranslatedLabels hook in `src/hooks/useTranslatedLabels.js` for PRIORITY_LABELS, STATUS_LABELS, CATEGORY_LABELS helpers
+- [x] T010 Wrap App with LanguageProvider in `src/main.jsx`
+- [x] T011 Create LanguageSelector dropdown component in `src/components/ui/LanguageSelector.jsx`
 
 **Checkpoint**: Foundation ready - component translations can now begin
 
@@ -58,14 +58,14 @@ Based on plan.md structure:
 
 ### Implementation for User Story 1
 
-- [ ] T012 [US1] Update `src/components/auth/LoginForm.jsx` - replace hardcoded text with t() calls
-- [ ] T013 [US1] Update `src/components/auth/UserSwitcher.jsx` - replace hardcoded text with t() calls
-- [ ] T014 [US1] Update `src/App.jsx` - replace hardcoded text (Loading, Storage Error messages) with t() calls
-- [ ] T015 [P] [US1] Update `src/components/ui/EmptyState.jsx` - replace hardcoded text with t() calls
-- [ ] T016 [P] [US1] Update `src/components/ui/Modal.jsx` - replace hardcoded ARIA labels with t() calls
-- [ ] T017 [P] [US1] Update `src/components/ui/Toast.jsx` - replace hardcoded ARIA labels with t() calls
-- [ ] T018 [P] [US1] Update `src/components/ui/Badge.jsx` - ensure translated labels work correctly
-- [ ] T019 [US1] Update `src/components/Dashboard.jsx` header section - replace hardcoded text with t() calls
+- [x] T012 [US1] Update `src/components/auth/LoginForm.jsx` - replace hardcoded text with t() calls
+- [x] T013 [US1] Update `src/components/auth/UserSwitcher.jsx` - replace hardcoded text with t() calls
+- [x] T014 [US1] Update `src/App.jsx` - replace hardcoded text (Loading, Storage Error messages) with t() calls
+- [x] T015 [P] [US1] Update `src/components/ui/EmptyState.jsx` - replace hardcoded text with t() calls
+- [x] T016 [P] [US1] Update `src/components/ui/Modal.jsx` - replace hardcoded ARIA labels with t() calls
+- [x] T017 [P] [US1] Update `src/components/ui/Toast.jsx` - replace hardcoded ARIA labels with t() calls
+- [x] T018 [P] [US1] Update `src/components/ui/Badge.jsx` - ensure translated labels work correctly
+- [x] T019 [US1] Update `src/components/Dashboard.jsx` header section - replace hardcoded text with t() calls
 
 **Checkpoint**: User Story 1 complete - app displays text in detected/saved language
 
@@ -79,9 +79,9 @@ Based on plan.md structure:
 
 ### Implementation for User Story 2
 
-- [ ] T020 [US2] Add LanguageSelector to Dashboard header in `src/components/Dashboard.jsx` (near ThemeToggle)
-- [ ] T021 [US2] Add toast notification on language change showing "Language changed to {language}"
-- [ ] T022 [US2] Update LanguageSelector with proper ARIA labels and keyboard navigation in `src/components/ui/LanguageSelector.jsx`
+- [x] T020 [US2] Add LanguageSelector to Dashboard header in `src/components/Dashboard.jsx` (near ThemeToggle)
+- [x] T021 [US2] Add toast notification on language change showing "Language changed to {language}"
+- [x] T022 [US2] Update LanguageSelector with proper ARIA labels and keyboard navigation in `src/components/ui/LanguageSelector.jsx`
 
 **Checkpoint**: User Story 2 complete - users can switch language via dropdown
 
@@ -95,9 +95,9 @@ Based on plan.md structure:
 
 ### Implementation for User Story 3
 
-- [ ] T023 [US3] Implement localStorage persistence in LanguageContext (save on setLanguage, load on init)
-- [ ] T024 [US3] Add graceful degradation when localStorage unavailable in `src/contexts/LanguageContext.jsx`
-- [ ] T025 [US3] Verify language detection priority order: localStorage → browser language → English fallback
+- [x] T023 [US3] Implement localStorage persistence in LanguageContext (save on setLanguage, load on init)
+- [x] T024 [US3] Add graceful degradation when localStorage unavailable in `src/contexts/LanguageContext.jsx`
+- [x] T025 [US3] Verify language detection priority order: localStorage → browser language → English fallback
 
 **Checkpoint**: User Story 3 complete - language preference persists
 
@@ -111,23 +111,23 @@ Based on plan.md structure:
 
 ### Implementation for User Story 4
 
-- [ ] T026 [P] [US4] Update `src/components/tasks/TaskForm.jsx` - replace validation error messages with t() calls
-- [ ] T027 [P] [US4] Update `src/components/tasks/TaskModal.jsx` - replace hardcoded text with t() calls
-- [ ] T028 [P] [US4] Update `src/components/tasks/TaskList.jsx` - replace hardcoded text with t() calls
-- [ ] T029 [P] [US4] Update `src/components/tasks/TaskRow.jsx` - replace hardcoded text with t() calls
-- [ ] T030 [P] [US4] Update `src/components/tasks/TaskDetail.jsx` - replace hardcoded text with t() calls
-- [ ] T031 [P] [US4] Update `src/components/tasks/TaskActions.jsx` - replace hardcoded text with t() calls
-- [ ] T032 [P] [US4] Update `src/components/tasks/FilterBar.jsx` - replace filter labels with t() calls
-- [ ] T033 [P] [US4] Update `src/components/tasks/SortSelect.jsx` - replace sort labels with t() calls
-- [ ] T034 [P] [US4] Update `src/components/tasks/SearchInput.jsx` - replace placeholder with t() calls
-- [ ] T035 [P] [US4] Update `src/components/tasks/TaskTimer.jsx` - replace timer labels with t() calls
-- [ ] T036 [P] [US4] Update `src/components/tasks/ManualTimeEntry.jsx` - replace form labels with t() calls
-- [ ] T037 [P] [US4] Update `src/components/tasks/LongSessionModal.jsx` - replace hardcoded text with t() calls
-- [ ] T038 [P] [US4] Update `src/components/tasks/TimerRecoveryModal.jsx` - replace hardcoded text with t() calls
-- [ ] T039 [P] [US4] Update `src/components/tasks/AISuggestionPanel.jsx` - replace AI text with t() calls
-- [ ] T040 [P] [US4] Update `src/components/ui/ConfirmDialog.jsx` - replace button labels with t() calls
-- [ ] T041 [US4] Update toast notifications in `src/components/Dashboard.jsx` - use t() for all toast messages
-- [ ] T042 [US4] Update `src/components/ui/Pagination.jsx` - replace pagination labels with t() calls
+- [x] T026 [P] [US4] Update `src/components/tasks/TaskForm.jsx` - replace validation error messages with t() calls
+- [x] T027 [P] [US4] Update `src/components/tasks/TaskModal.jsx` - replace hardcoded text with t() calls
+- [x] T028 [P] [US4] Update `src/components/tasks/TaskList.jsx` - replace hardcoded text with t() calls
+- [x] T029 [P] [US4] Update `src/components/tasks/TaskRow.jsx` - replace hardcoded text with t() calls
+- [x] T030 [P] [US4] Update `src/components/tasks/TaskDetail.jsx` - replace hardcoded text with t() calls
+- [x] T031 [P] [US4] Update `src/components/tasks/TaskActions.jsx` - replace hardcoded text with t() calls
+- [x] T032 [P] [US4] Update `src/components/tasks/FilterBar.jsx` - replace filter labels with t() calls
+- [x] T033 [P] [US4] Update `src/components/tasks/SortSelect.jsx` - replace sort labels with t() calls
+- [x] T034 [P] [US4] Update `src/components/tasks/SearchInput.jsx` - replace placeholder with t() calls
+- [x] T035 [P] [US4] Update `src/components/tasks/TaskTimer.jsx` - replace timer labels with t() calls
+- [x] T036 [P] [US4] Update `src/components/tasks/ManualTimeEntry.jsx` - replace form labels with t() calls
+- [x] T037 [P] [US4] Update `src/components/tasks/LongSessionModal.jsx` - replace hardcoded text with t() calls
+- [x] T038 [P] [US4] Update `src/components/tasks/TimerRecoveryModal.jsx` - replace hardcoded text with t() calls
+- [x] T039 [P] [US4] Update `src/components/tasks/AISuggestionPanel.jsx` - replace AI text with t() calls
+- [x] T040 [P] [US4] Update `src/components/ui/ConfirmDialog.jsx` - replace button labels with t() calls
+- [x] T041 [US4] Update toast notifications in `src/components/Dashboard.jsx` - use t() for all toast messages
+- [x] T042 [US4] Update `src/components/ui/Pagination.jsx` - replace pagination labels with t() calls
 
 **Checkpoint**: User Story 4 complete - all dynamic content displays in selected language
 
@@ -142,24 +142,24 @@ Based on plan.md structure:
 ### Implementation for User Story 5
 
 #### Kanban View
-- [ ] T043 [P] [US5] Update `src/components/views/KanbanView.jsx` - replace column headers and labels with t() calls
+- [x] T043 [P] [US5] Update `src/components/views/KanbanView.jsx` - replace column headers and labels with t() calls
 
 #### Focus View
-- [ ] T044 [P] [US5] Update `src/components/views/FocusView.jsx` - replace tier labels and headings with t() calls
+- [x] T044 [P] [US5] Update `src/components/views/FocusView.jsx` - replace tier labels and headings with t() calls
 
 #### Calendar View
-- [ ] T045 [P] [US5] Update `src/components/views/CalendarView.jsx` - replace calendar labels with t() calls
+- [x] T045 [P] [US5] Update `src/components/views/CalendarView.jsx` - replace calendar labels with t() calls
 
 #### Analytics Views
-- [ ] T046 [P] [US5] Update `src/components/analytics/PersonalDashboard.jsx` - replace analytics labels with t() calls
-- [ ] T047 [P] [US5] Update `src/components/analytics/TeamDashboard.jsx` - replace team analytics labels with t() calls
+- [x] T046 [P] [US5] Update `src/components/analytics/PersonalDashboard.jsx` - replace analytics labels with t() calls
+- [x] T047 [P] [US5] Update `src/components/analytics/TeamDashboard.jsx` - replace team analytics labels with t() calls
 
 #### Settings & Help
-- [ ] T048 [P] [US5] Update `src/components/ui/ThemeToggle.jsx` - replace tooltip text with t() calls
-- [ ] T049 [P] [US5] Update `src/components/ui/KeyboardShortcutsHelp.jsx` - replace shortcut descriptions with t() calls
+- [x] T048 [P] [US5] Update `src/components/ui/ThemeToggle.jsx` - replace tooltip text with t() calls
+- [x] T049 [P] [US5] Update `src/components/ui/KeyboardShortcutsHelp.jsx` - replace shortcut descriptions with t() calls
 
 #### View Navigation
-- [ ] T050 [US5] Update view switcher buttons in `src/components/Dashboard.jsx` - replace view names with t() calls
+- [x] T050 [US5] Update view switcher buttons in `src/components/Dashboard.jsx` - replace view names with t() calls
 
 **Checkpoint**: User Story 5 complete - all views display consistently in selected language
 
@@ -169,12 +169,12 @@ Based on plan.md structure:
 
 **Purpose**: Final cleanup, validation, and documentation
 
-- [ ] T051 [P] Verify all translation keys exist in both en.ts and ms.ts (no missing keys)
-- [ ] T052 [P] Test fallback behavior - add console warnings for missing keys in development mode
-- [ ] T053 [P] Add LanguageSelector aria-labels for accessibility
-- [ ] T054 [P] Update keyboard shortcuts descriptions in `src/utils/constants.js` to use translation keys
-- [ ] T055 Run quickstart.md validation - verify all documented patterns work correctly
-- [ ] T056 Code cleanup - remove any remaining hardcoded strings, ensure consistent t() usage patterns
+- [x] T051 [P] Verify all translation keys exist in both en.ts and ms.ts (no missing keys)
+- [x] T052 [P] Test fallback behavior - add console warnings for missing keys in development mode
+- [x] T053 [P] Add LanguageSelector aria-labels for accessibility
+- [x] T054 [P] Update keyboard shortcuts descriptions in `src/utils/constants.js` to use translation keys
+- [x] T055 Run quickstart.md validation - verify all documented patterns work correctly
+- [x] T056 Code cleanup - remove any remaining hardcoded strings, ensure consistent t() usage patterns
 
 ---
 

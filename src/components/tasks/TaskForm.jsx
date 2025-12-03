@@ -15,6 +15,8 @@ import {
   TASK_LIMITS,
   AI_ERROR_MESSAGES,
 } from '../../utils/constants';
+import { useTranslation } from '../../hooks/useTranslation';
+import { useTranslatedLabels } from '../../hooks/useTranslatedLabels';
 import { useAISuggestions } from '../../hooks/useAISuggestions';
 import { AISuggestionPanel } from './AISuggestionPanel';
 import { SparkleIcon } from '../ui/SparkleIcon';
@@ -39,6 +41,9 @@ export function TaskForm({
   users = [],
   currentUserId,
 }) {
+  const { t } = useTranslation();
+  const { priorityLabels, categoryLabels } = useTranslatedLabels();
+
   // Form state
   const [formData, setFormData] = useState({
     taskName: '',
@@ -268,7 +273,7 @@ export function TaskForm({
       {/* Task Name */}
       <div>
         <label htmlFor="taskName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Task Name <span className="text-red-500">*</span>
+          {t('tasks.taskName')} <span className="text-red-500">*</span>
         </label>
         <input
           type="text"
@@ -282,7 +287,7 @@ export function TaskForm({
             ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
             : 'border-gray-300 dark:border-slate-600 focus:border-indigo-500 focus:ring-indigo-500'
             }`}
-          placeholder="Enter task name"
+          placeholder={t('tasks.taskNamePlaceholder')}
           disabled={isLoading}
           aria-invalid={errors.taskName ? 'true' : 'false'}
           aria-describedby={errors.taskName ? 'taskName-error' : undefined}
@@ -297,7 +302,7 @@ export function TaskForm({
       {/* Description */}
       <div>
         <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Description
+          {t('tasks.description')}
         </label>
         <textarea
           id="description"
@@ -310,7 +315,7 @@ export function TaskForm({
             ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
             : 'border-gray-300 dark:border-slate-600 focus:border-indigo-500 focus:ring-indigo-500'
             }`}
-          placeholder="Enter task description (optional)"
+          placeholder={t('tasks.descriptionPlaceholder')}
           disabled={isLoading}
         />
         {errors.description && (
@@ -335,12 +340,12 @@ export function TaskForm({
                 !isAIConfigured
                   ? AI_ERROR_MESSAGES.NOT_CONFIGURED
                   : !formData.taskName.trim()
-                    ? 'Enter a task name first'
-                    : 'Get AI suggestions for this task'
+                    ? t('ai.enterTaskNameFirst')
+                    : t('ai.getAISuggestionsTitle')
               }
             >
               <SparkleIcon size={16} />
-              Get AI Suggestions
+              {t('ai.getAISuggestions')}
             </button>
           )}
 
@@ -370,7 +375,7 @@ export function TaskForm({
         <div>
           <label htmlFor="priority" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             <span className="inline-flex items-center gap-1">
-              Priority
+              {t('tasks.priority')}
               {aiSuggestedFields.has('priority') && <SparkleIcon size={14} />}
             </span>
           </label>
@@ -382,7 +387,7 @@ export function TaskForm({
             className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             disabled={isLoading}
           >
-            {Object.entries(PRIORITY_LABELS).map(([value, label]) => (
+            {Object.entries(priorityLabels).map(([value, label]) => (
               <option key={value} value={value}>
                 {label}
               </option>
@@ -394,7 +399,7 @@ export function TaskForm({
         <div>
           <label htmlFor="category" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             <span className="inline-flex items-center gap-1">
-              Category
+              {t('tasks.category')}
               {aiSuggestedFields.has('category') && <SparkleIcon size={14} />}
             </span>
           </label>
@@ -406,7 +411,7 @@ export function TaskForm({
             className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             disabled={isLoading}
           >
-            {Object.entries(CATEGORY_LABELS).map(([value, label]) => (
+            {Object.entries(categoryLabels).map(([value, label]) => (
               <option key={value} value={value}>
                 {label}
               </option>
@@ -421,7 +426,7 @@ export function TaskForm({
         <div>
           <label htmlFor="complexity" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             <span className="inline-flex items-center gap-1">
-              Complexity (1-10)
+              {t('tasks.complexity')} (1-10)
               {aiSuggestedFields.has('complexity') && <SparkleIcon size={14} />}
             </span>
           </label>
@@ -448,7 +453,7 @@ export function TaskForm({
         <div>
           <label htmlFor="estimatedDuration" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             <span className="inline-flex items-center gap-1">
-              Est. Duration (minutes)
+              {t('tasks.estimatedDuration')} ({t('tasks.estimatedMinutes')})
               {aiSuggestedFields.has('estimatedDuration') && <SparkleIcon size={14} />}
             </span>
           </label>
@@ -475,7 +480,7 @@ export function TaskForm({
       {/* Deadline */}
       <div>
         <label htmlFor="deadline" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Deadline
+          {t('tasks.deadline')}
         </label>
         <input
           type="date"
@@ -498,7 +503,7 @@ export function TaskForm({
       {users.length > 0 && (
         <div>
           <label htmlFor="userId" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Assign To
+            {t('tasks.assignedTo')}
           </label>
           <select
             id="userId"
@@ -521,7 +526,7 @@ export function TaskForm({
       <div>
         <label htmlFor="tagInput" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           <span className="inline-flex items-center gap-1">
-            Tags
+            {t('tasks.tags')}
             {aiSuggestedFields.has('tags') && <SparkleIcon size={14} />}
           </span>
         </label>
@@ -533,7 +538,7 @@ export function TaskForm({
             onChange={(e) => setTagInput(e.target.value)}
             onKeyPress={handleTagKeyPress}
             className="block w-full rounded-none rounded-l-md border-gray-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            placeholder="Add a tag"
+            placeholder={t('tasks.tagsPlaceholder')}
             disabled={isLoading}
           />
           <button
@@ -542,7 +547,7 @@ export function TaskForm({
             className="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-200 ring-1 ring-inset ring-gray-300 dark:ring-slate-600 bg-white dark:bg-slate-600 hover:bg-gray-50 dark:hover:bg-slate-500"
             disabled={isLoading || !tagInput.trim()}
           >
-            Add
+            {t('common.add')}
           </button>
         </div>
         {/* Tag list */}
@@ -579,7 +584,7 @@ export function TaskForm({
           className="rounded-md bg-white dark:bg-slate-700 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-slate-600 hover:bg-gray-50 dark:hover:bg-slate-600"
           disabled={isLoading}
         >
-          Cancel
+          {t('common.cancel')}
         </button>
         <button
           type="submit"
@@ -607,10 +612,10 @@ export function TaskForm({
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 />
               </svg>
-              {isEditMode ? 'Updating...' : 'Creating...'}
+              {isEditMode ? t('tasks.updating') : t('tasks.creating')}
             </>
           ) : (
-            <>{isEditMode ? 'Update Task' : 'Create Task'}</>
+            <>{isEditMode ? t('tasks.editTask') : t('tasks.createTask')}</>
           )}
         </button>
       </div>

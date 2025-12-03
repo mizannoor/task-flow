@@ -4,6 +4,7 @@
  */
 
 import { PriorityBadge, StatusBadge, CategoryBadge } from '../ui/Badge';
+import useTranslation from '../../hooks/useTranslation';
 import { formatDate, formatDuration, formatDeadline } from '../../utils/formatters';
 import { TaskStatusButton } from './TaskActions';
 import { TaskTimer } from './TaskTimer';
@@ -24,6 +25,7 @@ export function TaskRow({
   onDelete,
   showActions = true,
 }) {
+  const { t } = useTranslation();
   const deadline = formatDeadline(task.deadline);
 
   // Handle row click for editing
@@ -48,7 +50,7 @@ export function TaskRow({
       onKeyDown={handleKeyDown}
       tabIndex={0}
       role="button"
-      aria-label={`Edit task: ${task.taskName}`}
+      aria-label={`${t('common.edit')} ${t('tasks.task')}: ${task.taskName}`}
     >
       {/* Task Name */}
       <td className="px-6 py-4 whitespace-nowrap">
@@ -131,7 +133,7 @@ export function TaskRow({
               type="button"
               onClick={() => onEdit && onEdit(task)}
               className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300"
-              aria-label={`Edit ${task.taskName}`}
+              aria-label={`${t('common.edit')} ${task.taskName}`}
             >
               <svg
                 className="h-5 w-5"
@@ -153,7 +155,7 @@ export function TaskRow({
               type="button"
               onClick={() => onDelete && onDelete(task)}
               className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300"
-              aria-label={`Delete ${task.taskName}`}
+              aria-label={`${t('common.delete')} ${task.taskName}`}
             >
               <svg
                 className="h-5 w-5"
@@ -185,6 +187,7 @@ export function TaskRowCompact({
   onStatusChange,
   onDelete,
 }) {
+  const { t } = useTranslation();
   const deadline = formatDeadline(task.deadline);
 
   return (
@@ -199,7 +202,7 @@ export function TaskRowCompact({
           onEdit && onEdit(task);
         }
       }}
-      aria-label={`Edit task: ${task.taskName}`}
+      aria-label={`${t('common.edit')} ${t('tasks.task')}: ${task.taskName}`}
     >
       {/* Header row */}
       <div className="flex items-start justify-between mb-2">

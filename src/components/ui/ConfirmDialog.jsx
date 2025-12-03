@@ -4,6 +4,7 @@
  */
 
 import { Modal, ModalFooter } from './Modal';
+import { useTranslation } from '../../hooks/useTranslation';
 
 /**
  * ConfirmDialog component
@@ -22,13 +23,20 @@ export function ConfirmDialog({
   isOpen,
   onClose,
   onConfirm,
-  title = 'Confirm Action',
-  message = 'Are you sure you want to continue?',
-  confirmText = 'Confirm',
-  cancelText = 'Cancel',
+  title,
+  message,
+  confirmText,
+  cancelText,
   variant = 'danger',
   isLoading = false,
 }) {
+  const { t } = useTranslation();
+  
+  // Use provided text or fall back to translations
+  const displayTitle = title || t('common.confirm');
+  const displayMessage = message || t('common.confirmMessage');
+  const displayConfirmText = confirmText || t('common.confirm');
+  const displayCancelText = cancelText || t('common.cancel');
   // Variant styles
   const variantStyles = {
     danger: {
@@ -128,10 +136,10 @@ export function ConfirmDialog({
         {/* Content */}
         <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
           <h3 className="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-            {title}
+            {displayTitle}
           </h3>
           <div className="mt-2">
-            <p className="text-sm text-gray-500 dark:text-gray-400">{message}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{displayMessage}</p>
           </div>
         </div>
       </div>
@@ -144,7 +152,7 @@ export function ConfirmDialog({
           onClick={onClose}
           disabled={isLoading}
         >
-          {cancelText}
+          {displayCancelText}
         </button>
         <button
           type="button"
@@ -173,10 +181,10 @@ export function ConfirmDialog({
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 />
               </svg>
-              Processing...
+              {t('common.loading')}
             </>
           ) : (
-            confirmText
+            displayConfirmText
           )}
         </button>
       </ModalFooter>
@@ -194,15 +202,17 @@ export function DeleteConfirmDialog({
   itemName = 'this item',
   isLoading = false,
 }) {
+  const { t } = useTranslation();
+  
   return (
     <ConfirmDialog
       isOpen={isOpen}
       onClose={onClose}
       onConfirm={onConfirm}
-      title="Delete Confirmation"
-      message={`Are you sure you want to delete ${itemName}? This action cannot be undone.`}
-      confirmText="Delete"
-      cancelText="Cancel"
+      title={t('tasks.deleteConfirmTitle')}
+      message={t('tasks.deleteConfirmMessage', { name: itemName })}
+      confirmText={t('common.delete')}
+      cancelText={t('common.cancel')}
       variant="danger"
       isLoading={isLoading}
     />
@@ -219,15 +229,17 @@ export function ReopenConfirmDialog({
   taskName = 'this task',
   isLoading = false,
 }) {
+  const { t } = useTranslation();
+  
   return (
     <ConfirmDialog
       isOpen={isOpen}
       onClose={onClose}
       onConfirm={onConfirm}
-      title="Reopen Task"
-      message={`Are you sure you want to reopen "${taskName}"? This will change its status back to Pending.`}
-      confirmText="Reopen"
-      cancelText="Cancel"
+      title={t('tasks.reopenConfirmTitle')}
+      message={t('tasks.reopenConfirmMessage', { name: taskName })}
+      confirmText={t('tasks.reopenTask')}
+      cancelText={t('common.cancel')}
       variant="warning"
       isLoading={isLoading}
     />

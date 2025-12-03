@@ -5,6 +5,7 @@
 
 import { useState, useCallback } from 'react';
 import { useTimer } from '../../hooks/useTimer';
+import { useTranslation } from '../../hooks/useTranslation';
 import { formatElapsedTime, formatDurationShort, formatDurationComparison, getTimeStatusColor } from '../../utils/formatters';
 import { TIMER_STATUS, STATUSES } from '../../utils/constants';
 import { TimeProgressDisplay } from './TimeProgressDisplay';
@@ -94,6 +95,7 @@ function ClockIcon({ className = 'h-5 w-5' }) {
  * @param {Function} [props.onManualEntry] - Callback to open manual time entry
  */
 export function TaskTimer({ task, variant = 'full', className = '', onManualEntry }) {
+  const { t } = useTranslation();
   const {
     elapsedSeconds,
     timerStatus,
@@ -200,13 +202,13 @@ export function TaskTimer({ task, variant = 'full', className = '', onManualEntr
               {isActive ? formatElapsedTime(displaySeconds) : formatElapsedTime(0)}
             </div>
             {isActive && timerStatus === TIMER_STATUS.PAUSED && (
-              <div className="text-xs text-yellow-600 font-medium">Paused</div>
+              <div className="text-xs text-yellow-600 font-medium">{t('timer.paused')}</div>
             )}
             {isActive && timerStatus === TIMER_STATUS.RUNNING && (
-              <div className="text-xs text-green-600 font-medium">Running</div>
+              <div className="text-xs text-green-600 font-medium">{t('timer.running')}</div>
             )}
             {!isActive && canUseTimer && (
-              <div className="text-xs text-gray-500">Ready to track</div>
+              <div className="text-xs text-gray-500">{t('timer.readyToTrack')}</div>
             )}
           </div>
         </div>
@@ -214,7 +216,7 @@ export function TaskTimer({ task, variant = 'full', className = '', onManualEntr
         {/* Total tracked time */}
         {(task.actualDuration || 0) > 0 && (
           <div className="text-right">
-            <div className="text-xs text-gray-500 uppercase tracking-wider">Total Tracked</div>
+            <div className="text-xs text-gray-500 uppercase tracking-wider">{t('timer.totalTracked')}</div>
             <div className="text-sm font-medium text-gray-700">
               {formatDurationShort(task.actualDuration)}
             </div>
@@ -244,7 +246,7 @@ export function TaskTimer({ task, variant = 'full', className = '', onManualEntr
               aria-label="Start timer"
             >
               <PlayIcon className="h-4 w-4" />
-              Start Timer
+              {t('timer.startTimer')}
             </button>
           )}
 
@@ -258,7 +260,7 @@ export function TaskTimer({ task, variant = 'full', className = '', onManualEntr
               aria-label="Pause timer"
             >
               <PauseIcon className="h-4 w-4" />
-              Pause
+              {t('timer.pauseTimer')}
             </button>
           )}
 
@@ -272,7 +274,7 @@ export function TaskTimer({ task, variant = 'full', className = '', onManualEntr
               aria-label="Resume timer"
             >
               <PlayIcon className="h-4 w-4" />
-              Resume
+              {t('timer.resumeTimer')}
             </button>
           )}
 
@@ -286,7 +288,7 @@ export function TaskTimer({ task, variant = 'full', className = '', onManualEntr
               aria-label="Stop and save timer"
             >
               <StopIcon className="h-4 w-4" />
-              Stop & Save
+              {t('timer.stopSession')}
             </button>
           )}
 
@@ -299,7 +301,7 @@ export function TaskTimer({ task, variant = 'full', className = '', onManualEntr
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
               aria-label="Add time manually"
             >
-              + Add Time
+              {t('timer.addManualTime')}
             </button>
           )}
         </div>
@@ -311,7 +313,7 @@ export function TaskTimer({ task, variant = 'full', className = '', onManualEntr
           <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          Start the task to enable time tracking
+          {t('timer.startTaskToTrack')}
         </div>
       )}
 
@@ -321,9 +323,9 @@ export function TaskTimer({ task, variant = 'full', className = '', onManualEntr
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
-          Task completed
+          {t('timer.taskCompleted')}
           {(task.actualDuration || 0) > 0 && (
-            <span className="font-medium">• {formatDurationShort(task.actualDuration)} tracked</span>
+            <span className="font-medium">• {formatDurationShort(task.actualDuration)} {t('timer.tracked')}</span>
           )}
         </div>
       )}

@@ -11,6 +11,7 @@ import { FocusCard } from './FocusCard';
 import { FocusProgress } from './FocusProgress';
 import { FocusEmptyState } from './FocusEmptyState';
 import { STATUSES } from '../../utils/constants';
+import { useTranslation } from '../../hooks/useTranslation';
 
 /**
  * FocusView component
@@ -24,6 +25,7 @@ function FocusViewComponent({
   onDeleteTask,
   onCreateTask,
 }) {
+  const { t } = useTranslation();
   const { focusTasks, progress, hasMore, loadMore, loading, error } = useFocusTasks();
   const { updateTask, startTask, completeTask } = useTasks();
 
@@ -192,13 +194,13 @@ function FocusViewComponent({
       className="focus-view"
       tabIndex={0}
       onKeyDown={handleContainerKeyDown}
-      aria-label="Today's Focus View"
+      aria-label={t('focus.title')}
     >
       {/* Progress indicator */}
       {progress && <FocusProgress progress={progress} />}
 
       {/* Task list */}
-      <div className="space-y-4" role="list" aria-label="Focus tasks">
+      <div className="space-y-4" role="list" aria-label={t('focus.title')}>
         {focusTasks.map((task, index) => (
           <div
             key={task.id}
@@ -228,7 +230,7 @@ function FocusViewComponent({
             onClick={loadMore}
             className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-slate-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-slate-700 hover:bg-gray-50 dark:hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-slate-900"
           >
-            Load More Tasks
+            {t('focus.loadMore')}
           </button>
         </div>
       )}
@@ -236,10 +238,10 @@ function FocusViewComponent({
       {/* Keyboard shortcuts hint */}
       <div className="mt-6 text-center text-xs text-gray-400 dark:text-gray-500">
         <span className="inline-flex items-center gap-2">
-          <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-slate-700 rounded border dark:border-slate-600 text-gray-600 dark:text-gray-400">↑↓</kbd> Navigate
-          <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-slate-700 rounded border dark:border-slate-600 text-gray-600 dark:text-gray-400">Enter</kbd> Action
-          <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-slate-700 rounded border dark:border-slate-600 text-gray-600 dark:text-gray-400">E</kbd> Expand
-          <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-slate-700 rounded border dark:border-slate-600 text-gray-600 dark:text-gray-400">Esc</kbd> Collapse
+          <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-slate-700 rounded border dark:border-slate-600 text-gray-600 dark:text-gray-400">↑↓</kbd> {t('focus.navigate')}
+          <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-slate-700 rounded border dark:border-slate-600 text-gray-600 dark:text-gray-400">Enter</kbd> {t('focus.action')}
+          <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-slate-700 rounded border dark:border-slate-600 text-gray-600 dark:text-gray-400">E</kbd> {t('focus.expand')}
+          <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-slate-700 rounded border dark:border-slate-600 text-gray-600 dark:text-gray-400">Esc</kbd> {t('focus.collapse')}
         </span>
       </div>
     </div>

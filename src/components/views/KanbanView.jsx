@@ -9,6 +9,8 @@ import { KanbanCardPreview } from './KanbanCardPreview';
 import { TaskSidePanel } from './TaskSidePanel';
 import { useTasks } from '../../hooks/useTasks';
 import { useDragAndDrop } from '../../hooks/useDragAndDrop';
+import { useTranslation } from '../../hooks/useTranslation';
+import { useTranslatedLabels } from '../../hooks/useTranslatedLabels';
 import {
   KANBAN_COLUMNS,
   KANBAN_STORAGE_KEY,
@@ -59,6 +61,8 @@ export function KanbanView({
   onCreateTask,
   onStatusChange,
 }) {
+  const { t } = useTranslation();
+  const { statusLabels } = useTranslatedLabels();
   const { tasks, updateTask, loading, error } = useTasks();
 
   // Collapsed columns state (persisted to localStorage)
@@ -190,7 +194,7 @@ export function KanbanView({
   if (loading) {
     return (
       <div className={`${boardClasses} items-center justify-center`}>
-        <div className="text-gray-500">Loading tasks...</div>
+        <div className="text-gray-500">{t('common.loading')}</div>
       </div>
     );
   }
@@ -207,12 +211,12 @@ export function KanbanView({
   return (
     <>
       {/* Kanban board */}
-      <div className={boardClasses} role="application" aria-label="Kanban board">
+      <div className={boardClasses} role="application" aria-label={t('kanban.title')}>
         {KANBAN_COLUMNS.map((column) => (
           <KanbanColumn
             key={column.id}
             status={column.status}
-            title={column.title}
+            title={statusLabels[column.status] || column.title}
             tasks={groupedTasks[column.status] || []}
             isCollapsed={collapsedColumns[column.status]}
             onToggleCollapse={() => toggleColumnCollapse(column.status)}

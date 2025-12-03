@@ -7,6 +7,7 @@ import { useState, useMemo } from 'react';
 import { TaskRow, TaskRowCompact } from './TaskRow';
 import { TaskEmptyState, SearchEmptyState, FilterEmptyState } from '../ui/EmptyState';
 import { useTasks } from '../../hooks/useTasks';
+import { useTranslation } from '../../hooks/useTranslation';
 import { PAGINATION_DEFAULTS, SORT_FIELD_LABELS, SORT_ORDERS } from '../../utils/constants';
 import { FilterBar } from './FilterBar';
 import { SearchInput } from './SearchInput';
@@ -29,6 +30,7 @@ export function TaskList({
   showFilters = true,
   showSearch = true,
 }) {
+  const { t } = useTranslation();
   const {
     tasks,
     filters,
@@ -177,7 +179,7 @@ export function TaskList({
             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
           />
         </svg>
-        <span className="ml-2 text-gray-500 dark:text-gray-400">Loading tasks...</span>
+        <span className="ml-2 text-gray-500 dark:text-gray-400">{t('common.loading')}</span>
       </div>
     );
   }
@@ -202,7 +204,7 @@ export function TaskList({
           </div>
           <div className="ml-3">
             <p className="text-sm font-medium text-red-800 dark:text-red-300">
-              Failed to load tasks: {error.message}
+              {t('tasks.loadError')}: {error.message}
             </p>
           </div>
         </div>
@@ -222,7 +224,7 @@ export function TaskList({
                 <SearchInput
                   value={filters.searchQuery}
                   onChange={handleSearchChange}
-                  placeholder="Search tasks by name or description..."
+                  placeholder={t('common.search')}
                 />
               )}
               {showFilters && (
@@ -256,7 +258,7 @@ export function TaskList({
                 <SearchInput
                   value={filters.searchQuery}
                   onChange={handleSearchChange}
-                  placeholder="Search tasks by name or description..."
+                  placeholder={t('common.search')}
                 />
               )}
               {showFilters && (
@@ -289,7 +291,7 @@ export function TaskList({
             <SearchInput
               value={filters.searchQuery}
               onChange={handleSearchChange}
-              placeholder="Search tasks by name or description..."
+              placeholder={t('common.search')}
             />
           )}
           {showFilters && (
@@ -309,12 +311,10 @@ export function TaskList({
       {/* Task count */}
       <div className="mb-4 flex items-center justify-between">
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          Showing {startIndex + 1}-{Math.min(endIndex, tasks.length)} of {tasks.length} task
-          {tasks.length !== 1 ? 's' : ''}
+          {t('tasks.showing', { start: startIndex + 1, end: Math.min(endIndex, tasks.length), total: tasks.length })}
         </p>
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          Sorted by {SORT_FIELD_LABELS[sort.field]} (
-          {sort.order === SORT_ORDERS.ASC ? 'ascending' : 'descending'})
+          {t('tasks.sortedBy', { field: SORT_FIELD_LABELS[sort.field], order: sort.order === SORT_ORDERS.ASC ? t('common.ascending') : t('common.descending') })}
         </p>
       </div>
 
@@ -330,7 +330,7 @@ export function TaskList({
                 onClick={() => handleSortClick('taskName')}
               >
                 <div className="flex items-center">
-                  Task
+                  {t('tasks.task')}
                   {renderSortIndicator('taskName')}
                 </div>
               </th>
@@ -340,7 +340,7 @@ export function TaskList({
                 scope="col"
                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
               >
-                Status
+                {t('tasks.status')}
               </th>
 
               {/* Priority - sortable */}
@@ -350,7 +350,7 @@ export function TaskList({
                 onClick={() => handleSortClick('priority')}
               >
                 <div className="flex items-center">
-                  Priority
+                  {t('tasks.priority')}
                   {renderSortIndicator('priority')}
                 </div>
               </th>
@@ -360,7 +360,7 @@ export function TaskList({
                 scope="col"
                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
               >
-                Category
+                {t('tasks.category')}
               </th>
 
               {/* Deadline - sortable */}
@@ -370,7 +370,7 @@ export function TaskList({
                 onClick={() => handleSortClick('deadline')}
               >
                 <div className="flex items-center">
-                  Deadline
+                  {t('tasks.deadline')}
                   {renderSortIndicator('deadline')}
                 </div>
               </th>
@@ -382,7 +382,7 @@ export function TaskList({
                 onClick={() => handleSortClick('estimatedDuration')}
               >
                 <div className="flex items-center">
-                  Duration
+                  {t('tasks.duration')}
                   {renderSortIndicator('estimatedDuration')}
                 </div>
               </th>
@@ -394,7 +394,7 @@ export function TaskList({
                 onClick={() => handleSortClick('createdAt')}
               >
                 <div className="flex items-center">
-                  Created
+                  {t('tasks.created')}
                   {renderSortIndicator('createdAt')}
                 </div>
               </th>
@@ -404,7 +404,7 @@ export function TaskList({
                 scope="col"
                 className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
               >
-                Actions
+                {t('common.actions')}
               </th>
             </tr>
           </thead>
@@ -444,21 +444,20 @@ export function TaskList({
               disabled={currentPage === 1}
               className="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-slate-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-slate-700 hover:bg-gray-50 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Previous
+              {t('common.previous')}
             </button>
             <button
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
               className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-slate-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-slate-700 hover:bg-gray-50 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Next
+              {t('common.next')}
             </button>
           </div>
           <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
             <div>
               <p className="text-sm text-gray-700 dark:text-gray-300">
-                Page <span className="font-medium">{currentPage}</span> of{' '}
-                <span className="font-medium">{totalPages}</span>
+                {t('common.pageOf', { current: currentPage, total: totalPages })}
               </p>
             </div>
             <div>
@@ -472,7 +471,7 @@ export function TaskList({
                   disabled={currentPage === 1}
                   className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <span className="sr-only">Previous</span>
+                  <span className="sr-only">{t('common.previous')}</span>
                   <svg
                     className="h-5 w-5"
                     fill="currentColor"
@@ -519,7 +518,7 @@ export function TaskList({
                   disabled={currentPage === totalPages}
                   className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <span className="sr-only">Next</span>
+                  <span className="sr-only">{t('common.next')}</span>
                   <svg
                     className="h-5 w-5"
                     fill="currentColor"

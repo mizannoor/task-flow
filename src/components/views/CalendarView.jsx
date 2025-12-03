@@ -9,6 +9,7 @@ import { useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTasks } from '../../hooks/useTasks';
 import { useCalendar } from '../../hooks/useCalendar';
+import { useTranslation } from '../../hooks/useTranslation';
 import { CalendarHeader } from './CalendarHeader';
 import { CalendarGrid } from './CalendarGrid';
 import { CalendarWeekView } from './CalendarWeekView';
@@ -25,6 +26,8 @@ import { CALENDAR_VIEW_MODES, STATUSES } from '../../utils/constants';
  * @param {Function} props.onDeleteTask - Callback when task delete is requested
  */
 export function CalendarView({ onEditTask, onDeleteTask }) {
+  const { t } = useTranslation();
+
   // Calendar state management
   const calendar = useCalendar();
 
@@ -206,9 +209,9 @@ export function CalendarView({ onEditTask, onDeleteTask }) {
                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
-                <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-white">No tasks yet</h3>
+                <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-white">{t('calendar.noTasksYet')}</h3>
                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                  Create tasks with deadlines to see them on the calendar.
+                  {t('calendar.createTasksHint')}
                 </p>
               </div>
             </div>
