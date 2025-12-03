@@ -101,7 +101,7 @@
 - [x] T026 [US3] Create LongSessionModal component for 4+ hour session review in `src/components/tasks/LongSessionModal.jsx`
 - [x] T027 [US3] Add long session detection (>240 min) and modal trigger on stop in `src/components/tasks/TaskTimer.jsx`
 - [x] T028 [US3] Add time adjustment input in LongSessionModal before save in `src/components/tasks/LongSessionModal.jsx`
-- [ ] T029 [US3] Add timer recovery check on app load in TaskContext provider in `src/contexts/TaskContext.jsx`
+- [x] T029 [US3] Add timer recovery check on app load in TaskContext provider in `src/contexts/TaskContext.jsx`
 - [x] T030 [US3] Create TimerRecoveryModal for abandoned timer sessions in `src/components/tasks/TimerRecoveryModal.jsx`
 - [x] T031 [US3] Display total tracked time (actualDuration) in TaskDetail when no timer active in `src/components/tasks/TaskDetail.jsx`
 
@@ -170,11 +170,11 @@
 
 - [x] T048 Auto-stop timer when task status changes to "completed" in `src/services/taskService.js`
 - [x] T049 Handle timer cleanup when task is deleted in `src/services/taskService.js`
-- [ ] T050 [P] Handle user account switching - save/restore timer state in `src/contexts/AuthContext.jsx`
-- [ ] T051 [P] Add keyboard shortcuts for timer controls (if keyboard shortcuts enabled) in `src/hooks/useTimer.js`
+- [x] T050 [P] Handle user account switching - save/restore timer state in `src/contexts/AuthContext.jsx`
+- [x] T051 [P] Add keyboard shortcuts for timer controls (if keyboard shortcuts enabled) in `src/hooks/useTimer.js`
 - [x] T052 Ensure timer controls are keyboard accessible (tab navigation, enter/space) in `src/components/tasks/TaskTimer.jsx`
 - [x] T053 Add ARIA labels for timer status and controls in `src/components/tasks/TaskTimer.jsx`
-- [ ] T054 Run quickstart.md validation - verify all documented scenarios work
+- [x] T054 Run quickstart.md validation - verify all documented scenarios work
 
 ---
 
