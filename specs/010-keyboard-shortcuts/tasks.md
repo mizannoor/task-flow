@@ -204,9 +204,9 @@
 - [x] T064 [P] Implement screen reader announcements for shortcut actions in src/contexts/KeyboardShortcutContext.jsx
 - [x] T065 [P] Add ARIA labels to focusable task elements in src/components/tasks/TaskList.jsx
 - [x] T066 [P] Add visible focus indicators (ring styles) to all focusable elements
-- [ ] T067 Cross-browser testing (Chrome, Firefox, Safari, Edge) for all shortcuts
-- [ ] T068 macOS testing for Cmd modifier key behavior
-- [ ] T069 Run quickstart.md validation to verify implementation matches guide
+- [x] T067 Cross-browser testing (Chrome, Firefox, Safari, Edge) for all shortcuts
+- [x] T068 macOS testing for Cmd modifier key behavior
+- [x] T069 Run quickstart.md validation to verify implementation matches guide
 
 ---
 
