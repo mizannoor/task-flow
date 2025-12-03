@@ -44,7 +44,7 @@ export function KeyboardShortcutsHelp({ isOpen, onClose }) {
     >
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+        className="fixed inset-0 bg-black dark:bg-slate-900 bg-opacity-50 dark:bg-opacity-80 transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -54,20 +54,20 @@ export function KeyboardShortcutsHelp({ isOpen, onClose }) {
         <div
           ref={modalRef}
           tabIndex={-1}
-          className="relative transform overflow-hidden rounded-xl bg-white shadow-2xl transition-all w-full max-w-2xl"
+          className="relative transform overflow-hidden rounded-xl bg-white dark:bg-slate-800 shadow-2xl dark:shadow-slate-900/50 transition-all w-full max-w-2xl"
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-gray-50">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-700/50">
             <h2
               id="keyboard-shortcuts-title"
-              className="text-lg font-semibold text-gray-900"
+              className="text-lg font-semibold text-gray-900 dark:text-white"
             >
               Keyboard Shortcuts
             </h2>
             <button
               type="button"
               onClick={onClose}
-              className="rounded-md p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="rounded-md p-2 text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               aria-label="Close"
             >
               <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -85,19 +85,19 @@ export function KeyboardShortcutsHelp({ isOpen, onClose }) {
             <div className="space-y-6">
               {categories.map(({ category, label, shortcuts }) => (
                 <div key={category}>
-                  <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">
+                  <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
                     {label}
                   </h3>
-                  <div className="bg-gray-50 rounded-lg divide-y divide-gray-200">
+                  <div className="bg-gray-50 dark:bg-slate-700/50 rounded-lg divide-y divide-gray-200 dark:divide-slate-600">
                     {shortcuts.map((shortcut) => (
                       <div
                         key={shortcut.action}
                         className="flex items-center justify-between px-4 py-3"
                       >
-                        <span className="text-sm text-gray-700">
+                        <span className="text-sm text-gray-700 dark:text-gray-300">
                           {shortcut.description}
                         </span>
-                        <kbd className="inline-flex items-center px-2.5 py-1.5 rounded bg-white border border-gray-300 text-xs font-mono font-semibold text-gray-800 shadow-sm">
+                        <kbd className="inline-flex items-center px-2.5 py-1.5 rounded bg-white dark:bg-slate-600 border border-gray-300 dark:border-slate-500 text-xs font-mono font-semibold text-gray-800 dark:text-gray-200 shadow-sm">
                           {formatShortcut(shortcut)}
                         </kbd>
                       </div>
@@ -109,9 +109,9 @@ export function KeyboardShortcutsHelp({ isOpen, onClose }) {
           </div>
 
           {/* Footer */}
-          <div className="px-6 py-4 border-t border-gray-200 bg-gray-50">
-            <p className="text-xs text-gray-500 text-center">
-              Press <kbd className="px-1.5 py-0.5 rounded bg-white border border-gray-300 text-xs font-mono">Esc</kbd> or <kbd className="px-1.5 py-0.5 rounded bg-white border border-gray-300 text-xs font-mono">{formatShortcut({ key: '/', modifiers: ['ctrl'] })}</kbd> to close
+          <div className="px-6 py-4 border-t border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-700/50">
+            <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+              Press <kbd className="px-1.5 py-0.5 rounded bg-white dark:bg-slate-600 border border-gray-300 dark:border-slate-500 text-xs font-mono dark:text-gray-200">Esc</kbd> or <kbd className="px-1.5 py-0.5 rounded bg-white dark:bg-slate-600 border border-gray-300 dark:border-slate-500 text-xs font-mono dark:text-gray-200">{formatShortcut({ key: '/', modifiers: ['ctrl'] })}</kbd> to close
             </p>
           </div>
         </div>

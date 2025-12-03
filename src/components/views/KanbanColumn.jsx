@@ -58,10 +58,10 @@ function KanbanColumnComponent({
   }, [isCollapsed, onToggleCollapse]);
 
   // Build column classes with Tailwind utilities
-  const baseColumnClasses = 'flex flex-col bg-gray-50 rounded-lg shrink-0 transition-all duration-300 ease-in-out';
+  const baseColumnClasses = 'flex flex-col bg-gray-50 dark:bg-slate-800 rounded-lg shrink-0 transition-all duration-300 ease-in-out';
   const expandedClasses = 'min-w-80 max-w-80';
   const collapsedClasses = 'min-w-12 max-w-12 cursor-pointer';
-  const dropTargetClasses = isDragTarget && !isCollapsed ? 'bg-indigo-50 ring-2 ring-inset ring-indigo-400' : '';
+  const dropTargetClasses = isDragTarget && !isCollapsed ? 'bg-indigo-50 dark:bg-indigo-900/30 ring-2 ring-inset ring-indigo-400' : '';
 
   const columnClasses = `${baseColumnClasses} ${isCollapsed ? collapsedClasses : expandedClasses} ${dropTargetClasses}`;
 
@@ -83,11 +83,11 @@ function KanbanColumnComponent({
       >
         <div className="flex flex-col items-center justify-center h-full py-4">
           {/* Collapsed title - rotated */}
-          <span className="kanban-column-title text-sm font-medium text-gray-700 whitespace-nowrap">
+          <span className="kanban-column-title text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">
             {columnTitle}
           </span>
           {/* Task count badge */}
-          <span className="mt-2 bg-gray-200 text-gray-700 text-xs font-medium px-2 py-0.5 rounded-full">
+          <span className="mt-2 bg-gray-200 dark:bg-slate-600 text-gray-700 dark:text-gray-200 text-xs font-medium px-2 py-0.5 rounded-full">
             {taskCount}
           </span>
         </div>
@@ -104,11 +104,11 @@ function KanbanColumnComponent({
       aria-label={`${columnTitle} column with ${taskCount} tasks`}
     >
       {/* Column header */}
-      <div className="flex items-center justify-between px-4 py-3 bg-gray-100 rounded-t-lg border-b border-gray-200 sticky top-0 z-10">
+      <div className="flex items-center justify-between px-4 py-3 bg-gray-100 dark:bg-slate-700 rounded-t-lg border-b border-gray-200 dark:border-slate-600 sticky top-0 z-10">
         <div className="flex items-center gap-2">
-          <h3 className="font-semibold text-gray-900">{columnTitle}</h3>
+          <h3 className="font-semibold text-gray-900 dark:text-white">{columnTitle}</h3>
           {/* Task count badge */}
-          <span className="bg-gray-200 text-gray-700 text-xs font-medium px-2 py-0.5 rounded-full">
+          <span className="bg-gray-200 dark:bg-slate-600 text-gray-700 dark:text-gray-200 text-xs font-medium px-2 py-0.5 rounded-full">
             {taskCount}
           </span>
         </div>
@@ -117,12 +117,12 @@ function KanbanColumnComponent({
         <button
           type="button"
           onClick={handleToggleClick}
-          className="p-1 rounded hover:bg-gray-200 transition-colors"
+          className="p-1 rounded hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors"
           aria-label={`Collapse ${columnTitle} column`}
           title="Collapse column"
         >
           <svg
-            className="w-4 h-4 text-gray-500"
+            className="w-4 h-4 text-gray-500 dark:text-gray-400"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -141,9 +141,9 @@ function KanbanColumnComponent({
       <div className="kanban-column-content flex-1 overflow-y-auto p-2 space-y-2">
         {taskCount === 0 ? (
           /* Empty state */
-          <div className="flex flex-col items-center justify-center h-32 text-gray-400 text-sm">
+          <div className="flex flex-col items-center justify-center h-32 text-gray-400 dark:text-gray-500 text-sm">
             <svg
-              className="w-10 h-10 text-gray-300 mb-2"
+              className="w-10 h-10 text-gray-300 dark:text-gray-600 mb-2"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

@@ -43,7 +43,7 @@ export function Badge({ children, className = '', size = 'sm' }) {
  * @param {boolean} props.showLabel - Whether to show the label text
  */
 export function PriorityBadge({ priority, size = 'sm', showLabel = true }) {
-  const colorClass = PRIORITY_COLORS[priority] || 'bg-gray-100 text-gray-800';
+  const colorClass = PRIORITY_COLORS[priority] || 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200';
   const label = PRIORITY_LABELS[priority] || priority;
 
   return (
@@ -61,7 +61,7 @@ export function PriorityBadge({ priority, size = 'sm', showLabel = true }) {
  * @param {boolean} props.showLabel - Whether to show the label text
  */
 export function StatusBadge({ status, size = 'sm', showLabel = true }) {
-  const colorClass = STATUS_COLORS[status] || 'bg-gray-100 text-gray-800';
+  const colorClass = STATUS_COLORS[status] || 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200';
   const label = STATUS_LABELS[status] || status;
 
   return (
@@ -79,7 +79,7 @@ export function StatusBadge({ status, size = 'sm', showLabel = true }) {
  * @param {boolean} props.showLabel - Whether to show the label text
  */
 export function CategoryBadge({ category, size = 'sm', showLabel = true }) {
-  const colorClass = CATEGORY_COLORS[category] || 'bg-gray-100 text-gray-800';
+  const colorClass = CATEGORY_COLORS[category] || 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200';
   const label = CATEGORY_LABELS[category] || category;
 
   return (
@@ -98,7 +98,7 @@ export function CategoryBadge({ category, size = 'sm', showLabel = true }) {
  */
 export function TagBadge({ tag, size = 'sm', onRemove }) {
   return (
-    <Badge className="bg-indigo-100 text-indigo-800" size={size}>
+    <Badge className="bg-indigo-100 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-300" size={size}>
       <span>{tag}</span>
       {onRemove && (
         <button
@@ -139,14 +139,14 @@ export function TagBadge({ tag, size = 'sm', onRemove }) {
  * @param {string} props.size - Badge size: 'sm' | 'md' | 'lg'
  */
 export function DeadlineBadge({ isOverdue, isToday, isSoon, text, size = 'sm' }) {
-  let colorClass = 'bg-gray-100 text-gray-800';
+  let colorClass = 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200';
 
   if (isOverdue) {
-    colorClass = 'bg-red-100 text-red-800';
+    colorClass = 'bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300';
   } else if (isToday) {
-    colorClass = 'bg-orange-100 text-orange-800';
+    colorClass = 'bg-orange-100 dark:bg-orange-900/50 text-orange-800 dark:text-orange-300';
   } else if (isSoon) {
-    colorClass = 'bg-yellow-100 text-yellow-800';
+    colorClass = 'bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300';
   }
 
   return (

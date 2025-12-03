@@ -102,7 +102,7 @@ export function Modal({
     >
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+        className="fixed inset-0 bg-gray-500 dark:bg-slate-900 bg-opacity-75 dark:bg-opacity-80 transition-opacity"
         aria-hidden="true"
         onClick={handleBackdropClick}
       />
@@ -115,15 +115,15 @@ export function Modal({
         {/* Modal panel */}
         <div
           ref={modalRef}
-          className={`relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full ${sizeClasses[size]} sm:my-8`}
+          className={`relative transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 text-left shadow-xl dark:shadow-slate-900/50 transition-all w-full ${sizeClasses[size]} sm:my-8`}
           tabIndex={-1}
         >
           {/* Header */}
           {(title || showCloseButton) && (
-            <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 sm:px-6">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-slate-700 sm:px-6">
               {title && (
                 <h3
-                  className="text-lg font-semibold leading-6 text-gray-900"
+                  className="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
                   id="modal-title"
                 >
                   {title}
@@ -132,7 +132,7 @@ export function Modal({
               {showCloseButton && (
                 <button
                   type="button"
-                  className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  className="rounded-md bg-white dark:bg-slate-800 text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800"
                   onClick={onClose}
                   aria-label="Close modal"
                 >
@@ -168,7 +168,7 @@ export function Modal({
  */
 export function ModalHeader({ children, className = '' }) {
   return (
-    <div className={`px-4 py-3 border-b border-gray-200 sm:px-6 ${className}`}>
+    <div className={`px-4 py-3 border-b border-gray-200 dark:border-slate-700 sm:px-6 ${className}`}>
       {children}
     </div>
   );
@@ -187,7 +187,7 @@ export function ModalBody({ children, className = '' }) {
 export function ModalFooter({ children, className = '' }) {
   return (
     <div
-      className={`px-4 py-3 border-t border-gray-200 sm:px-6 flex justify-end gap-3 ${className}`}
+      className={`px-4 py-3 border-t border-gray-200 dark:border-slate-700 sm:px-6 flex justify-end gap-3 ${className}`}
     >
       {children}
     </div>

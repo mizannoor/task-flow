@@ -90,8 +90,8 @@ export function TaskSidePanel({
   }
 
   // Panel classes
-  const backdropClasses = `fixed inset-0 bg-black/30 z-40 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`;
-  const panelClasses = `fixed inset-y-0 right-0 w-full sm:w-96 bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`;
+  const backdropClasses = `fixed inset-0 bg-black/30 dark:bg-black/50 z-40 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`;
+  const panelClasses = `fixed inset-y-0 right-0 w-full sm:w-96 bg-white dark:bg-slate-800 shadow-xl z-50 transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`;
 
   const panelContent = (
     <>
@@ -111,18 +111,18 @@ export function TaskSidePanel({
         aria-labelledby="side-panel-title"
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200">
-          <h2 id="side-panel-title" className="text-lg font-semibold text-gray-900 truncate pr-4">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-slate-700">
+          <h2 id="side-panel-title" className="text-lg font-semibold text-gray-900 dark:text-white truncate pr-4">
             Task Details
           </h2>
           <button
             ref={closeButtonRef}
             type="button"
             onClick={onClose}
-            className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
             aria-label="Close panel"
           >
-            <svg className="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -132,12 +132,12 @@ export function TaskSidePanel({
         <div className="flex-1 overflow-y-auto p-4 space-y-6">
           {/* Task name */}
           <div>
-            <h3 className="text-xl font-medium text-gray-900">{task.taskName}</h3>
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">{task.taskName}</h3>
           </div>
 
           {/* Status section with quick change buttons */}
           <div>
-            <label className="text-sm font-medium text-gray-500 block mb-2">Status</label>
+            <label className="text-sm font-medium text-gray-500 dark:text-gray-400 block mb-2">Status</label>
             <div className="flex gap-2 flex-wrap">
               {Object.entries(STATUSES).map(([key, value]) => (
                 <button
@@ -145,8 +145,8 @@ export function TaskSidePanel({
                   type="button"
                   onClick={() => handleStatusChange(value)}
                   className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${task.status === value
-                      ? `${STATUS_COLORS[value]} ring-2 ring-offset-1 ring-current`
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? `${STATUS_COLORS[value]} ring-2 ring-offset-1 dark:ring-offset-slate-800 ring-current`
+                    : 'bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-600'
                     }`}
                 >
                   {STATUS_LABELS[value]}
@@ -158,13 +158,13 @@ export function TaskSidePanel({
           {/* Priority and Category row */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium text-gray-500 block mb-1">Priority</label>
+              <label className="text-sm font-medium text-gray-500 dark:text-gray-400 block mb-1">Priority</label>
               <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-sm font-medium ${PRIORITY_COLORS[task.priority]}`}>
                 {PRIORITY_LABELS[task.priority]}
               </span>
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-500 block mb-1">Category</label>
+              <label className="text-sm font-medium text-gray-500 dark:text-gray-400 block mb-1">Category</label>
               <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-sm font-medium ${CATEGORY_COLORS[task.category]}`}>
                 {CATEGORY_LABELS[task.category]}
               </span>
@@ -174,15 +174,15 @@ export function TaskSidePanel({
           {/* Description */}
           {task.description && (
             <div>
-              <label className="text-sm font-medium text-gray-500 block mb-1">Description</label>
-              <p className="text-gray-700 whitespace-pre-wrap">{task.description}</p>
+              <label className="text-sm font-medium text-gray-500 dark:text-gray-400 block mb-1">Description</label>
+              <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{task.description}</p>
             </div>
           )}
 
           {/* Deadline */}
           <div>
-            <label className="text-sm font-medium text-gray-500 block mb-1">Deadline</label>
-            <p className="text-gray-700">
+            <label className="text-sm font-medium text-gray-500 dark:text-gray-400 block mb-1">Deadline</label>
+            <p className="text-gray-700 dark:text-gray-300">
               {task.deadline ? formatDate(task.deadline, { includeTime: true }) : 'No deadline set'}
             </p>
           </div>
@@ -190,40 +190,40 @@ export function TaskSidePanel({
           {/* Complexity and Duration row */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium text-gray-500 block mb-1">Complexity</label>
+              <label className="text-sm font-medium text-gray-500 dark:text-gray-400 block mb-1">Complexity</label>
               <div className="flex items-center gap-2">
-                <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div className="flex-1 h-2 bg-gray-200 dark:bg-slate-600 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-indigo-500 rounded-full"
                     style={{ width: `${(task.complexity / 10) * 100}%` }}
                   />
                 </div>
-                <span className="text-sm text-gray-700 font-medium">{task.complexity}/10</span>
+                <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">{task.complexity}/10</span>
               </div>
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-500 block mb-1">Estimated Duration</label>
-              <p className="text-gray-700">{formatDuration(task.estimatedDuration)}</p>
+              <label className="text-sm font-medium text-gray-500 dark:text-gray-400 block mb-1">Estimated Duration</label>
+              <p className="text-gray-700 dark:text-gray-300">{formatDuration(task.estimatedDuration)}</p>
             </div>
           </div>
 
           {/* Actual duration (if completed) */}
           {task.actualDuration > 0 && (
             <div>
-              <label className="text-sm font-medium text-gray-500 block mb-1">Actual Duration</label>
-              <p className="text-gray-700">{formatDuration(task.actualDuration)}</p>
+              <label className="text-sm font-medium text-gray-500 dark:text-gray-400 block mb-1">Actual Duration</label>
+              <p className="text-gray-700 dark:text-gray-300">{formatDuration(task.actualDuration)}</p>
             </div>
           )}
 
           {/* Tags */}
           {task.tags && task.tags.length > 0 && (
             <div>
-              <label className="text-sm font-medium text-gray-500 block mb-2">Tags</label>
+              <label className="text-sm font-medium text-gray-500 dark:text-gray-400 block mb-2">Tags</label>
               <div className="flex flex-wrap gap-2">
                 {task.tags.map((tag, index) => (
                   <span
                     key={index}
-                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"
+                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-slate-700 text-gray-800 dark:text-gray-200"
                   >
                     {tag}
                   </span>
@@ -235,28 +235,28 @@ export function TaskSidePanel({
           {/* Dates */}
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <label className="text-gray-500 block">Created</label>
-              <p className="text-gray-700">{formatDate(task.createdAt, { includeTime: true })}</p>
+              <label className="text-gray-500 dark:text-gray-400 block">Created</label>
+              <p className="text-gray-700 dark:text-gray-300">{formatDate(task.createdAt, { includeTime: true })}</p>
             </div>
             <div>
-              <label className="text-gray-500 block">Updated</label>
-              <p className="text-gray-700">{formatDate(task.updatedAt, { includeTime: true })}</p>
+              <label className="text-gray-500 dark:text-gray-400 block">Updated</label>
+              <p className="text-gray-700 dark:text-gray-300">{formatDate(task.updatedAt, { includeTime: true })}</p>
             </div>
             {task.completedAt && (
               <div className="col-span-2">
-                <label className="text-gray-500 block">Completed</label>
-                <p className="text-gray-700">{formatDate(task.completedAt, { includeTime: true })}</p>
+                <label className="text-gray-500 dark:text-gray-400 block">Completed</label>
+                <p className="text-gray-700 dark:text-gray-300">{formatDate(task.completedAt, { includeTime: true })}</p>
               </div>
             )}
           </div>
         </div>
 
         {/* Footer with actions */}
-        <div className="p-4 border-t border-gray-200 flex gap-3">
+        <div className="p-4 border-t border-gray-200 dark:border-slate-700 flex gap-3">
           <button
             type="button"
             onClick={() => onEdit?.(task)}
-            className="flex-1 inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="flex-1 inline-flex justify-center items-center px-4 py-2 border border-gray-300 dark:border-slate-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-slate-700 hover:bg-gray-50 dark:hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-slate-800 focus:ring-indigo-500"
           >
             <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />

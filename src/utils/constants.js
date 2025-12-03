@@ -6,6 +6,22 @@
 // Session storage key for localStorage
 export const SESSION_KEY = 'taskflow_session';
 
+// =============================================================================
+// Theme Constants
+// =============================================================================
+
+// Theme storage key for localStorage
+export const THEME_STORAGE_KEY = 'taskflow_theme';
+
+// Theme modes
+export const THEME_MODES = {
+  LIGHT: 'light',
+  DARK: 'dark',
+};
+
+// Default theme when no preference exists
+export const DEFAULT_THEME = THEME_MODES.LIGHT;
+
 // Validation patterns for identifier types
 export const PATTERNS = {
   // Valid email format: x@y.z
@@ -103,10 +119,10 @@ export const PRIORITY_ORDER = {
 
 // Priority colors (Tailwind classes)
 export const PRIORITY_COLORS = {
-  [PRIORITIES.URGENT]: 'bg-red-100 text-red-800',
-  [PRIORITIES.HIGH]: 'bg-orange-100 text-orange-800',
-  [PRIORITIES.MEDIUM]: 'bg-yellow-100 text-yellow-800',
-  [PRIORITIES.LOW]: 'bg-green-100 text-green-800',
+  [PRIORITIES.URGENT]: 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',
+  [PRIORITIES.HIGH]: 'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300',
+  [PRIORITIES.MEDIUM]: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300',
+  [PRIORITIES.LOW]: 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
 };
 
 // Task categories
@@ -125,9 +141,9 @@ export const CATEGORY_LABELS = {
 
 // Category colors (Tailwind classes)
 export const CATEGORY_COLORS = {
-  [CATEGORIES.DEVELOPMENT]: 'bg-blue-100 text-blue-800',
-  [CATEGORIES.FIX]: 'bg-purple-100 text-purple-800',
-  [CATEGORIES.SUPPORT]: 'bg-gray-100 text-gray-800',
+  [CATEGORIES.DEVELOPMENT]: 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
+  [CATEGORIES.FIX]: 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
+  [CATEGORIES.SUPPORT]: 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300',
 };
 
 // Task statuses
@@ -146,9 +162,9 @@ export const STATUS_LABELS = {
 
 // Status colors (Tailwind classes)
 export const STATUS_COLORS = {
-  [STATUSES.PENDING]: 'bg-slate-100 text-slate-800',
-  [STATUSES.IN_PROGRESS]: 'bg-blue-100 text-blue-800',
-  [STATUSES.COMPLETED]: 'bg-green-100 text-green-800',
+  [STATUSES.PENDING]: 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-200',
+  [STATUSES.IN_PROGRESS]: 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
+  [STATUSES.COMPLETED]: 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
 };
 
 // Default task values
@@ -758,6 +774,26 @@ export const KEYBOARD_SHORTCUTS = [
     context: SHORTCUT_CONTEXTS.GLOBAL,
     category: SHORTCUT_CATEGORIES.GLOBAL,
     description: 'Close modal or clear selection',
+    enabled: true,
+  },
+
+  // Theme shortcuts
+  {
+    key: 'd',
+    modifiers: ['ctrl', 'alt'],
+    action: 'switchToDark',
+    context: SHORTCUT_CONTEXTS.GLOBAL,
+    category: SHORTCUT_CATEGORIES.GLOBAL,
+    description: 'Switch to dark mode',
+    enabled: true,
+  },
+  {
+    key: 'l',
+    modifiers: ['ctrl', 'alt'],
+    action: 'switchToLight',
+    context: SHORTCUT_CONTEXTS.GLOBAL,
+    category: SHORTCUT_CATEGORIES.GLOBAL,
+    description: 'Switch to light mode',
     enabled: true,
   },
 

@@ -37,7 +37,7 @@ export function CalendarWeekView({
   return (
     <div className="flex h-full flex-col">
       {/* Week range header */}
-      <div className="border-b border-gray-200 bg-gray-50 px-4 py-2 text-center text-sm text-gray-600">
+      <div className="border-b border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 px-4 py-2 text-center text-sm text-gray-600 dark:text-gray-300">
         {weekRangeText}
       </div>
 
@@ -49,7 +49,7 @@ export function CalendarWeekView({
             <div key={dayName} className="calendar-day-header-cell flex flex-col">
               <span>{dayName}</span>
               {day && (
-                <span className={`text-lg font-semibold ${day.isToday ? 'text-blue-600' : 'text-gray-900'}`}>
+                <span className={`text-lg font-semibold ${day.isToday ? 'text-blue-600 dark:text-blue-400' : 'text-gray-900 dark:text-white'}`}>
                   {day.day}
                 </span>
               )}
@@ -59,13 +59,13 @@ export function CalendarWeekView({
       </div>
 
       {/* Week grid - single row with taller cells */}
-      <div className="grid flex-1 grid-cols-7 gap-px bg-gray-200">
+      <div className="grid flex-1 grid-cols-7 gap-px bg-gray-200 dark:bg-slate-700">
         {days.map((day, index) => (
           <div
             key={`${day.dateKey}-${index}`}
             className={`
-              bg-white p-2 overflow-y-auto
-              ${day.isToday ? 'bg-blue-50' : ''}
+              bg-white dark:bg-slate-800 p-2 overflow-y-auto
+              ${day.isToday ? 'bg-blue-50 dark:bg-blue-900/20' : ''}
               ${selectedDate && isSameDay(day.date, selectedDate) ? 'ring-2 ring-blue-500 ring-inset' : ''}
             `}
             onClick={() => onDateSelect(day.date)}
@@ -76,7 +76,7 @@ export function CalendarWeekView({
               {(tasksByDate.get(day.dateKey) || []).map((task) => (
                 <div
                   key={task.id}
-                  className="cursor-pointer rounded bg-gray-100 p-2 text-sm hover:bg-gray-200"
+                  className="cursor-pointer rounded bg-gray-100 dark:bg-slate-700 p-2 text-sm hover:bg-gray-200 dark:hover:bg-slate-600"
                   onClick={(e) => {
                     e.stopPropagation();
                     onTaskClick(task);
@@ -87,7 +87,7 @@ export function CalendarWeekView({
                     e.dataTransfer.setData('application/taskflow-calendar-task', task.id);
                   }}
                 >
-                  <div className="font-medium text-gray-900 truncate">
+                  <div className="font-medium text-gray-900 dark:text-white truncate">
                     {task.taskName}
                   </div>
                 </div>

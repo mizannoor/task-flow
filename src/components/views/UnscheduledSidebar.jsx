@@ -45,7 +45,7 @@ export function UnscheduledSidebar({
         {isOpen ? (
           <>
             <svg
-              className="h-5 w-5 text-gray-500"
+              className="h-5 w-5 text-gray-500 dark:text-gray-400"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -57,14 +57,14 @@ export function UnscheduledSidebar({
                 d="M13 5l7 7-7 7M5 5l7 7-7 7"
               />
             </svg>
-            <span className="ml-2 text-sm font-medium text-gray-700">
+            <span className="ml-2 text-sm font-medium text-gray-700 dark:text-gray-200">
               Unscheduled ({tasks.length})
             </span>
           </>
         ) : (
           <div className="flex flex-col items-center">
             <svg
-              className="h-5 w-5 text-gray-500"
+              className="h-5 w-5 text-gray-500 dark:text-gray-400"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -93,7 +93,7 @@ export function UnscheduledSidebar({
               {sortedTasks.map((task) => (
                 <div
                   key={task.id}
-                  className="cursor-pointer rounded-lg border border-gray-200 bg-white p-3 shadow-sm transition-shadow hover:shadow-md"
+                  className="cursor-pointer rounded-lg border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 shadow-sm transition-shadow hover:shadow-md dark:shadow-slate-900/50"
                   draggable
                   onDragStart={(e) => handleDragStart(e, task)}
                   onClick={() => onTaskClick(task)}
@@ -102,26 +102,26 @@ export function UnscheduledSidebar({
                   <div className="mb-2 flex items-center gap-2">
                     <span
                       className={`h-2 w-2 rounded-full ${task.priority === PRIORITIES.URGENT
-                          ? 'bg-red-500'
-                          : task.priority === PRIORITIES.HIGH
-                            ? 'bg-orange-500'
-                            : task.priority === PRIORITIES.MEDIUM
-                              ? 'bg-yellow-500'
-                              : 'bg-gray-400'
+                        ? 'bg-red-500'
+                        : task.priority === PRIORITIES.HIGH
+                          ? 'bg-orange-500'
+                          : task.priority === PRIORITIES.MEDIUM
+                            ? 'bg-yellow-500'
+                            : 'bg-gray-400'
                         }`}
                     />
-                    <span className="text-xs font-medium text-gray-500">
+                    <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
                       {task.priority}
                     </span>
                   </div>
 
                   {/* Task name */}
-                  <h4 className="text-sm font-medium text-gray-900 line-clamp-2">
+                  <h4 className="text-sm font-medium text-gray-900 dark:text-white line-clamp-2">
                     {task.taskName}
                   </h4>
 
                   {/* Drag hint */}
-                  <p className="mt-2 text-xs text-gray-400">
+                  <p className="mt-2 text-xs text-gray-400 dark:text-gray-500">
                     Drag to calendar to set deadline
                   </p>
                 </div>
@@ -131,7 +131,7 @@ export function UnscheduledSidebar({
             <div className="flex h-32 items-center justify-center">
               <div className="text-center">
                 <svg
-                  className="mx-auto h-8 w-8 text-gray-300"
+                  className="mx-auto h-8 w-8 text-gray-300 dark:text-gray-600"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -143,7 +143,7 @@ export function UnscheduledSidebar({
                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                <p className="mt-2 text-xs text-gray-500">
+                <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
                   All tasks are scheduled!
                 </p>
               </div>

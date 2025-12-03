@@ -36,15 +36,15 @@ function FocusProgressComponent({ progress }) {
   const progressColor = getProgressColor(completionPercentage);
 
   return (
-    <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-5 mb-6">
+    <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-xl p-5 mb-6">
       <div className="flex items-center justify-between mb-3">
         <div>
-          <h3 className="text-sm font-medium text-gray-700">
+          <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
             Today's Progress
           </h3>
-          <p className="text-2xl font-bold text-gray-900 mt-1">
+          <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
             {completedToday} of {totalQualifying}
-            <span className="text-base font-normal text-gray-500 ml-2">
+            <span className="text-base font-normal text-gray-500 dark:text-gray-400 ml-2">
               tasks completed
             </span>
           </p>
@@ -52,11 +52,11 @@ function FocusProgressComponent({ progress }) {
 
         {/* Percentage badge */}
         <div className="flex flex-col items-end">
-          <span className={`text-3xl font-bold ${completionPercentage >= 100 ? 'text-green-600' : 'text-indigo-600'}`}>
+          <span className={`text-3xl font-bold ${completionPercentage >= 100 ? 'text-green-600 dark:text-green-400' : 'text-indigo-600 dark:text-indigo-400'}`}>
             {completionPercentage}%
           </span>
           {remainingTasks > 0 && (
-            <span className="text-xs text-gray-500 mt-1">
+            <span className="text-xs text-gray-500 dark:text-gray-400 mt-1">
               {remainingTasks} remaining
             </span>
           )}
@@ -65,7 +65,7 @@ function FocusProgressComponent({ progress }) {
 
       {/* Progress bar */}
       <div
-        className="h-3 bg-white rounded-full overflow-hidden shadow-inner"
+        className="h-3 bg-white dark:bg-slate-700 rounded-full overflow-hidden shadow-inner"
         role="progressbar"
         aria-valuenow={completionPercentage}
         aria-valuemin={0}
@@ -80,7 +80,7 @@ function FocusProgressComponent({ progress }) {
 
       {/* Motivational message */}
       {completionPercentage >= 100 && (
-        <p className="text-sm text-green-700 font-medium mt-3 flex items-center">
+        <p className="text-sm text-green-700 dark:text-green-400 font-medium mt-3 flex items-center">
           <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
@@ -88,12 +88,12 @@ function FocusProgressComponent({ progress }) {
         </p>
       )}
       {completionPercentage >= 75 && completionPercentage < 100 && (
-        <p className="text-sm text-emerald-700 mt-3">
+        <p className="text-sm text-emerald-700 dark:text-emerald-400 mt-3">
           🔥 Almost there! Keep up the great work!
         </p>
       )}
       {completionPercentage >= 50 && completionPercentage < 75 && (
-        <p className="text-sm text-blue-700 mt-3">
+        <p className="text-sm text-blue-700 dark:text-blue-400 mt-3">
           💪 Halfway done! You're making great progress.
         </p>
       )}

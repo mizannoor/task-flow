@@ -26,13 +26,13 @@ export function CalendarHeader({
   unscheduledCount,
 }) {
   return (
-    <header className="flex items-center justify-between border-b border-gray-200 bg-white px-4 py-3">
+    <header className="flex items-center justify-between border-b border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-3">
       {/* Left: Navigation Controls */}
       <div className="flex items-center gap-2">
         {/* Previous Button */}
         <button
           onClick={onPrevious}
-          className="rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="rounded-md p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800"
           aria-label={`Previous ${viewMode}`}
         >
           <svg
@@ -53,7 +53,7 @@ export function CalendarHeader({
         {/* Next Button */}
         <button
           onClick={onNext}
-          className="rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="rounded-md p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800"
           aria-label={`Next ${viewMode}`}
         >
           <svg
@@ -74,13 +74,13 @@ export function CalendarHeader({
         {/* Today Button */}
         <button
           onClick={onToday}
-          className="ml-2 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="ml-2 rounded-md border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800"
         >
           Today
         </button>
 
         {/* Header Text (Month Year or Date) */}
-        <h2 className="ml-4 text-lg font-semibold text-gray-900">
+        <h2 className="ml-4 text-lg font-semibold text-gray-900 dark:text-white">
           {headerText}
         </h2>
       </div>
@@ -96,11 +96,11 @@ export function CalendarHeader({
               className={`
                 px-3 py-1.5 text-sm font-medium
                 first:rounded-l-md last:rounded-r-md
-                border border-gray-300
+                border border-gray-300 dark:border-slate-600
                 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500
                 ${viewMode === mode
-                  ? 'bg-blue-50 text-blue-700 border-blue-500'
-                  : 'bg-white text-gray-700 hover:bg-gray-50'
+                  ? 'bg-blue-50 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 border-blue-500 dark:border-blue-500'
+                  : 'bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-600'
                 }
               `}
               aria-pressed={viewMode === mode}
@@ -114,10 +114,10 @@ export function CalendarHeader({
         <button
           onClick={onToggleSidebar}
           className={`
-            relative rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+            relative rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800
             ${sidebarOpen
-              ? 'bg-blue-50 text-blue-700'
-              : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+              ? 'bg-blue-50 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300'
+              : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white'
             }
           `}
           aria-label={sidebarOpen ? 'Hide unscheduled tasks' : 'Show unscheduled tasks'}

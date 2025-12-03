@@ -80,6 +80,8 @@ export function KeyboardShortcutProvider({
   onDeleteTask,
   onCompleteTask,
   onStartTask,
+  onSwitchToDark,
+  onSwitchToLight,
   searchRef,
 }) {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -208,6 +210,25 @@ export function KeyboardShortcutProvider({
       return false;
     });
 
+    // Theme shortcuts
+    handlers.set('switchToDark', () => {
+      if (onSwitchToDark) {
+        onSwitchToDark();
+        announce('Dark mode enabled');
+        return true;
+      }
+      return false;
+    });
+
+    handlers.set('switchToLight', () => {
+      if (onSwitchToLight) {
+        onSwitchToLight();
+        announce('Light mode enabled');
+        return true;
+      }
+      return false;
+    });
+
     // Task actions (require focused task)
     handlers.set('editTask', () => {
       if (state.focusedTaskId && onEditTask) {
@@ -271,6 +292,8 @@ export function KeyboardShortcutProvider({
     onDeleteTask,
     onCompleteTask,
     onStartTask,
+    onSwitchToDark,
+    onSwitchToLight,
     searchRef,
     announce,
   ]);

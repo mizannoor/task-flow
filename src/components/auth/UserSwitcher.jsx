@@ -225,14 +225,14 @@ export function UserSwitcher() {
         type="button"
         onClick={toggleDropdown}
         onKeyDown={handleKeyDown}
-        className="flex items-center space-x-2 text-sm font-medium text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 rounded-md px-3 py-2"
+        className="flex items-center space-x-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-slate-800 focus:ring-indigo-500 rounded-md px-3 py-2"
         aria-expanded={isOpen}
         aria-haspopup="true"
         aria-controls="user-switcher-menu"
       >
         {/* Avatar */}
-        <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-indigo-100">
-          <span className="text-sm font-medium text-indigo-700">
+        <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50">
+          <span className="text-sm font-medium text-indigo-700 dark:text-indigo-300">
             {currentUser.displayName?.charAt(0).toUpperCase() || 'U'}
           </span>
         </span>
@@ -240,7 +240,7 @@ export function UserSwitcher() {
         <span className="hidden sm:block">{currentUser.displayName}</span>
         {/* Chevron */}
         <svg
-          className={`h-5 w-5 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`h-5 w-5 text-gray-400 dark:text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`}
           viewBox="0 0 20 20"
           fill="currentColor"
           aria-hidden="true"
@@ -257,31 +257,31 @@ export function UserSwitcher() {
       {isOpen && (
         <div
           id="user-switcher-menu"
-          className="absolute right-0 mt-2 w-64 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
+          className="absolute right-0 mt-2 w-64 origin-top-right rounded-md bg-white dark:bg-slate-800 shadow-lg ring-1 ring-black ring-opacity-5 dark:ring-slate-700 focus:outline-none z-50"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="user-switcher-button"
         >
           {/* Current user info */}
-          <div className="px-4 py-3 border-b border-gray-100">
-            <p className="text-sm font-medium text-gray-900">
+          <div className="px-4 py-3 border-b border-gray-100 dark:border-slate-700">
+            <p className="text-sm font-medium text-gray-900 dark:text-white">
               {currentUser.displayName}
             </p>
-            <p className="text-xs text-gray-500 truncate">
+            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
               {currentUser.identifier}
             </p>
           </div>
 
           {/* Search input for 5+ users */}
           {showSearch && (
-            <div className="px-4 py-2 border-b border-gray-100">
+            <div className="px-4 py-2 border-b border-gray-100 dark:border-slate-700">
               <input
                 ref={searchInputRef}
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search users..."
-                className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded focus:ring-indigo-500 focus:border-indigo-500"
                 aria-label="Search users"
               />
             </div>
@@ -289,8 +289,8 @@ export function UserSwitcher() {
 
           {/* Other users */}
           {filteredUsers.length > 0 && (
-            <div className="py-1 border-b border-gray-100 max-h-48 overflow-y-auto">
-              <p className="px-4 py-1 text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <div className="py-1 border-b border-gray-100 dark:border-slate-700 max-h-48 overflow-y-auto">
+              <p className="px-4 py-1 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 Switch account
               </p>
               {filteredUsers.map((user, index) => (
@@ -299,13 +299,13 @@ export function UserSwitcher() {
                   ref={el => menuItemsRef.current[index] = el}
                   type="button"
                   onClick={() => handleSwitchUser(user.id)}
-                  className={`w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none ${focusedIndex === index ? 'bg-gray-100' : ''
+                  className={`w-full flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700 focus:bg-gray-100 dark:focus:bg-slate-700 focus:outline-none ${focusedIndex === index ? 'bg-gray-100 dark:bg-slate-700' : ''
                     }`}
                   role="menuitem"
                   disabled={isLoading}
                 >
-                  <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-gray-200 mr-3">
-                    <span className="text-xs font-medium text-gray-600">
+                  <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-gray-200 dark:bg-slate-600 mr-3">
+                    <span className="text-xs font-medium text-gray-600 dark:text-gray-300">
                       {user.displayName?.charAt(0).toUpperCase() || 'U'}
                     </span>
                   </span>
@@ -320,13 +320,13 @@ export function UserSwitcher() {
 
           {/* No results message when searching */}
           {showSearch && searchQuery && filteredUsers.length === 0 && (
-            <div className="px-4 py-3 text-sm text-gray-500 text-center">
+            <div className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400 text-center">
               No users found matching "{searchQuery}"
             </div>
           )}
 
           {/* Add another account */}
-          <div className="py-1 border-b border-gray-100">
+          <div className="py-1 border-b border-gray-100 dark:border-slate-700">
             {showAddForm ? (
               <form onSubmit={handleAddAccount} className="px-4 py-2">
                 <input
@@ -338,16 +338,16 @@ export function UserSwitcher() {
                     setAddError(null);
                   }}
                   placeholder="Email, username, or phone"
-                  className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded focus:ring-indigo-500 focus:border-indigo-500"
                   disabled={isLoading}
                 />
                 {addError && (
-                  <p className="mt-1 text-xs text-red-600">{addError}</p>
+                  <p className="mt-1 text-xs text-red-600 dark:text-red-400">{addError}</p>
                 )}
                 <div className="mt-2 flex space-x-2">
                   <button
                     type="submit"
-                    className="flex-1 px-2 py-1 text-xs font-medium text-white bg-indigo-600 rounded hover:bg-indigo-700 disabled:opacity-50"
+                    className="flex-1 px-2 py-1 text-xs font-medium text-white bg-indigo-600 dark:bg-indigo-500 rounded hover:bg-indigo-700 dark:hover:bg-indigo-600 disabled:opacity-50"
                     disabled={isLoading}
                   >
                     Add
@@ -359,7 +359,7 @@ export function UserSwitcher() {
                       setNewIdentifier('');
                       setAddError(null);
                     }}
-                    className="flex-1 px-2 py-1 text-xs font-medium text-gray-700 bg-gray-100 rounded hover:bg-gray-200"
+                    className="flex-1 px-2 py-1 text-xs font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-slate-600 rounded hover:bg-gray-200 dark:hover:bg-slate-500"
                   >
                     Cancel
                   </button>
@@ -370,12 +370,12 @@ export function UserSwitcher() {
                 ref={el => menuItemsRef.current[filteredUsers.length] = el}
                 type="button"
                 onClick={() => setShowAddForm(true)}
-                className={`w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none ${focusedIndex === filteredUsers.length ? 'bg-gray-100' : ''
+                className={`w-full flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700 focus:bg-gray-100 dark:focus:bg-slate-700 focus:outline-none ${focusedIndex === filteredUsers.length ? 'bg-gray-100 dark:bg-slate-700' : ''
                   }`}
                 role="menuitem"
               >
                 <svg
-                  className="h-6 w-6 mr-3 text-gray-400"
+                  className="h-6 w-6 mr-3 text-gray-400 dark:text-gray-500"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -398,12 +398,12 @@ export function UserSwitcher() {
               ref={el => menuItemsRef.current[filteredUsers.length + 1] = el}
               type="button"
               onClick={handleLogout}
-              className={`w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 focus:bg-red-50 focus:outline-none ${focusedIndex === filteredUsers.length + 1 ? 'bg-red-50' : ''
+              className={`w-full flex items-center px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 focus:bg-red-50 dark:focus:bg-red-900/20 focus:outline-none ${focusedIndex === filteredUsers.length + 1 ? 'bg-red-50 dark:bg-red-900/20' : ''
                 }`}
               role="menuitem"
             >
               <svg
-                className="h-6 w-6 mr-3 text-red-400"
+                className="h-6 w-6 mr-3 text-red-400 dark:text-red-500"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"

@@ -118,9 +118,9 @@ function FocusCardComponent({
 
   // Base card classes
   const cardClasses = `
-    relative bg-white rounded-xl border-2 transition-all duration-200 ease-in-out
-    ${isFocused ? 'ring-2 ring-indigo-500 ring-offset-2 border-indigo-300' : 'border-gray-200'}
-    ${isExpanded ? 'shadow-lg' : 'shadow-sm hover:shadow-md'}
+    relative bg-white dark:bg-slate-800 rounded-xl border-2 transition-all duration-200 ease-in-out
+    ${isFocused ? 'ring-2 ring-indigo-500 ring-offset-2 dark:ring-offset-slate-900 border-indigo-300 dark:border-indigo-500' : 'border-gray-200 dark:border-slate-700'}
+    ${isExpanded ? 'shadow-lg dark:shadow-slate-900/50' : 'shadow-sm hover:shadow-md dark:shadow-slate-900/30'}
     cursor-pointer
   `.trim().replace(/\s+/g, ' ');
 
@@ -187,7 +187,7 @@ function FocusCardComponent({
         </div>
 
         {/* Task name */}
-        <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2">
           {task.taskName}
         </h3>
 
@@ -219,7 +219,7 @@ function FocusCardComponent({
           </span>
 
           {/* Complexity */}
-          <span className="text-gray-500 flex items-center gap-1">
+          <span className="text-gray-500 dark:text-gray-400 flex items-center gap-1">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
@@ -229,14 +229,14 @@ function FocusCardComponent({
 
         {/* Expanded details */}
         {isExpanded && (
-          <div className="mt-4 pt-4 border-t border-gray-100 space-y-3 animate-fadeIn">
+          <div className="mt-4 pt-4 border-t border-gray-100 dark:border-slate-700 space-y-3 animate-fadeIn">
             {/* Description */}
             {task.description && (
               <div>
-                <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
+                <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">
                   Description
                 </h4>
-                <p className="text-gray-700 text-sm whitespace-pre-wrap">
+                <p className="text-gray-700 dark:text-gray-300 text-sm whitespace-pre-wrap">
                   {task.description}
                 </p>
               </div>
@@ -247,10 +247,10 @@ function FocusCardComponent({
               {/* Estimated duration */}
               {task.estimatedDuration > 0 && (
                 <div>
-                  <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
+                  <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">
                     Est. Duration
                   </h4>
-                  <p className="text-gray-700 text-sm">
+                  <p className="text-gray-700 dark:text-gray-300 text-sm">
                     {formatDuration(task.estimatedDuration)}
                   </p>
                 </div>
@@ -259,10 +259,10 @@ function FocusCardComponent({
               {/* Category */}
               {task.category && (
                 <div>
-                  <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
+                  <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">
                     Category
                   </h4>
-                  <p className="text-gray-700 text-sm capitalize">
+                  <p className="text-gray-700 dark:text-gray-300 text-sm capitalize">
                     {task.category}
                   </p>
                 </div>
@@ -272,14 +272,14 @@ function FocusCardComponent({
             {/* Tags */}
             {task.tags && task.tags.length > 0 && (
               <div>
-                <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
+                <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">
                   Tags
                 </h4>
                 <div className="flex flex-wrap gap-1">
                   {task.tags.map((tag, i) => (
                     <span
                       key={i}
-                      className="inline-flex items-center px-2 py-0.5 rounded text-xs bg-gray-100 text-gray-700"
+                      className="inline-flex items-center px-2 py-0.5 rounded text-xs bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300"
                     >
                       {tag}
                     </span>
@@ -289,7 +289,7 @@ function FocusCardComponent({
             )}
 
             {/* Collapse hint */}
-            <p className="text-xs text-gray-400 text-center pt-2">
+            <p className="text-xs text-gray-400 dark:text-gray-500 text-center pt-2">
               Click to collapse
             </p>
           </div>

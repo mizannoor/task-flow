@@ -267,7 +267,7 @@ export function TaskForm({
     <form onSubmit={handleSubmit} className="space-y-4">
       {/* Task Name */}
       <div>
-        <label htmlFor="taskName" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="taskName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           Task Name <span className="text-red-500">*</span>
         </label>
         <input
@@ -278,9 +278,9 @@ export function TaskForm({
           onChange={handleChange}
           maxLength={TASK_LIMITS.NAME_MAX_LENGTH}
           autoFocus
-          className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${errors.taskName
+          className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm dark:bg-slate-700 dark:text-white ${errors.taskName
             ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
-            : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
+            : 'border-gray-300 dark:border-slate-600 focus:border-indigo-500 focus:ring-indigo-500'
             }`}
           placeholder="Enter task name"
           disabled={isLoading}
@@ -296,7 +296,7 @@ export function TaskForm({
 
       {/* Description */}
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           Description
         </label>
         <textarea
@@ -306,9 +306,9 @@ export function TaskForm({
           onChange={handleChange}
           rows={3}
           maxLength={TASK_LIMITS.DESCRIPTION_MAX_LENGTH}
-          className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${errors.description
+          className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm dark:bg-slate-700 dark:text-white dark:placeholder-gray-400 ${errors.description
             ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
-            : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
+            : 'border-gray-300 dark:border-slate-600 focus:border-indigo-500 focus:ring-indigo-500'
             }`}
           placeholder="Enter task description (optional)"
           disabled={isLoading}
@@ -316,7 +316,7 @@ export function TaskForm({
         {errors.description && (
           <p className="mt-1 text-sm text-red-600">{errors.description}</p>
         )}
-        <p className="mt-1 text-xs text-gray-500">
+        <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
           {formData.description.length}/{TASK_LIMITS.DESCRIPTION_MAX_LENGTH} characters
         </p>
       </div>
@@ -474,7 +474,7 @@ export function TaskForm({
 
       {/* Deadline */}
       <div>
-        <label htmlFor="deadline" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="deadline" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           Deadline
         </label>
         <input
@@ -483,9 +483,9 @@ export function TaskForm({
           name="deadline"
           value={formData.deadline}
           onChange={handleChange}
-          className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${errors.deadline
+          className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm dark:bg-slate-700 dark:text-white dark:[color-scheme:dark] ${errors.deadline
             ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
-            : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
+            : 'border-gray-300 dark:border-slate-600 focus:border-indigo-500 focus:ring-indigo-500'
             }`}
           disabled={isLoading}
         />
@@ -497,7 +497,7 @@ export function TaskForm({
       {/* Assign To (if users available) */}
       {users.length > 0 && (
         <div>
-          <label htmlFor="userId" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="userId" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Assign To
           </label>
           <select
@@ -505,7 +505,7 @@ export function TaskForm({
             name="userId"
             value={formData.userId}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             disabled={isLoading}
           >
             {users.map((user) => (
@@ -532,14 +532,14 @@ export function TaskForm({
             value={tagInput}
             onChange={(e) => setTagInput(e.target.value)}
             onKeyPress={handleTagKeyPress}
-            className="block w-full rounded-none rounded-l-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="block w-full rounded-none rounded-l-md border-gray-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             placeholder="Add a tag"
             disabled={isLoading}
           />
           <button
             type="button"
             onClick={handleAddTag}
-            className="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+            className="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-200 ring-1 ring-inset ring-gray-300 dark:ring-slate-600 bg-white dark:bg-slate-600 hover:bg-gray-50 dark:hover:bg-slate-500"
             disabled={isLoading || !tagInput.trim()}
           >
             Add
@@ -551,13 +551,13 @@ export function TaskForm({
             {formData.tags.map((tag) => (
               <span
                 key={tag}
-                className="inline-flex items-center rounded-full bg-indigo-100 px-2.5 py-0.5 text-xs font-medium text-indigo-800"
+                className="inline-flex items-center rounded-full bg-indigo-100 dark:bg-indigo-900/50 px-2.5 py-0.5 text-xs font-medium text-indigo-800 dark:text-indigo-300"
               >
                 {tag}
                 <button
                   type="button"
                   onClick={() => handleRemoveTag(tag)}
-                  className="ml-1 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:bg-indigo-500 focus:text-white focus:outline-none"
+                  className="ml-1 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full text-indigo-400 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-800 hover:text-indigo-500 dark:hover:text-indigo-200 focus:bg-indigo-500 focus:text-white focus:outline-none"
                   disabled={isLoading}
                 >
                   <span className="sr-only">Remove {tag}</span>
@@ -572,11 +572,11 @@ export function TaskForm({
       </div>
 
       {/* Form Actions */}
-      <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
+      <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-slate-700">
         <button
           type="button"
           onClick={onCancel}
-          className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+          className="rounded-md bg-white dark:bg-slate-700 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-slate-600 hover:bg-gray-50 dark:hover:bg-slate-600"
           disabled={isLoading}
         >
           Cancel

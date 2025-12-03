@@ -84,7 +84,7 @@ export function TaskModal({
     >
       {/* Error message */}
       {error && (
-        <div className="mb-4 rounded-md bg-red-50 p-4">
+        <div className="mb-4 rounded-md bg-red-50 dark:bg-red-900/30 p-4">
           <div className="flex">
             <div className="flex-shrink-0">
               <svg
@@ -100,7 +100,7 @@ export function TaskModal({
               </svg>
             </div>
             <div className="ml-3">
-              <p className="text-sm font-medium text-red-800">{error}</p>
+              <p className="text-sm font-medium text-red-800 dark:text-red-300">{error}</p>
             </div>
           </div>
         </div>

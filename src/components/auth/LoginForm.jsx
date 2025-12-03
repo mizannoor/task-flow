@@ -45,20 +45,20 @@ export function LoginForm() {
   const displayError = error?.message || localError;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div>
-          <h1 className="text-center text-3xl font-extrabold text-gray-900">
+          <h1 className="text-center text-3xl font-extrabold text-gray-900 dark:text-white">
             TaskFlow
           </h1>
-          <h2 className="mt-2 text-center text-xl text-gray-600">
+          <h2 className="mt-2 text-center text-xl text-gray-600 dark:text-gray-300">
             Sign in to your account
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-500">
+          <p className="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
             Enter your email, username, or phone number to continue.
             {' '}
-            <span className="text-indigo-600">
+            <span className="text-indigo-600 dark:text-indigo-400">
               No password needed!
             </span>
           </p>
@@ -78,9 +78,9 @@ export function LoginForm() {
                 autoComplete="username"
                 required
                 className={`appearance-none rounded-md relative block w-full px-3 py-3 border ${displayError
-                    ? 'border-red-300 placeholder-red-400 focus:ring-red-500 focus:border-red-500'
-                    : 'border-gray-300 placeholder-gray-500 focus:ring-indigo-500 focus:border-indigo-500'
-                  } text-gray-900 focus:outline-none focus:z-10 sm:text-sm`}
+                  ? 'border-red-300 dark:border-red-500 placeholder-red-400 focus:ring-red-500 focus:border-red-500'
+                  : 'border-gray-300 dark:border-slate-600 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500'
+                  } text-gray-900 dark:text-white dark:bg-slate-800 focus:outline-none focus:z-10 sm:text-sm`}
                 placeholder="Email, username, or phone number"
                 value={identifier}
                 onChange={handleInputChange}
@@ -95,14 +95,14 @@ export function LoginForm() {
           {displayError && (
             <div
               id="identifier-error"
-              className="rounded-md bg-red-50 p-4"
+              className="rounded-md bg-red-50 dark:bg-red-900/30 p-4"
               role="alert"
               aria-live="polite"
             >
               <div className="flex">
                 <div className="flex-shrink-0">
                   <svg
-                    className="h-5 w-5 text-red-400"
+                    className="h-5 w-5 text-red-400 dark:text-red-300"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                     aria-hidden="true"
@@ -115,7 +115,7 @@ export function LoginForm() {
                   </svg>
                 </div>
                 <div className="ml-3">
-                  <p className="text-sm font-medium text-red-800">
+                  <p className="text-sm font-medium text-red-800 dark:text-red-200">
                     {displayError}
                   </p>
                 </div>
@@ -128,7 +128,7 @@ export function LoginForm() {
             <button
               type="submit"
               disabled={isLoading}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-slate-900 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {isLoading ? (
                 <>
@@ -164,7 +164,7 @@ export function LoginForm() {
 
         {/* Help text */}
         <div className="text-center">
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
             By continuing, you agree to use TaskFlow for task management.
             Your data is stored locally on this device.
           </p>

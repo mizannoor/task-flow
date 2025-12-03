@@ -32,22 +32,22 @@ export function ConfirmDialog({
   // Variant styles
   const variantStyles = {
     danger: {
-      iconBg: 'bg-red-100',
-      iconColor: 'text-red-600',
+      iconBg: 'bg-red-100 dark:bg-red-900/30',
+      iconColor: 'text-red-600 dark:text-red-400',
       buttonClass:
-        'bg-red-600 hover:bg-red-700 focus:ring-red-500',
+        'bg-red-600 hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600 focus:ring-red-500',
     },
     warning: {
-      iconBg: 'bg-yellow-100',
-      iconColor: 'text-yellow-600',
+      iconBg: 'bg-yellow-100 dark:bg-yellow-900/30',
+      iconColor: 'text-yellow-600 dark:text-yellow-400',
       buttonClass:
-        'bg-yellow-600 hover:bg-yellow-700 focus:ring-yellow-500',
+        'bg-yellow-600 hover:bg-yellow-700 dark:bg-yellow-500 dark:hover:bg-yellow-600 focus:ring-yellow-500',
     },
     info: {
-      iconBg: 'bg-blue-100',
-      iconColor: 'text-blue-600',
+      iconBg: 'bg-blue-100 dark:bg-blue-900/30',
+      iconColor: 'text-blue-600 dark:text-blue-400',
       buttonClass:
-        'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500',
+        'bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 focus:ring-blue-500',
     },
   };
 
@@ -127,11 +127,11 @@ export function ConfirmDialog({
 
         {/* Content */}
         <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-          <h3 className="text-base font-semibold leading-6 text-gray-900">
+          <h3 className="text-base font-semibold leading-6 text-gray-900 dark:text-white">
             {title}
           </h3>
           <div className="mt-2">
-            <p className="text-sm text-gray-500">{message}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{message}</p>
           </div>
         </div>
       </div>
@@ -140,7 +140,7 @@ export function ConfirmDialog({
       <ModalFooter className="mt-5 sm:mt-4">
         <button
           type="button"
-          className="inline-flex justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:opacity-50"
+          className="inline-flex justify-center rounded-md bg-white dark:bg-slate-700 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-slate-600 hover:bg-gray-50 dark:hover:bg-slate-600 disabled:opacity-50"
           onClick={onClose}
           disabled={isLoading}
         >

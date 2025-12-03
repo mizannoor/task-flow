@@ -43,7 +43,7 @@ export function TaskRow({
 
   return (
     <tr
-      className="hover:bg-gray-50 cursor-pointer"
+      className="hover:bg-gray-50 dark:hover:bg-slate-700 cursor-pointer"
       onClick={handleRowClick}
       onKeyDown={handleKeyDown}
       tabIndex={0}
@@ -53,11 +53,11 @@ export function TaskRow({
       {/* Task Name */}
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex flex-col">
-          <span className="text-sm font-medium text-gray-900 truncate max-w-xs">
+          <span className="text-sm font-medium text-gray-900 dark:text-white truncate max-w-xs">
             {task.taskName}
           </span>
           {task.description && (
-            <span className="text-sm text-gray-500 truncate max-w-xs">
+            <span className="text-sm text-gray-500 dark:text-gray-400 truncate max-w-xs">
               {task.description}
             </span>
           )}
@@ -102,7 +102,7 @@ export function TaskRow({
           <TaskTimer task={task} variant="compact" />
           {/* Fallback to estimated only if no tracked time and no active timer */}
           {!task.actualDuration && !task.timerStartedAt && (
-            <span className="text-gray-500">
+            <span className="text-gray-500 dark:text-gray-400">
               {formatDuration(task.estimatedDuration)}
             </span>
           )}
@@ -110,7 +110,7 @@ export function TaskRow({
       </td>
 
       {/* Created */}
-      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
         {formatDate(task.createdAt, { relative: true })}
       </td>
 
@@ -130,7 +130,7 @@ export function TaskRow({
             <button
               type="button"
               onClick={() => onEdit && onEdit(task)}
-              className="text-indigo-600 hover:text-indigo-900"
+              className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300"
               aria-label={`Edit ${task.taskName}`}
             >
               <svg
@@ -152,7 +152,7 @@ export function TaskRow({
             <button
               type="button"
               onClick={() => onDelete && onDelete(task)}
-              className="text-red-600 hover:text-red-900"
+              className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300"
               aria-label={`Delete ${task.taskName}`}
             >
               <svg
@@ -189,7 +189,7 @@ export function TaskRowCompact({
 
   return (
     <div
-      className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
+      className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg p-4 hover:shadow-md dark:hover:shadow-slate-900/50 transition-shadow cursor-pointer"
       onClick={() => onEdit && onEdit(task)}
       role="button"
       tabIndex={0}
@@ -203,7 +203,7 @@ export function TaskRowCompact({
     >
       {/* Header row */}
       <div className="flex items-start justify-between mb-2">
-        <h4 className="text-sm font-medium text-gray-900 truncate flex-1">
+        <h4 className="text-sm font-medium text-gray-900 dark:text-white truncate flex-1">
           {task.taskName}
         </h4>
         <div className="ml-2 flex items-center gap-1">
@@ -214,13 +214,13 @@ export function TaskRowCompact({
 
       {/* Description */}
       {task.description && (
-        <p className="text-sm text-gray-500 truncate mb-2">
+        <p className="text-sm text-gray-500 dark:text-gray-400 truncate mb-2">
           {task.description}
         </p>
       )}
 
       {/* Footer row */}
-      <div className="flex items-center justify-between text-xs text-gray-500">
+      <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
         <div className="flex items-center gap-3">
           <CategoryBadge category={task.category} size="sm" />
           {task.deadline && (

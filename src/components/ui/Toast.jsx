@@ -10,10 +10,10 @@ import { useState, useEffect, useCallback } from 'react';
  */
 const TOAST_TYPES = {
   success: {
-    bgColor: 'bg-green-50',
-    borderColor: 'border-green-400',
-    textColor: 'text-green-800',
-    iconColor: 'text-green-400',
+    bgColor: 'bg-green-50 dark:bg-green-900/30',
+    borderColor: 'border-green-400 dark:border-green-500',
+    textColor: 'text-green-800 dark:text-green-200',
+    iconColor: 'text-green-400 dark:text-green-300',
     icon: (
       <path
         fillRule="evenodd"
@@ -23,10 +23,10 @@ const TOAST_TYPES = {
     ),
   },
   error: {
-    bgColor: 'bg-red-50',
-    borderColor: 'border-red-400',
-    textColor: 'text-red-800',
-    iconColor: 'text-red-400',
+    bgColor: 'bg-red-50 dark:bg-red-900/30',
+    borderColor: 'border-red-400 dark:border-red-500',
+    textColor: 'text-red-800 dark:text-red-200',
+    iconColor: 'text-red-400 dark:text-red-300',
     icon: (
       <path
         fillRule="evenodd"
@@ -36,10 +36,10 @@ const TOAST_TYPES = {
     ),
   },
   warning: {
-    bgColor: 'bg-yellow-50',
-    borderColor: 'border-yellow-400',
-    textColor: 'text-yellow-800',
-    iconColor: 'text-yellow-400',
+    bgColor: 'bg-yellow-50 dark:bg-yellow-900/30',
+    borderColor: 'border-yellow-400 dark:border-yellow-500',
+    textColor: 'text-yellow-800 dark:text-yellow-200',
+    iconColor: 'text-yellow-400 dark:text-yellow-300',
     icon: (
       <path
         fillRule="evenodd"
@@ -49,10 +49,10 @@ const TOAST_TYPES = {
     ),
   },
   info: {
-    bgColor: 'bg-blue-50',
-    borderColor: 'border-blue-400',
-    textColor: 'text-blue-800',
-    iconColor: 'text-blue-400',
+    bgColor: 'bg-blue-50 dark:bg-blue-900/30',
+    borderColor: 'border-blue-400 dark:border-blue-500',
+    textColor: 'text-blue-800 dark:text-blue-200',
+    iconColor: 'text-blue-400 dark:text-blue-300',
     icon: (
       <path
         fillRule="evenodd"
