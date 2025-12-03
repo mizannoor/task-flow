@@ -12,6 +12,7 @@ import { TaskModal } from './tasks/TaskModal';
 import { TaskList } from './tasks/TaskList';
 import { KanbanView, FocusView, CalendarView } from './views';
 import { PersonalDashboard } from './analytics/PersonalDashboard';
+import { TeamDashboard } from './analytics/TeamDashboard';
 import { useTasks } from '../hooks/useTasks';
 import { DeleteConfirmDialog, ReopenConfirmDialog } from './ui/ConfirmDialog';
 import { LongSessionModal } from './tasks/LongSessionModal';
@@ -27,6 +28,7 @@ const VIEW_TYPES = {
   FOCUS: 'focus',
   CALENDAR: 'calendar',
   STATISTICS: 'statistics',
+  TEAM_ANALYTICS: 'team-analytics',
 };
 
 // Local storage key for view preference
@@ -364,6 +366,20 @@ function DashboardContent() {
                 </svg>
                 My Statistics
               </button>
+              <button
+                type="button"
+                onClick={() => handleViewChange(VIEW_TYPES.TEAM_ANALYTICS)}
+                className={`inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${currentView === VIEW_TYPES.TEAM_ANALYTICS
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                aria-pressed={currentView === VIEW_TYPES.TEAM_ANALYTICS}
+              >
+                <svg className="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                Team Analytics
+              </button>
             </div>
           </div>
 
@@ -397,6 +413,9 @@ function DashboardContent() {
           )}
           {currentView === VIEW_TYPES.STATISTICS && (
             <PersonalDashboard />
+          )}
+          {currentView === VIEW_TYPES.TEAM_ANALYTICS && (
+            <TeamDashboard />
           )}
         </div>
       </main>

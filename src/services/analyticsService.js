@@ -345,3 +345,456 @@ export function getComplexityColor(level) {
   if (level <= 6) return '#F59E0B'; // Amber-500 (medium)
   return '#EF4444'; // Red-500 (high)
 }
+
+// =============================================================================
+// Team Analytics: Team Workload Distribution
+// =============================================================================
+
+/**
+ * Calculate team workload distribution (tasks per user)
+ * @param {Array} tasks - Array of all task objects
+ * @param {Array} users - Array of all user objects
+ * @returns {{ data: Array<{ userId: string, userName: string, taskCount: number, percentage: number }>, totalTasks: number, averagePerUser: number, maxTaskCount: number }}
+ */
+export function calculateTeamWorkload(tasks, users) {
+  // Create a map of userId to task count
+  const taskCountByUser = tasks.reduce((acc, task) => {
+    acc[task.userId] = (acc[task.userId] || 0) + 1;
+    return acc;
+  }, {});
+
+  const totalTasks = tasks.length;
+  const userCount = users.length || 1;
+
+  // Build data array including all users (even those with 0 tasks)
+  const data = users.map((user) => {
+    const taskCount = taskCountByUser[user.id] || 0;
+    return {
+      userId: user.id,
+      userName: user.displayName || user.identifier,
+      taskCount,
+      percentage: totalTasks > 0 ? Math.round((taskCount / totalTasks) * 1000) / 10 : 0,
+    };
+  });
+
+  // Sort by task count descending
+  data.sort((a, b) => b.taskCount - a.taskCount);
+
+  const maxTaskCount = data.length > 0 ? Math.max(...data.map((d) => d.taskCount)) : 0;
+
+  return {
+    data,
+    totalTasks,
+    averagePerUser: userCount > 0 ? Math.round((totalTasks / userCount) * 10) / 10 : 0,
+    maxTaskCount,
+  };
+}
+
+// =============================================================================
+// Team Analytics: Team Completions
+// =============================================================================
+
+/**
+ * Calculate team completions (completed tasks per user in date range)
+ * @param {Array} tasks - Array of all task objects
+ * @param {Array} users - Array of all user objects
+ * @param {{ start: Date, end: Date }} dateRange - Current date range
+ * @param {{ start: Date, end: Date } | null} previousDateRange - Previous period for comparison
+ * @returns {{ data: Array, totalCompleted: number, previousPeriodTotal: number | null }}
+ */
+export function calculateTeamCompletions(tasks, users, dateRange, previousDateRange = null) {
+  // Filter completed tasks in current date range
+  const completedInRange = tasks.filter(
+    (t) =>
+      t.status === STATUSES.COMPLETED &&
+      t.completedAt &&
+      isDateInRange(t.completedAt, dateRange)
+  );
+
+  // Count completions by user for current period
+  const currentCountByUser = completedInRange.reduce((acc, task) => {
+    acc[task.userId] = (acc[task.userId] || 0) + 1;
+    return acc;
+  }, {});
+
+  // Calculate previous period counts if comparison enabled
+  let previousCountByUser = {};
+  let previousPeriodTotal = null;
+
+  if (previousDateRange) {
+    const completedInPreviousRange = tasks.filter(
+      (t) =>
+        t.status === STATUSES.COMPLETED &&
+        t.completedAt &&
+        isDateInRange(t.completedAt, previousDateRange)
+    );
+
+    previousCountByUser = completedInPreviousRange.reduce((acc, task) => {
+      acc[task.userId] = (acc[task.userId] || 0) + 1;
+      return acc;
+    }, {});
+
+    previousPeriodTotal = completedInPreviousRange.length;
+  }
+
+  const totalCompleted = completedInRange.length;
+
+  // Build data array including all users
+  const data = users.map((user) => {
+    const completedCount = currentCountByUser[user.id] || 0;
+    const previousPeriodCount = previousDateRange ? (previousCountByUser[user.id] || 0) : undefined;
+
+    let changePercent = undefined;
+    if (previousPeriodCount !== undefined && previousPeriodCount > 0) {
+      changePercent = Math.round(((completedCount - previousPeriodCount) / previousPeriodCount) * 100);
+    }
+
+    return {
+      userId: user.id,
+      userName: user.displayName || user.identifier,
+      completedCount,
+      percentage: totalCompleted > 0 ? Math.round((completedCount / totalCompleted) * 1000) / 10 : 0,
+      previousPeriodCount,
+      changePercent,
+    };
+  });
+
+  // Sort by completion count descending
+  data.sort((a, b) => b.completedCount - a.completedCount);
+
+  return {
+    data,
+    totalCompleted,
+    previousPeriodTotal,
+  };
+}
+
+/**
+ * Helper to check if a date is within a range
+ * @param {Date|string} date - Date to check
+ * @param {{ start: Date, end: Date }} range - Date range
+ * @returns {boolean}
+ */
+function isDateInRange(date, range) {
+  const d = new Date(date);
+  return d >= range.start && d <= range.end;
+}
+
+// =============================================================================
+// Team Analytics: Leaderboard
+// =============================================================================
+
+/**
+ * Calculate team leaderboard with rankings
+ * @param {Array} tasks - Array of all task objects
+ * @param {Array} users - Array of all user objects
+ * @param {string} currentUserId - Current user's ID for highlighting
+ * @param {'completed' | 'accuracy' | 'streak'} sortField - Field to sort by
+ * @param {'asc' | 'desc'} sortOrder - Sort order
+ * @returns {{ entries: Array<LeaderboardEntry>, totalUsers: number, currentUserRank: number | null }}
+ */
+export function calculateLeaderboard(tasks, users, currentUserId, sortField = 'completed', sortOrder = 'desc') {
+  // Group tasks by user
+  const tasksByUser = tasks.reduce((acc, task) => {
+    if (!acc[task.userId]) acc[task.userId] = [];
+    acc[task.userId].push(task);
+    return acc;
+  }, {});
+
+  // Calculate metrics for each user
+  const entries = users.map((user) => {
+    const userTasks = tasksByUser[user.id] || [];
+    const completedTasks = userTasks.filter((t) => t.status === STATUSES.COMPLETED);
+
+    // Calculate estimation accuracy for this user
+    const accuracyResult = calculateEstimationAccuracy(userTasks);
+
+    // Calculate streak for this user
+    const streakResult = calculateStreak(userTasks);
+
+    return {
+      userId: user.id,
+      userName: user.displayName || user.identifier,
+      tasksCompleted: completedTasks.length,
+      estimationAccuracy: accuracyResult.percentage,
+      currentStreak: streakResult.current,
+      isCurrentUser: user.id === currentUserId,
+    };
+  });
+
+  // Sort entries based on sortField and sortOrder
+  entries.sort((a, b) => {
+    let aVal, bVal;
+
+    switch (sortField) {
+      case 'accuracy':
+        // Null values go last
+        aVal = a.estimationAccuracy ?? -1;
+        bVal = b.estimationAccuracy ?? -1;
+        break;
+      case 'streak':
+        aVal = a.currentStreak;
+        bVal = b.currentStreak;
+        break;
+      case 'completed':
+      default:
+        aVal = a.tasksCompleted;
+        bVal = b.tasksCompleted;
+        break;
+    }
+
+    let result = bVal - aVal; // Default descending
+
+    // Tie-breaker: estimation accuracy (higher wins)
+    if (result === 0 && sortField !== 'accuracy') {
+      const accA = a.estimationAccuracy ?? -1;
+      const accB = b.estimationAccuracy ?? -1;
+      result = accB - accA;
+    }
+
+    // Second tie-breaker: alphabetical by name
+    if (result === 0) {
+      result = a.userName.localeCompare(b.userName);
+    }
+
+    return sortOrder === 'asc' ? -result : result;
+  });
+
+  // Assign ranks (accounting for ties)
+  let currentRank = 1;
+  entries.forEach((entry, index) => {
+    if (index > 0) {
+      const prev = entries[index - 1];
+      const isTie =
+        entry.tasksCompleted === prev.tasksCompleted &&
+        entry.estimationAccuracy === prev.estimationAccuracy;
+      if (!isTie) {
+        currentRank = index + 1;
+      }
+    }
+    entry.rank = currentRank;
+    entry.rankBadge = currentRank <= 3 ? ['🥇', '🥈', '🥉'][currentRank - 1] : null;
+  });
+
+  // Find current user's rank
+  const currentUserEntry = entries.find((e) => e.isCurrentUser);
+  const currentUserRank = currentUserEntry?.rank ?? null;
+
+  return {
+    entries,
+    totalUsers: users.length,
+    currentUserRank,
+  };
+}
+
+// =============================================================================
+// Team Analytics: Team Velocity
+// =============================================================================
+
+/**
+ * Calculate team velocity (aggregate completions over time)
+ * @param {Array} tasks - Array of all task objects
+ * @param {Array} users - Array of all user objects
+ * @param {{ start: Date, end: Date }} dateRange - Date range
+ * @param {'day' | 'week'} aggregation - Aggregation level
+ * @param {boolean} showByUser - Whether to include per-user breakdown
+ * @returns {{ data: Array, totalInPeriod: number, insufficientData: boolean }}
+ */
+export function calculateTeamVelocity(tasks, users, dateRange, aggregation = 'day', showByUser = false) {
+  const completedTasks = tasks.filter(
+    (t) =>
+      t.status === STATUSES.COMPLETED &&
+      t.completedAt &&
+      isDateInRange(t.completedAt, dateRange)
+  );
+
+  // Count completions by date
+  const countByDate = new Map();
+  const countByDateAndUser = new Map();
+
+  completedTasks.forEach((task) => {
+    const dateStr = toLocalDateString(task.completedAt);
+    countByDate.set(dateStr, (countByDate.get(dateStr) || 0) + 1);
+
+    if (showByUser) {
+      const key = `${dateStr}:${task.userId}`;
+      countByDateAndUser.set(key, (countByDateAndUser.get(key) || 0) + 1);
+    }
+  });
+
+  // Generate data points for all dates in range
+  const dates = getDateArray(dateRange);
+  let data = [];
+
+  if (aggregation === 'day') {
+    data = dates.map((date) => {
+      const dateStr = toLocalDateString(date);
+      const point = {
+        date: formatChartDate(date),
+        fullDate: dateStr,
+        count: countByDate.get(dateStr) || 0,
+      };
+
+      if (showByUser) {
+        point.breakdown = {};
+        users.forEach((user) => {
+          const key = `${dateStr}:${user.id}`;
+          point.breakdown[user.id] = countByDateAndUser.get(key) || 0;
+        });
+      }
+
+      return point;
+    });
+  } else {
+    // Weekly aggregation
+    const weeklyData = new Map();
+    const weeklyByUser = new Map();
+
+    dates.forEach((date) => {
+      const weekStart = getWeekStartDate(date);
+      const weekKey = toLocalDateString(weekStart);
+      const dateStr = toLocalDateString(date);
+
+      const count = countByDate.get(dateStr) || 0;
+      weeklyData.set(weekKey, (weeklyData.get(weekKey) || 0) + count);
+
+      if (showByUser) {
+        users.forEach((user) => {
+          const userKey = `${dateStr}:${user.id}`;
+          const weekUserKey = `${weekKey}:${user.id}`;
+          const userCount = countByDateAndUser.get(userKey) || 0;
+          weeklyByUser.set(weekUserKey, (weeklyByUser.get(weekUserKey) || 0) + userCount);
+        });
+      }
+    });
+
+    data = Array.from(weeklyData.entries()).map(([weekKey, count]) => {
+      const point = {
+        date: formatChartDate(new Date(weekKey)),
+        fullDate: weekKey,
+        count,
+      };
+
+      if (showByUser) {
+        point.breakdown = {};
+        users.forEach((user) => {
+          const key = `${weekKey}:${user.id}`;
+          point.breakdown[user.id] = weeklyByUser.get(key) || 0;
+        });
+      }
+
+      return point;
+    });
+  }
+
+  // Check if we have insufficient data (less than 7 days of data)
+  const daysWithData = data.filter((d) => d.count > 0).length;
+  const insufficientData = daysWithData < 7;
+
+  return {
+    data,
+    totalInPeriod: completedTasks.length,
+    insufficientData,
+    userNames: showByUser
+      ? users.reduce((acc, u) => {
+        acc[u.id] = u.displayName || u.identifier;
+        return acc;
+      }, {})
+      : null,
+  };
+}
+
+/**
+ * Get the Monday of the week for a given date
+ * @param {Date} date - The date
+ * @returns {Date} - Monday of that week
+ */
+function getWeekStartDate(date) {
+  const d = new Date(date);
+  const day = d.getDay();
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+  d.setDate(diff);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+// =============================================================================
+// Team Analytics: Category Distribution by User
+// =============================================================================
+
+/**
+ * Calculate category distribution per user
+ * @param {Array} tasks - Array of all task objects
+ * @param {Array} users - Array of all user objects
+ * @returns {{ data: Array, teamTotals: { development: number, fix: number, support: number } }}
+ */
+export function calculateTeamCategoryDistribution(tasks, users) {
+  // Initialize team totals
+  const teamTotals = {
+    [CATEGORIES.DEVELOPMENT]: 0,
+    [CATEGORIES.FIX]: 0,
+    [CATEGORIES.SUPPORT]: 0,
+  };
+
+  // Group tasks by user and category
+  const categoryByUser = {};
+
+  tasks.forEach((task) => {
+    if (!categoryByUser[task.userId]) {
+      categoryByUser[task.userId] = {
+        [CATEGORIES.DEVELOPMENT]: 0,
+        [CATEGORIES.FIX]: 0,
+        [CATEGORIES.SUPPORT]: 0,
+      };
+    }
+
+    if (CATEGORIES[task.category?.toUpperCase()]) {
+      categoryByUser[task.userId][task.category]++;
+      teamTotals[task.category]++;
+    }
+  });
+
+  // Build data array including all users
+  const data = users.map((user) => {
+    const categories = categoryByUser[user.id] || {
+      [CATEGORIES.DEVELOPMENT]: 0,
+      [CATEGORIES.FIX]: 0,
+      [CATEGORIES.SUPPORT]: 0,
+    };
+
+    const totalTasks =
+      categories[CATEGORIES.DEVELOPMENT] +
+      categories[CATEGORIES.FIX] +
+      categories[CATEGORIES.SUPPORT];
+
+    return {
+      userId: user.id,
+      userName: user.displayName || user.identifier,
+      categories,
+      totalTasks,
+      // Calculate percentages for each category
+      percentages: {
+        [CATEGORIES.DEVELOPMENT]:
+          totalTasks > 0
+            ? Math.round((categories[CATEGORIES.DEVELOPMENT] / totalTasks) * 1000) / 10
+            : 0,
+        [CATEGORIES.FIX]:
+          totalTasks > 0
+            ? Math.round((categories[CATEGORIES.FIX] / totalTasks) * 1000) / 10
+            : 0,
+        [CATEGORIES.SUPPORT]:
+          totalTasks > 0
+            ? Math.round((categories[CATEGORIES.SUPPORT] / totalTasks) * 1000) / 10
+            : 0,
+      },
+    };
+  });
+
+  // Sort by total tasks descending
+  data.sort((a, b) => b.totalTasks - a.totalTasks);
+
+  return {
+    data,
+    teamTotals,
+  };
+}

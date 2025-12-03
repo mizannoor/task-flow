@@ -148,6 +148,61 @@ export function endOfDay(date) {
 }
 
 /**
+ * Get the previous date range for comparison mode
+ * @param {string} rangeKey - One of DATE_RANGES values
+ * @returns {{ start: Date, end: Date } | null} - Previous period date range
+ */
+export function getPreviousDateRange(rangeKey) {
+  const currentRange = getDateRange(rangeKey);
+  const rangeDuration = currentRange.end.getTime() - currentRange.start.getTime();
+
+  switch (rangeKey) {
+    case DATE_RANGES.TODAY: {
+      // Yesterday
+      const yesterday = new Date(currentRange.start);
+      yesterday.setDate(yesterday.getDate() - 1);
+      const yesterdayEnd = new Date(yesterday);
+      yesterdayEnd.setHours(23, 59, 59, 999);
+      return { start: yesterday, end: yesterdayEnd };
+    }
+
+    case DATE_RANGES.THIS_WEEK:
+    case DATE_RANGES.LAST_WEEK: {
+      // Previous week
+      const prevStart = new Date(currentRange.start);
+      prevStart.setDate(prevStart.getDate() - 7);
+      const prevEnd = new Date(currentRange.end);
+      prevEnd.setDate(prevEnd.getDate() - 7);
+      return { start: prevStart, end: prevEnd };
+    }
+
+    case DATE_RANGES.THIS_MONTH:
+    case DATE_RANGES.LAST_MONTH: {
+      // Previous month (same number of days)
+      const prevStart = new Date(currentRange.start);
+      prevStart.setMonth(prevStart.getMonth() - 1);
+      const prevEnd = new Date(currentRange.end);
+      prevEnd.setMonth(prevEnd.getMonth() - 1);
+      return { start: prevStart, end: prevEnd };
+    }
+
+    case DATE_RANGES.LAST_30_DAYS: {
+      // Previous 30 days before the current range
+      const prevEnd = new Date(currentRange.start);
+      prevEnd.setDate(prevEnd.getDate() - 1);
+      prevEnd.setHours(23, 59, 59, 999);
+      const prevStart = new Date(prevEnd);
+      prevStart.setDate(prevStart.getDate() - 29);
+      prevStart.setHours(0, 0, 0, 0);
+      return { start: prevStart, end: prevEnd };
+    }
+
+    default:
+      return null;
+  }
+}
+
+/**
  * Check if two dates are the same day (local timezone)
  * @param {Date | string} date1 - First date
  * @param {Date | string} date2 - Second date
