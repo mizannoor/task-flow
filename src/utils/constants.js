@@ -343,3 +343,54 @@ export const TIMER_ERROR_MESSAGES = {
   MANUAL_MINUTES_EXCEEDED: 'Minutes cannot exceed 59',
 };
 
+// =============================================================================
+// Timer Keyboard Shortcuts (for integration with keyboard shortcuts feature)
+// =============================================================================
+
+/**
+ * Timer keyboard shortcut definitions
+ * These will be merged with global shortcuts when keyboard shortcuts feature is enabled
+ * Context: TASK_FOCUSED (requires a task to be focused)
+ */
+export const TIMER_KEYBOARD_SHORTCUTS = [
+  {
+    key: 't',
+    modifiers: [],
+    action: 'timerStart',
+    context: 'task-focused',
+    category: 'task-actions',
+    description: 'Start timer on focused task',
+    enabled: true,
+    requiresInProgress: true, // Only works if task is in-progress
+  },
+  {
+    key: 'p',
+    modifiers: [],
+    action: 'timerPause',
+    context: 'task-focused',
+    category: 'task-actions',
+    description: 'Pause running timer',
+    enabled: true,
+    requiresRunningTimer: true, // Only works if timer is running
+  },
+  {
+    key: 'r',
+    modifiers: [],
+    action: 'timerResume',
+    context: 'task-focused',
+    category: 'task-actions',
+    description: 'Resume paused timer',
+    enabled: true,
+    requiresPausedTimer: true, // Only works if timer is paused
+  },
+  {
+    key: 'x',
+    modifiers: [],
+    action: 'timerStop',
+    context: 'task-focused',
+    category: 'task-actions',
+    description: 'Stop timer and save time',
+    enabled: true,
+    requiresActiveTimer: true, // Only works if timer is running or paused
+  },
+];

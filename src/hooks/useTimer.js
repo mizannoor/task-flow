@@ -31,6 +31,18 @@ export function useTimer() {
   // Refs for interval management
   const intervalRef = useRef(null);
   const activeTaskRef = useRef(null);
+  const previousUserIdRef = useRef(null);
+  const activeTaskIdRef = useRef(null);
+  const timerStatusRef = useRef(TIMER_STATUS.IDLE);
+
+  // Keep refs in sync with state for use in user switching logic
+  useEffect(() => {
+    activeTaskIdRef.current = activeTaskId;
+  }, [activeTaskId]);
+
+  useEffect(() => {
+    timerStatusRef.current = timerStatus;
+  }, [timerStatus]);
 
   // Get the active task object
   const activeTask = useMemo(() => {
@@ -82,6 +94,39 @@ export function useTimer() {
       }
     };
   }, [timerStatus, activeTask]);
+
+  // ==========================================================================
+  // Handle User Account Switching - Save/Restore Timer State
+  // ==========================================================================
+
+  useEffect(() => {
+    async function handleUserSwitch() {
+      const previousUserId = previousUserIdRef.current;
+      const newUserId = currentUser?.id;
+
+      // If user is changing (not initial load)
+      if (previousUserId && previousUserId !== newUserId) {
+        // Save the previous user's timer if it was running or paused
+        const previousActiveTaskId = activeTaskIdRef.current;
+        const previousTimerStatus = timerStatusRef.current;
+
+        if (previousActiveTaskId && previousTimerStatus !== TIMER_STATUS.IDLE) {
+          try {
+            // Stop and save the timer for the previous user
+            await timerService.stopTaskTimer(previousActiveTaskId);
+            console.log(`Timer auto-saved for user ${previousUserId} when switching accounts`);
+          } catch (error) {
+            console.error('Failed to save timer on user switch:', error);
+          }
+        }
+      }
+
+      // Update the ref for next comparison
+      previousUserIdRef.current = newUserId;
+    }
+
+    handleUserSwitch();
+  }, [currentUser?.id]);
 
   // ==========================================================================
   // Initialize Timer State on Mount / User Change
@@ -388,6 +433,65 @@ export function useTimer() {
   }, [tasks, activeTaskId, timerStatus, elapsedSeconds]);
 
   // ==========================================================================
+  // Keyboard Shortcut Handler
+  // ==========================================================================
+
+  /**
+   * Handle keyboard shortcuts for timer controls
+   * This handler can be integrated with the global keyboard shortcuts system
+   * @param {string} action - The shortcut action to execute
+   * @param {string} taskId - The focused task ID
+   * @returns {boolean} - True if action was handled
+   */
+  const handleTimerShortcut = useCallback(async (action, taskId) => {
+    if (!taskId) return false;
+
+    const task = tasks.find((t) => t.id === taskId);
+    if (!task) return false;
+
+    const timerState = getTaskTimerState(taskId);
+
+    try {
+      switch (action) {
+        case 'timerStart':
+          if (timerState.canStart) {
+            await startTimer(taskId);
+            return true;
+          }
+          break;
+
+        case 'timerPause':
+          if (timerState.canPause) {
+            await pauseTimer();
+            return true;
+          }
+          break;
+
+        case 'timerResume':
+          if (timerState.canResume) {
+            await resumeTimer();
+            return true;
+          }
+          break;
+
+        case 'timerStop':
+          if (timerState.canStop) {
+            await stopTimer();
+            return true;
+          }
+          break;
+
+        default:
+          return false;
+      }
+    } catch (error) {
+      console.error(`Failed to execute timer shortcut '${action}':`, error);
+    }
+
+    return false;
+  }, [tasks, getTaskTimerState, startTimer, pauseTimer, resumeTimer, stopTimer]);
+
+  // ==========================================================================
   // Return Value
   // ==========================================================================
 
@@ -430,6 +534,9 @@ export function useTimer() {
 
     // Helpers
     getTaskTimerState,
+
+    // Keyboard shortcut handler (for integration with keyboard shortcuts feature)
+    handleTimerShortcut,
   };
 }
 
