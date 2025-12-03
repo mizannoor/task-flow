@@ -4,15 +4,17 @@
  */
 
 import { useAuth } from './hooks/useAuth';
+import { useTranslation } from './hooks/useTranslation';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { LoginForm } from './components/auth/LoginForm';
 import { Dashboard } from './components/Dashboard';
-import { ERROR_MESSAGES } from './utils/constants';
 
 /**
  * Loading Spinner Component
  */
 function LoadingSpinner() {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-900">
       <div className="text-center">
@@ -36,7 +38,7 @@ function LoadingSpinner() {
             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
           />
         </svg>
-        <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">Loading...</p>
+        <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">{t('common.loading')}</p>
       </div>
     </div>
   );
@@ -47,6 +49,8 @@ function LoadingSpinner() {
  * Displayed when IndexedDB or localStorage is unavailable
  */
 function StorageError() {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-900 px-4">
       <div className="max-w-md w-full text-center">
@@ -66,10 +70,10 @@ function StorageError() {
           </svg>
         </div>
         <h2 className="mt-4 text-lg font-medium text-gray-900 dark:text-white">
-          Storage Unavailable
+          {t('errors.storageUnavailable').split('.')[0]}
         </h2>
         <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-          {ERROR_MESSAGES.STORAGE_UNAVAILABLE}
+          {t('errors.storageUnavailable')}
         </p>
         <div className="mt-6">
           <button
@@ -77,7 +81,7 @@ function StorageError() {
             onClick={() => window.location.reload()}
             className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-slate-900"
           >
-            Retry
+            {t('common.retry')}
           </button>
         </div>
         <div className="mt-4">

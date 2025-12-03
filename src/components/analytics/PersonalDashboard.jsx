@@ -4,6 +4,7 @@
  */
 
 import { useAnalytics } from '../../hooks/useAnalytics';
+import { useTranslation } from '../../hooks/useTranslation';
 import { AnalyticsEmptyState } from './AnalyticsEmptyState';
 import { PeriodFilter } from './PeriodFilter';
 import { StatCards } from './StatCards';
@@ -19,6 +20,7 @@ import { TimeTrackedSummary } from './TimeTrackedSummary';
  * Displays task statistics and visualizations for the current user
  */
 export function PersonalDashboard() {
+  const { t } = useTranslation();
   const {
     summary,
     streak,
@@ -58,10 +60,10 @@ export function PersonalDashboard() {
     return (
       <div className="p-6">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
-          📊 My Statistics
+          📊 {t('analytics.personal.title')}
         </h1>
         <AnalyticsEmptyState
-          title="No tasks yet"
+          title={t('analytics.personal.noTasksYet')}
           description="Create your first task to start tracking your productivity statistics."
           icon={
             <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,7 +80,7 @@ export function PersonalDashboard() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-          📊 My Statistics
+          📊 {t('analytics.personal.title')}
         </h1>
         <PeriodFilter
           value={dateRangeKey}

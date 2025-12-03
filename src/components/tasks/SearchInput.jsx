@@ -5,6 +5,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useDebounce } from '../../hooks/useDebounce';
+import { useTranslation } from '../../hooks/useTranslation';
 
 /**
  * SearchInput component
@@ -17,11 +18,13 @@ import { useDebounce } from '../../hooks/useDebounce';
 export function SearchInput({
   value = '',
   onChange,
-  placeholder = 'Search tasks...',
+  placeholder,
   debounceMs = 300,
 }) {
+  const { t } = useTranslation();
   const [inputValue, setInputValue] = useState(value);
   const debouncedValue = useDebounce(inputValue, debounceMs);
+  const searchPlaceholder = placeholder || t('search.placeholder');
 
   // Sync internal state with external value
   useEffect(() => {
@@ -78,9 +81,9 @@ export function SearchInput({
         value={inputValue}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        placeholder={placeholder}
+        placeholder={searchPlaceholder}
         className="block w-full rounded-md border-0 py-2 pl-10 pr-10 text-gray-900 dark:text-white bg-white dark:bg-slate-800 ring-1 ring-inset ring-gray-300 dark:ring-slate-600 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-500 sm:text-sm sm:leading-6"
-        aria-label="Search tasks"
+        aria-label={t('common.search')}
       />
 
       {/* Clear button */}

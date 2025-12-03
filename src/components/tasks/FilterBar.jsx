@@ -13,6 +13,8 @@ import {
   CATEGORY_LABELS,
 } from '../../utils/constants';
 import { SortSelect } from './SortSelect';
+import { useTranslation } from '../../hooks/useTranslation';
+import { useTranslatedLabels } from '../../hooks/useTranslatedLabels';
 
 /**
  * MultiSelectDropdown component
@@ -155,6 +157,9 @@ export function FilterBar({
   onSortChange,
   showSort = true,
 }) {
+  const { t } = useTranslation();
+  const { priorityLabels, statusLabels, categoryLabels } = useTranslatedLabels();
+
   // Count active filters
   const activeFilterCount =
     filters.status.length +
@@ -165,31 +170,31 @@ export function FilterBar({
     <div className="flex flex-wrap items-center gap-3">
       {/* Filter dropdowns */}
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Filter:</span>
+        <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('common.filter')}:</span>
 
         {/* Status filter */}
         <MultiSelectDropdown
-          label="Status"
+          label={t('filter.status')}
           options={STATUSES}
-          labels={STATUS_LABELS}
+          labels={statusLabels}
           selected={filters.status}
           onChange={onStatusChange}
         />
 
         {/* Priority filter */}
         <MultiSelectDropdown
-          label="Priority"
+          label={t('filter.priority')}
           options={PRIORITIES}
-          labels={PRIORITY_LABELS}
+          labels={priorityLabels}
           selected={filters.priority}
           onChange={onPriorityChange}
         />
 
         {/* Category filter */}
         <MultiSelectDropdown
-          label="Category"
+          label={t('filter.category')}
           options={CATEGORIES}
-          labels={CATEGORY_LABELS}
+          labels={categoryLabels}
           selected={filters.category}
           onChange={onCategoryChange}
         />
@@ -204,7 +209,7 @@ export function FilterBar({
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
-            Clear ({activeFilterCount})
+            {t('common.clear')} ({activeFilterCount})
           </button>
         )}
       </div>
@@ -224,17 +229,20 @@ export function FilterBar({
  * FilterChips component - Compact display of active filters
  */
 export function FilterChips({ filters, onRemove, onClearAll }) {
+  const { t } = useTranslation();
+  const { priorityLabels, statusLabels, categoryLabels } = useTranslatedLabels();
+
   const chips = [
-    ...filters.status.map((s) => ({ type: 'status', value: s, label: STATUS_LABELS[s] })),
-    ...filters.priority.map((p) => ({ type: 'priority', value: p, label: PRIORITY_LABELS[p] })),
-    ...filters.category.map((c) => ({ type: 'category', value: c, label: CATEGORY_LABELS[c] })),
+    ...filters.status.map((s) => ({ type: 'status', value: s, label: statusLabels[s] })),
+    ...filters.priority.map((p) => ({ type: 'priority', value: p, label: priorityLabels[p] })),
+    ...filters.category.map((c) => ({ type: 'category', value: c, label: categoryLabels[c] })),
   ];
 
   if (chips.length === 0) return null;
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <span className="text-xs text-gray-500">Active filters:</span>
+      <span className="text-xs text-gray-500">{t('filter.activeFilters')}:</span>
       {chips.map((chip) => (
         <span
           key={`${chip.type}-${chip.value}`}
@@ -258,7 +266,7 @@ export function FilterChips({ filters, onRemove, onClearAll }) {
         onClick={onClearAll}
         className="text-xs text-gray-500 hover:text-gray-700 underline"
       >
-        Clear all
+        {t('common.clearAll')}
       </button>
     </div>
   );

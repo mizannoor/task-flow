@@ -22,6 +22,28 @@ export const THEME_MODES = {
 // Default theme when no preference exists
 export const DEFAULT_THEME = THEME_MODES.LIGHT;
 
+// =============================================================================
+// Language/i18n Constants
+// =============================================================================
+
+// Language storage key for localStorage
+export const LANGUAGE_STORAGE_KEY = 'taskflow_language';
+
+// Supported languages
+export const SUPPORTED_LANGUAGES = [
+  { code: 'en', nativeName: 'English', englishName: 'English' },
+  { code: 'ms', nativeName: 'Bahasa Melayu', englishName: 'Malay' },
+];
+
+// Language codes for quick lookup
+export const LANGUAGE_CODES = {
+  EN: 'en',
+  MS: 'ms',
+};
+
+// Default language when no preference exists
+export const DEFAULT_LANGUAGE = LANGUAGE_CODES.EN;
+
 // Validation patterns for identifier types
 export const PATTERNS = {
   // Valid email format: x@y.z

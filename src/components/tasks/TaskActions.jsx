@@ -6,6 +6,7 @@
 import { useState } from 'react';
 import { STATUSES, STATUS_LABELS } from '../../utils/constants';
 import { ReopenConfirmDialog } from '../ui/ConfirmDialog';
+import useTranslation from '../../hooks/useTranslation';
 
 /**
  * TaskActions component
@@ -33,6 +34,7 @@ export function TaskActions({
   size = 'sm',
   layout = 'horizontal',
 }) {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [loadingAction, setLoadingAction] = useState(null);
   const [showReopenConfirm, setShowReopenConfirm] = useState(false);
@@ -123,7 +125,7 @@ export function TaskActions({
             onClick={handleStart}
             disabled={isLoading}
             className={`inline-flex items-center justify-center rounded-md font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 ${sizeClasses[size]}`}
-            aria-label="Start task"
+            aria-label={t('tasks.startTask')}
           >
             {loadingAction === 'start' ? (
               <LoadingSpinner />
@@ -148,7 +150,7 @@ export function TaskActions({
                     d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                Start
+                {t('tasks.start')}
               </>
             )}
           </button>
@@ -160,7 +162,7 @@ export function TaskActions({
             onClick={handleComplete}
             disabled={isLoading}
             className={`inline-flex items-center justify-center rounded-md font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 ${sizeClasses[size]}`}
-            aria-label="Complete task"
+            aria-label={t('tasks.completeTask')}
           >
             {loadingAction === 'complete' ? (
               <LoadingSpinner />
@@ -179,7 +181,7 @@ export function TaskActions({
                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                Complete
+                {t('tasks.complete')}
               </>
             )}
           </button>
@@ -191,7 +193,7 @@ export function TaskActions({
             onClick={handleReopenClick}
             disabled={isLoading}
             className={`inline-flex items-center justify-center rounded-md font-medium text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 disabled:opacity-50 ${sizeClasses[size]}`}
-            aria-label="Reopen task"
+            aria-label={t('tasks.reopenTask')}
           >
             {loadingAction === 'reopen' ? (
               <LoadingSpinner />
@@ -210,7 +212,7 @@ export function TaskActions({
                     d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
                   />
                 </svg>
-                Reopen
+                {t('tasks.reopen')}
               </>
             )}
           </button>
@@ -222,8 +224,8 @@ export function TaskActions({
             type="button"
             onClick={() => onEdit(task)}
             disabled={isLoading}
-            className={`inline-flex items-center justify-center rounded-md font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 ${sizeClasses[size]}`}
-            aria-label="Edit task"
+            className={`inline-flex items-center justify-center rounded-md font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 dark:bg-slate-700 dark:text-gray-200 dark:border-slate-600 dark:hover:bg-slate-600 ${sizeClasses[size]}`}
+            aria-label={t('common.edit')}
           >
             <svg
               className="h-4 w-4 mr-1"
@@ -238,7 +240,7 @@ export function TaskActions({
                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
               />
             </svg>
-            Edit
+            {t('common.edit')}
           </button>
         )}
 
@@ -248,8 +250,8 @@ export function TaskActions({
             type="button"
             onClick={() => onDelete(task)}
             disabled={isLoading}
-            className={`inline-flex items-center justify-center rounded-md font-medium text-red-700 bg-white border border-red-300 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 ${sizeClasses[size]}`}
-            aria-label="Delete task"
+            className={`inline-flex items-center justify-center rounded-md font-medium text-red-700 bg-white border border-red-300 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 dark:bg-slate-700 dark:text-red-400 dark:border-red-700 dark:hover:bg-slate-600 ${sizeClasses[size]}`}
+            aria-label={t('common.delete')}
           >
             <svg
               className="h-4 w-4 mr-1"
@@ -264,7 +266,7 @@ export function TaskActions({
                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
               />
             </svg>
-            Delete
+            {t('common.delete')}
           </button>
         )}
       </div>
@@ -285,6 +287,7 @@ export function TaskActions({
  * TaskStatusButton - Compact status change button
  */
 export function TaskStatusButton({ task, onStatusChange, disabled = false }) {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = async (e) => {
@@ -305,20 +308,20 @@ export function TaskStatusButton({ task, onStatusChange, disabled = false }) {
       case STATUSES.PENDING:
         return {
           nextStatus: STATUSES.IN_PROGRESS,
-          label: 'Start',
-          className: 'text-blue-600 hover:text-blue-800 hover:bg-blue-50',
+          label: t('tasks.start'),
+          className: 'text-blue-600 hover:text-blue-800 hover:bg-blue-50 dark:hover:bg-blue-900/30',
         };
       case STATUSES.IN_PROGRESS:
         return {
           nextStatus: STATUSES.COMPLETED,
-          label: 'Complete',
-          className: 'text-green-600 hover:text-green-800 hover:bg-green-50',
+          label: t('tasks.complete'),
+          className: 'text-green-600 hover:text-green-800 hover:bg-green-50 dark:hover:bg-green-900/30',
         };
       case STATUSES.COMPLETED:
         return {
           nextStatus: STATUSES.PENDING,
-          label: 'Reopen',
-          className: 'text-yellow-600 hover:text-yellow-800 hover:bg-yellow-50',
+          label: t('tasks.reopen'),
+          className: 'text-yellow-600 hover:text-yellow-800 hover:bg-yellow-50 dark:hover:bg-yellow-900/30',
         };
       default:
         return null;
@@ -334,7 +337,7 @@ export function TaskStatusButton({ task, onStatusChange, disabled = false }) {
       onClick={handleClick}
       disabled={isLoading || disabled}
       className={`p-1 rounded transition-colors disabled:opacity-50 ${config.className}`}
-      title={`${config.label} task`}
+      title={`${config.label} ${t('tasks.task')}`}
     >
       {isLoading ? (
         <svg

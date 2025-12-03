@@ -4,6 +4,7 @@
  */
 
 import { useTeamAnalytics } from '../../hooks/useTeamAnalytics';
+import { useTranslation } from '../../hooks/useTranslation';
 import { PeriodFilter } from './PeriodFilter';
 import { TeamEmptyState } from './TeamEmptyState';
 import { TeamWorkloadChart } from './TeamWorkloadChart';
@@ -32,6 +33,7 @@ const DashboardSkeleton = () => (
  * Displays team-wide analytics and metrics
  */
 export function TeamDashboard() {
+  const { t } = useTranslation();
   const {
     // Data
     workload,
@@ -81,11 +83,11 @@ export function TeamDashboard() {
     return (
       <div className="p-6">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
-          👥 Team Analytics
+          👥 {t('analytics.team.title')}
         </h1>
         <TeamEmptyState
           type="no-tasks"
-          title="No Team Data"
+          title={t('analytics.team.noTeamData')}
           description="Create tasks and add team members to see team analytics."
           icon={
             <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -107,7 +109,7 @@ export function TeamDashboard() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-          👥 Team Analytics
+          👥 {t('analytics.team.title')}
         </h1>
         <PeriodFilter
           value={dateRangeKey}

@@ -19,6 +19,8 @@ Auto-generated from all feature plans. Last updated: 2025-12-01
 - IndexedDB via Dexie.js for shortcut usage analytics (010-keyboard-shortcuts)
 - JavaScript ES2022+ (React 18+) + React, Tailwind CSS, React Context API (011-theme-mode)
 - localStorage for theme preference persistence (011-theme-mode)
+- JavaScript/TypeScript ES2022+ (React 18+) + React Context API (built-in), no external i18n library (012-i18n-support)
+- localStorage for language preference (`taskflow_language`) (012-i18n-support)
 
 - JavaScript/TypeScript ES2022+ + React 18+, Dexie.js (IndexedDB wrapper), Tailwind CSS (001-auth-system)
 
@@ -39,9 +41,9 @@ npm test; npm run lint
 JavaScript/TypeScript ES2022+: Follow standard conventions
 
 ## Recent Changes
+- 012-i18n-support: Added JavaScript/TypeScript ES2022+ (React 18+) + React Context API (built-in), no external i18n library
 - 011-theme-mode: Added JavaScript ES2022+ (React 18+) + React, Tailwind CSS, React Context API
 - 010-keyboard-shortcuts: Added JavaScript ES2022+ (React 18+) + React, Dexie.js (IndexedDB), Tailwind CSS
-- 008-ai-task-analysis: Added JavaScript ES2022+ (React 18+) + React, Tailwind CSS, Google Gemini API (`gemini-pro` model)
 
 
 <!-- MANUAL ADDITIONS START -->

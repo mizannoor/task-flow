@@ -5,6 +5,7 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
+import { useTranslation } from '../../hooks/useTranslation';
 
 // Keyboard navigation keys
 const KEYS = {
@@ -25,6 +26,7 @@ export function UserSwitcher() {
     addAccount,
     isLoading,
   } = useAuth();
+  const { t } = useTranslation();
 
   const [isOpen, setIsOpen] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
@@ -106,7 +108,7 @@ export function UserSwitcher() {
     setAddError(null);
 
     if (!newIdentifier.trim()) {
-      setAddError('Please enter an identifier');
+      setAddError(t('errors.identifierRequired'));
       return;
     }
 
@@ -280,9 +282,9 @@ export function UserSwitcher() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search users..."
+                placeholder={t('common.searchUsers')}
                 className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded focus:ring-indigo-500 focus:border-indigo-500"
-                aria-label="Search users"
+                aria-label={t('common.searchUsers')}
               />
             </div>
           )}
@@ -291,7 +293,7 @@ export function UserSwitcher() {
           {filteredUsers.length > 0 && (
             <div className="py-1 border-b border-gray-100 dark:border-slate-700 max-h-48 overflow-y-auto">
               <p className="px-4 py-1 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Switch account
+                {t('auth.switchAccount')}
               </p>
               {filteredUsers.map((user, index) => (
                 <button
@@ -350,7 +352,7 @@ export function UserSwitcher() {
                     className="flex-1 px-2 py-1 text-xs font-medium text-white bg-indigo-600 dark:bg-indigo-500 rounded hover:bg-indigo-700 dark:hover:bg-indigo-600 disabled:opacity-50"
                     disabled={isLoading}
                   >
-                    Add
+                    {t('common.add')}
                   </button>
                   <button
                     type="button"
@@ -361,7 +363,7 @@ export function UserSwitcher() {
                     }}
                     className="flex-1 px-2 py-1 text-xs font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-slate-600 rounded hover:bg-gray-200 dark:hover:bg-slate-500"
                   >
-                    Cancel
+                    {t('common.cancel')}
                   </button>
                 </div>
               </form>
@@ -387,7 +389,7 @@ export function UserSwitcher() {
                     d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                   />
                 </svg>
-                Add another account
+                {t('auth.addAnotherAccount')}
               </button>
             )}
           </div>
@@ -415,7 +417,7 @@ export function UserSwitcher() {
                   d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                 />
               </svg>
-              Log out
+              {t('auth.logout')}
             </button>
           </div>
         </div>

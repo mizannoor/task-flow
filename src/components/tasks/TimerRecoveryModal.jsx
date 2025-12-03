@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { Modal } from '../ui/Modal';
+import { useTranslation } from '../../hooks/useTranslation';
 import { formatDurationShort } from '../../utils/formatters';
 
 /**
@@ -16,6 +17,7 @@ import { formatDurationShort } from '../../utils/formatters';
  * @param {object} props.recoveryInfo - Recovery info { taskId, taskName, elapsedSeconds, startedAt }
  */
 export function TimerRecoveryModal({ isOpen, onClose, onRecover, recoveryInfo }) {
+  const { t } = useTranslation();
   const [adjustedHours, setAdjustedHours] = useState(0);
   const [adjustedMinutes, setAdjustedMinutes] = useState(0);
   const [showAdjust, setShowAdjust] = useState(false);
@@ -60,7 +62,7 @@ export function TimerRecoveryModal({ isOpen, onClose, onRecover, recoveryInfo })
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Timer Recovery">
+    <Modal isOpen={isOpen} onClose={onClose} title={t('timer.recoveryTitle')}>
       <div className="space-y-4">
         {/* Info message */}
         <div className="flex items-start gap-3 p-3 bg-blue-50 rounded-lg">
@@ -79,26 +81,26 @@ export function TimerRecoveryModal({ isOpen, onClose, onRecover, recoveryInfo })
           </svg>
           <div>
             <h4 className="text-sm font-medium text-blue-800">
-              Timer Session Found
+              {t('timer.timerSessionFound')}
             </h4>
             <p className="text-sm text-blue-700 mt-1">
-              A timer was left running from a previous session. Would you like to save or discard the tracked time?
+              {t('timer.recoveryMessage')}
             </p>
           </div>
         </div>
 
         {/* Session info */}
         <div className="bg-gray-50 rounded-lg p-4">
-          <div className="text-sm text-gray-500 mb-1">Task</div>
+          <div className="text-sm text-gray-500 mb-1">{t('task.task')}</div>
           <div className="font-medium text-gray-900 mb-3">{recoveryInfo.taskName}</div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <div className="text-sm text-gray-500">Started At</div>
+              <div className="text-sm text-gray-500">{t('timer.startedAt')}</div>
               <div className="text-sm font-medium text-gray-900">{formatStartTime()}</div>
             </div>
             <div>
-              <div className="text-sm text-gray-500">Elapsed Time</div>
+              <div className="text-sm text-gray-500">{t('timer.elapsedTime')}</div>
               <div className="text-lg font-mono font-semibold text-gray-900">
                 {formatDurationShort(elapsedMinutes)}
               </div>
@@ -110,11 +112,11 @@ export function TimerRecoveryModal({ isOpen, onClose, onRecover, recoveryInfo })
         {showAdjust && (
           <div className="border border-gray-200 rounded-lg p-4">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Adjust time to save
+              {t('timer.adjustTimeToSave')}
             </label>
             <div className="flex items-center gap-2">
               <div className="flex-1">
-                <label className="block text-xs text-gray-500 mb-1">Hours</label>
+                <label className="block text-xs text-gray-500 mb-1">{t('timer.hours')}</label>
                 <input
                   type="number"
                   min="0"
@@ -126,7 +128,7 @@ export function TimerRecoveryModal({ isOpen, onClose, onRecover, recoveryInfo })
               </div>
               <span className="text-gray-500 mt-5">:</span>
               <div className="flex-1">
-                <label className="block text-xs text-gray-500 mb-1">Minutes</label>
+                <label className="block text-xs text-gray-500 mb-1">{t('timer.minutes')}</label>
                 <input
                   type="number"
                   min="0"
@@ -139,7 +141,7 @@ export function TimerRecoveryModal({ isOpen, onClose, onRecover, recoveryInfo })
             </div>
             {!isValidAdjustment && totalAdjustedMinutes > elapsedMinutes && (
               <p className="text-sm text-red-600 mt-1">
-                Cannot exceed elapsed time ({formatDurationShort(elapsedMinutes)})
+                {t('timer.cannotExceedElapsedTime', { duration: formatDurationShort(elapsedMinutes) })}
               </p>
             )}
             <div className="flex gap-2 mt-3">
@@ -149,14 +151,14 @@ export function TimerRecoveryModal({ isOpen, onClose, onRecover, recoveryInfo })
                 disabled={!isValidAdjustment}
                 className="flex-1 px-3 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Save {formatDurationShort(totalAdjustedMinutes)}
+                {t('timer.save')} {formatDurationShort(totalAdjustedMinutes)}
               </button>
               <button
                 type="button"
                 onClick={() => setShowAdjust(false)}
                 className="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
               >
-                Cancel
+                {t('common.cancel')}
               </button>
             </div>
           </div>
@@ -170,21 +172,21 @@ export function TimerRecoveryModal({ isOpen, onClose, onRecover, recoveryInfo })
               onClick={handleSave}
               className="w-full px-4 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
             >
-              Save All ({formatDurationShort(elapsedMinutes)})
+              {t('timer.saveAll')} ({formatDurationShort(elapsedMinutes)})
             </button>
             <button
               type="button"
               onClick={() => setShowAdjust(true)}
               className="w-full px-4 py-2 text-sm font-medium text-indigo-600 bg-indigo-50 border border-indigo-200 rounded-md hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Adjust Time Before Saving
+              {t('timer.adjustTimeBeforeSaving')}
             </button>
             <button
               type="button"
               onClick={handleDiscard}
               className="w-full px-4 py-2 text-sm font-medium text-red-600 bg-white border border-red-300 rounded-md hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
             >
-              Discard Time
+              {t('timer.discardTimer')}
             </button>
           </div>
         )}

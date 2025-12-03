@@ -7,6 +7,7 @@ import { useState, useCallback } from 'react';
 import { Modal } from '../ui/Modal';
 import { validateManualTimeEntry } from '../../utils/validators';
 import { useTimer } from '../../hooks/useTimer';
+import { useTranslation } from '../../hooks/useTranslation';
 import { formatDurationShort } from '../../utils/formatters';
 
 /**
@@ -18,6 +19,7 @@ import { formatDurationShort } from '../../utils/formatters';
  * @param {Function} props.onSuccess - Callback when time is added successfully
  */
 export function ManualTimeEntry({ isOpen, onClose, task, onSuccess }) {
+  const { t } = useTranslation();
   const [hours, setHours] = useState('');
   const [minutes, setMinutes] = useState('');
   const [error, setError] = useState(null);
@@ -69,15 +71,15 @@ export function ManualTimeEntry({ isOpen, onClose, task, onSuccess }) {
   if (!isOpen || !task) return null;
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title="Add Time Manually" onOpen={handleOpen}>
+    <Modal isOpen={isOpen} onClose={handleClose} title={t('timer.addTimeManually')} onOpen={handleOpen}>
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Task info */}
         <div className="bg-gray-50 rounded-lg p-3">
-          <div className="text-sm text-gray-500">Task</div>
+          <div className="text-sm text-gray-500">{t('task.task')}</div>
           <div className="font-medium text-gray-900">{task.taskName}</div>
           {(task.actualDuration || 0) > 0 && (
             <div className="text-sm text-gray-600 mt-1">
-              Current tracked time: {formatDurationShort(task.actualDuration)}
+              {t('timer.currentTrackedTime')}: {formatDurationShort(task.actualDuration)}
             </div>
           )}
         </div>
@@ -85,12 +87,12 @@ export function ManualTimeEntry({ isOpen, onClose, task, onSuccess }) {
         {/* Time input fields */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Time to add
+            {t('timer.timeToAdd')}
           </label>
           <div className="flex items-center gap-3">
             <div className="flex-1">
               <label htmlFor="manual-hours" className="block text-xs text-gray-500 mb-1">
-                Hours
+                {t('timer.hours')}
               </label>
               <input
                 id="manual-hours"
@@ -106,7 +108,7 @@ export function ManualTimeEntry({ isOpen, onClose, task, onSuccess }) {
             <span className="text-gray-500 text-xl mt-5">:</span>
             <div className="flex-1">
               <label htmlFor="manual-minutes" className="block text-xs text-gray-500 mb-1">
-                Minutes
+                {t('timer.minutes')}
               </label>
               <input
                 id="manual-minutes"
@@ -121,7 +123,7 @@ export function ManualTimeEntry({ isOpen, onClose, task, onSuccess }) {
             </div>
           </div>
           <p className="text-xs text-gray-500 mt-1">
-            Enter the amount of time you want to add to this task
+            {t('timer.timeToAddHint')}
           </p>
         </div>
 
@@ -142,14 +144,14 @@ export function ManualTimeEntry({ isOpen, onClose, task, onSuccess }) {
             onClick={handleClose}
             className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            Cancel
+            {t('common.cancel')}
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
             className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isSubmitting ? 'Adding...' : 'Add Time'}
+            {isSubmitting ? t('timer.adding') : t('timer.addTime')}
           </button>
         </div>
       </form>

@@ -5,9 +5,11 @@
 
 import { useState, useCallback } from 'react';
 import { useAuth } from '../../hooks/useAuth';
+import { useTranslation } from '../../hooks/useTranslation';
 
 export function LoginForm() {
   const { login, error, isLoading, clearError } = useAuth();
+  const { t } = useTranslation();
   const [identifier, setIdentifier] = useState('');
   const [localError, setLocalError] = useState(null);
 
@@ -19,7 +21,7 @@ export function LoginForm() {
     setLocalError(null);
 
     if (!identifier.trim()) {
-      setLocalError('Please enter an email, username, or phone number');
+      setLocalError(t('errors.identifierRequired'));
       return;
     }
 
@@ -50,16 +52,16 @@ export function LoginForm() {
         {/* Header */}
         <div>
           <h1 className="text-center text-3xl font-extrabold text-gray-900 dark:text-white">
-            TaskFlow
+            {t('auth.appName')}
           </h1>
           <h2 className="mt-2 text-center text-xl text-gray-600 dark:text-gray-300">
-            Sign in to your account
+            {t('auth.signInTitle')}
           </h2>
           <p className="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
-            Enter your email, username, or phone number to continue.
+            {t('auth.signInDescription')}
             {' '}
             <span className="text-indigo-600 dark:text-indigo-400">
-              No password needed!
+              {t('auth.noPasswordNeeded')}
             </span>
           </p>
         </div>
@@ -69,7 +71,7 @@ export function LoginForm() {
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <label htmlFor="identifier" className="sr-only">
-                Email, username, or phone
+                {t('auth.identifierLabel')}
               </label>
               <input
                 id="identifier"
@@ -81,7 +83,7 @@ export function LoginForm() {
                   ? 'border-red-300 dark:border-red-500 placeholder-red-400 focus:ring-red-500 focus:border-red-500'
                   : 'border-gray-300 dark:border-slate-600 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500'
                   } text-gray-900 dark:text-white dark:bg-slate-800 focus:outline-none focus:z-10 sm:text-sm`}
-                placeholder="Email, username, or phone number"
+                placeholder={t('auth.identifierPlaceholder')}
                 value={identifier}
                 onChange={handleInputChange}
                 disabled={isLoading}
@@ -153,10 +155,10 @@ export function LoginForm() {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     />
                   </svg>
-                  Signing in...
+                  {t('auth.signingIn')}
                 </>
               ) : (
-                'Continue'
+                t('auth.signInButton')
               )}
             </button>
           </div>

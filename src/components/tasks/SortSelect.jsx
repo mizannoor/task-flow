@@ -5,6 +5,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { SORT_FIELDS, SORT_FIELD_LABELS, SORT_ORDERS } from '../../utils/constants';
+import { useTranslation } from '../../hooks/useTranslation';
+import { useTranslatedLabels } from '../../hooks/useTranslatedLabels';
 
 /**
  * SortSelect component
@@ -14,6 +16,8 @@ import { SORT_FIELDS, SORT_FIELD_LABELS, SORT_ORDERS } from '../../utils/constan
  * @param {Function} props.onChange - Callback when sort changes (field, order)
  */
 export function SortSelect({ field, order, onChange }) {
+  const { t } = useTranslation();
+  const { sortFieldLabels } = useTranslatedLabels();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -48,7 +52,7 @@ export function SortSelect({ field, order, onChange }) {
   };
 
   // Get current label
-  const currentLabel = SORT_FIELD_LABELS[field] || 'Sort by';
+  const currentLabel = sortFieldLabels[field] || t('sort.sortBy');
 
   return (
     <div className="relative inline-block text-left" ref={dropdownRef}>
@@ -95,7 +99,7 @@ export function SortSelect({ field, order, onChange }) {
           type="button"
           onClick={handleToggleOrder}
           className="inline-flex items-center rounded-md bg-white dark:bg-slate-800 px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700"
-          title={order === SORT_ORDERS.ASC ? 'Ascending' : 'Descending'}
+          title={order === SORT_ORDERS.ASC ? t('sort.ascending') : t('sort.descending')}
         >
           {order === SORT_ORDERS.ASC ? (
             <svg className="h-4 w-4 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -125,7 +129,7 @@ export function SortSelect({ field, order, onChange }) {
                 role="option"
                 aria-selected={field === value}
               >
-                <span>{SORT_FIELD_LABELS[value]}</span>
+                <span>{sortFieldLabels[value]}</span>
                 {field === value && (
                   <svg
                     className="h-4 w-4 text-indigo-600 dark:text-indigo-400"

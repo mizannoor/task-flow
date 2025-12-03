@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { Modal } from '../ui/Modal';
+import { useTranslation } from '../../hooks/useTranslation';
 import { formatDurationShort } from '../../utils/formatters';
 
 /**
@@ -16,6 +17,7 @@ import { formatDurationShort } from '../../utils/formatters';
  * @param {object} props.sessionData - Session data { taskName, elapsedMinutes }
  */
 export function LongSessionModal({ isOpen, onClose, onConfirm, sessionData }) {
+  const { t } = useTranslation();
   const [adjustedHours, setAdjustedHours] = useState(0);
   const [adjustedMinutes, setAdjustedMinutes] = useState(0);
 
@@ -42,7 +44,7 @@ export function LongSessionModal({ isOpen, onClose, onConfirm, sessionData }) {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Long Session Review">
+    <Modal isOpen={isOpen} onClose={onClose} title={t('timer.longSessionReview')}>
       <div className="space-y-4">
         {/* Warning message */}
         <div className="flex items-start gap-3 p-3 bg-yellow-50 rounded-lg">
@@ -61,29 +63,28 @@ export function LongSessionModal({ isOpen, onClose, onConfirm, sessionData }) {
           </svg>
           <div>
             <h4 className="text-sm font-medium text-yellow-800">
-              Long Session Detected
+              {t('timer.longSessionTitle')}
             </h4>
             <p className="text-sm text-yellow-700 mt-1">
-              This timer has been running for more than 4 hours. Please review the tracked time
-              before saving to ensure accuracy.
+              {t('timer.longSessionMessage')}
             </p>
           </div>
         </div>
 
         {/* Session info */}
         <div className="bg-gray-50 rounded-lg p-4">
-          <div className="text-sm text-gray-500 mb-1">Task</div>
+          <div className="text-sm text-gray-500 mb-1">{t('task.task')}</div>
           <div className="font-medium text-gray-900">{sessionData.taskName}</div>
 
           <div className="mt-3 grid grid-cols-2 gap-4">
             <div>
-              <div className="text-sm text-gray-500">Recorded Time</div>
+              <div className="text-sm text-gray-500">{t('timer.recordedTime')}</div>
               <div className="text-lg font-mono font-semibold text-gray-900">
                 {formatDurationShort(sessionData.elapsedMinutes)}
               </div>
             </div>
             <div>
-              <div className="text-sm text-gray-500">Adjusted Time</div>
+              <div className="text-sm text-gray-500">{t('timer.adjustedTime')}</div>
               <div className={`text-lg font-mono font-semibold ${isValid ? 'text-green-600' : 'text-red-600'}`}>
                 {formatDurationShort(totalAdjustedMinutes)}
               </div>
@@ -94,11 +95,11 @@ export function LongSessionModal({ isOpen, onClose, onConfirm, sessionData }) {
         {/* Time adjustment inputs */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Adjust time to save
+            {t('timer.adjustTimeToSave')}
           </label>
           <div className="flex items-center gap-2">
             <div className="flex-1">
-              <label className="block text-xs text-gray-500 mb-1">Hours</label>
+              <label className="block text-xs text-gray-500 mb-1">{t('timer.hours')}</label>
               <input
                 type="number"
                 min="0"
@@ -110,7 +111,7 @@ export function LongSessionModal({ isOpen, onClose, onConfirm, sessionData }) {
             </div>
             <span className="text-gray-500 mt-5">:</span>
             <div className="flex-1">
-              <label className="block text-xs text-gray-500 mb-1">Minutes</label>
+              <label className="block text-xs text-gray-500 mb-1">{t('timer.minutes')}</label>
               <input
                 type="number"
                 min="0"
@@ -123,12 +124,12 @@ export function LongSessionModal({ isOpen, onClose, onConfirm, sessionData }) {
           </div>
           {!isValid && totalAdjustedMinutes > maxMinutes && (
             <p className="text-sm text-red-600 mt-1">
-              Cannot exceed recorded time ({formatDurationShort(maxMinutes)})
+              {t('timer.cannotExceedRecordedTime', { duration: formatDurationShort(maxMinutes) })}
             </p>
           )}
           {!isValid && totalAdjustedMinutes === 0 && (
             <p className="text-sm text-red-600 mt-1">
-              Must save at least 1 minute
+              {t('timer.mustSaveAtLeast1Minute')}
             </p>
           )}
         </div>
@@ -140,7 +141,7 @@ export function LongSessionModal({ isOpen, onClose, onConfirm, sessionData }) {
             onClick={onClose}
             className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            Keep Running
+            {t('timer.keepRunning')}
           </button>
           <button
             type="button"
@@ -148,7 +149,7 @@ export function LongSessionModal({ isOpen, onClose, onConfirm, sessionData }) {
             disabled={!isValid}
             className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Save {formatDurationShort(totalAdjustedMinutes)}
+            {t('timer.save')} {formatDurationShort(totalAdjustedMinutes)}
           </button>
         </div>
       </div>

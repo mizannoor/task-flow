@@ -8,6 +8,7 @@ import { Modal } from '../ui/Modal';
 import { TaskForm } from './TaskForm';
 import { useTasks } from '../../hooks/useTasks';
 import { useAuth } from '../../hooks/useAuth';
+import { useTranslation } from '../../hooks/useTranslation';
 
 /**
  * TaskModal component
@@ -29,6 +30,7 @@ export function TaskModal({
   const [error, setError] = useState(null);
   const { createTask, updateTask } = useTasks();
   const { currentUser } = useAuth();
+  const { t } = useTranslation();
 
   const isEditMode = !!task;
 
@@ -77,7 +79,7 @@ export function TaskModal({
     <Modal
       isOpen={isOpen}
       onClose={handleClose}
-      title={isEditMode ? 'Edit Task' : 'Create New Task'}
+      title={isEditMode ? t('tasks.editTask') : t('tasks.newTask')}
       size="lg"
       closeOnBackdropClick={!isSubmitting}
       closeOnEscape={!isSubmitting}
