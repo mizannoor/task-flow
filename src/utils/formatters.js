@@ -531,3 +531,68 @@ export function getTimeStatusColor(actualMinutes, estimatedMinutes) {
   }
 }
 
+// =============================================================================
+// Analytics Formatting Functions
+// =============================================================================
+
+/**
+ * Format a number as a percentage
+ * @param {number | null} value - The value to format (0-100)
+ * @param {object} options - Formatting options
+ * @param {number} options.decimals - Number of decimal places (default: 0)
+ * @param {boolean} options.includeSymbol - Whether to include % symbol (default: true)
+ * @returns {string} - The formatted percentage string
+ */
+export function formatPercentage(value, { decimals = 0, includeSymbol = true } = {}) {
+  if (value === null || value === undefined || isNaN(value)) {
+    return '—';
+  }
+
+  const num = Number(value);
+  const formatted = num.toFixed(decimals);
+
+  return includeSymbol ? `${formatted}%` : formatted;
+}
+
+/**
+ * Format a change percentage with positive/negative indicator
+ * @param {number | null} value - The change value
+ * @returns {string} - Formatted string with +/- prefix
+ */
+export function formatChangePercentage(value) {
+  if (value === null || value === undefined || isNaN(value)) {
+    return '—';
+  }
+
+  const num = Number(value);
+  const prefix = num > 0 ? '+' : '';
+  return `${prefix}${num.toFixed(0)}%`;
+}
+
+/**
+ * Format a date for chart axis labels (short format)
+ * @param {Date | string} date - The date to format
+ * @returns {string} - Short formatted date (e.g., "Dec 2")
+ */
+export function formatChartDate(date) {
+  if (!date) return '';
+  const d = date instanceof Date ? date : new Date(date);
+  if (isNaN(d.getTime())) return '';
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+/**
+ * Format a large number compactly (e.g., 1.2K, 3.5M)
+ * @param {number} value - The number to format
+ * @returns {string} - Compact formatted number
+ */
+export function formatCompactNumber(value) {
+  if (value === null || value === undefined || isNaN(value)) {
+    return '—';
+  }
+
+  const num = Number(value);
+  if (num < 1000) return num.toString();
+  if (num < 1000000) return `${(num / 1000).toFixed(1)}K`;
+  return `${(num / 1000000).toFixed(1)}M`;
+}

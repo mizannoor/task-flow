@@ -394,3 +394,475 @@ export const TIMER_KEYBOARD_SHORTCUTS = [
     requiresActiveTimer: true, // Only works if timer is running or paused
   },
 ];
+// Analytics Constants
+// =============================================================================
+
+// Date range options for analytics filtering
+export const DATE_RANGES = {
+  TODAY: 'today',
+  THIS_WEEK: 'thisWeek',
+  LAST_WEEK: 'lastWeek',
+  THIS_MONTH: 'thisMonth',
+  LAST_MONTH: 'lastMonth',
+  LAST_30_DAYS: 'last30Days',
+};
+
+// Human-readable labels for date range options
+export const PERIOD_LABELS = {
+  [DATE_RANGES.TODAY]: 'Today',
+  [DATE_RANGES.THIS_WEEK]: 'This Week',
+  [DATE_RANGES.LAST_WEEK]: 'Last Week',
+  [DATE_RANGES.THIS_MONTH]: 'This Month',
+  [DATE_RANGES.LAST_MONTH]: 'Last Month',
+  [DATE_RANGES.LAST_30_DAYS]: 'Last 30 Days',
+};
+
+// Chart colors for task categories (hex values for Recharts)
+export const ANALYTICS_CATEGORY_COLORS = {
+  [CATEGORIES.DEVELOPMENT]: '#3B82F6', // Blue-500
+  [CATEGORIES.FIX]: '#EF4444', // Red-500
+  [CATEGORIES.SUPPORT]: '#10B981', // Emerald-500
+};
+
+// Complexity level color ranges
+export const COMPLEXITY_COLORS = {
+  LOW: '#10B981', // Emerald-500 (1-3)
+  MEDIUM: '#F59E0B', // Amber-500 (4-6)
+  HIGH: '#EF4444', // Red-500 (7-10)
+};
+
+// localStorage key for analytics preferences
+export const ANALYTICS_STORAGE_KEY = 'taskflow_analytics_preferences';
+
+// Default analytics preferences
+export const DEFAULT_ANALYTICS_PREFERENCES = {
+  selectedDateRange: DATE_RANGES.THIS_WEEK,
+};
+
+// =============================================================================
+// Team Analytics Constants
+// =============================================================================
+
+// Team Analytics storage key for session persistence
+export const TEAM_ANALYTICS_STORAGE_KEY = 'taskflow_team_analytics_preferences';
+
+// Default team analytics preferences
+export const DEFAULT_TEAM_ANALYTICS_PREFERENCES = {
+  selectedDateRange: DATE_RANGES.THIS_WEEK,
+  leaderboardSortField: 'completed',
+  leaderboardSortOrder: 'desc',
+  velocityAggregation: 'day',
+  velocityShowByUser: false,
+  completionsComparisonEnabled: false,
+  categoryShowTeamTotals: false,
+};
+
+// Leaderboard sort fields
+export const LEADERBOARD_SORT_FIELDS = {
+  COMPLETED: 'completed',
+  ACCURACY: 'accuracy',
+  STREAK: 'streak',
+};
+
+// Leaderboard sort field labels
+export const LEADERBOARD_SORT_LABELS = {
+  [LEADERBOARD_SORT_FIELDS.COMPLETED]: 'Tasks Completed',
+  [LEADERBOARD_SORT_FIELDS.ACCURACY]: 'Estimation Accuracy',
+  [LEADERBOARD_SORT_FIELDS.STREAK]: 'Current Streak',
+};
+
+// Rank badges for top 3 performers
+export const RANK_BADGES = {
+  1: '🥇',
+  2: '🥈',
+  3: '🥉',
+};
+
+// Team analytics color palette (hex values for Recharts)
+export const TEAM_CHART_COLORS = {
+  // Primary colors for user bars/areas
+  PRIMARY: '#3B82F6', // Blue-500
+  SECONDARY: '#8B5CF6', // Violet-500
+  TERTIARY: '#EC4899', // Pink-500
+
+  // Category colors (consistent with personal analytics)
+  DEVELOPMENT: '#3B82F6', // Blue-500
+  FIX: '#EF4444', // Red-500
+  SUPPORT: '#10B981', // Emerald-500
+
+  // User palette for stacked charts (10 distinct colors)
+  USER_PALETTE: [
+    '#3B82F6', // Blue-500
+    '#10B981', // Emerald-500
+    '#F59E0B', // Amber-500
+    '#EF4444', // Red-500
+    '#8B5CF6', // Violet-500
+    '#EC4899', // Pink-500
+    '#06B6D4', // Cyan-500
+    '#F97316', // Orange-500
+    '#84CC16', // Lime-500
+    '#6366F1', // Indigo-500
+  ],
+
+  // Comparison mode colors
+  CURRENT_PERIOD: '#3B82F6', // Blue-500
+  PREVIOUS_PERIOD: '#9CA3AF', // Gray-400
+};
+
+// Maximum users to display by default in leaderboard
+export const LEADERBOARD_DEFAULT_LIMIT = 10;
+
+// Team analytics empty state messages
+export const TEAM_ANALYTICS_MESSAGES = {
+  NO_USERS: 'No team members found',
+  NO_TASKS: 'No tasks to analyze',
+  NO_COMPLETED: 'No completed tasks in this period',
+  NO_DATA_IN_RANGE: 'No data available for selected period',
+  SINGLE_USER: 'Add more team members to see comparative analytics',
+  INSUFFICIENT_DATA: 'More data accumulating as your team uses TaskFlow',
+};
+
+// =============================================================================
+// Calendar View Constants
+// =============================================================================
+
+// Calendar view modes
+export const CALENDAR_VIEW_MODES = {
+  MONTH: 'month',
+  WEEK: 'week',
+  DAY: 'day',
+};
+
+// Calendar view mode labels
+export const CALENDAR_VIEW_MODE_LABELS = {
+  [CALENDAR_VIEW_MODES.MONTH]: 'Month',
+  [CALENDAR_VIEW_MODES.WEEK]: 'Week',
+  [CALENDAR_VIEW_MODES.DAY]: 'Day',
+};
+
+// Days of week (Sunday start)
+export const DAYS_OF_WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+// Full day names
+export const DAYS_OF_WEEK_FULL = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+];
+
+// Month names
+export const MONTH_NAMES = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+// Short month names
+export const MONTH_NAMES_SHORT = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
+
+// Calendar constants
+export const CALENDAR_CONSTANTS = {
+  // Grid dimensions
+  DAYS_IN_WEEK: 7,
+  WEEKS_IN_MONTH_GRID: 6,
+  TOTAL_CELLS: 42, // 6 weeks × 7 days
+
+  // Task display limits per cell
+  MAX_VISIBLE_TASKS_MOBILE: 2,
+  MAX_VISIBLE_TASKS_TABLET: 3,
+  MAX_VISIBLE_TASKS_DESKTOP: 4,
+
+  // Touch interaction
+  LONG_PRESS_DURATION_MS: 500,
+
+  // Drag-and-drop data transfer type
+  DND_TYPE: 'application/taskflow-calendar-task',
+};
+
+// Calendar localStorage keys
+export const CALENDAR_STORAGE_KEY = 'taskflow_calendar_preferences';
+
+// Default calendar preferences
+export const DEFAULT_CALENDAR_PREFERENCES = {
+  viewMode: CALENDAR_VIEW_MODES.MONTH,
+  sidebarOpen: false,
+};
+
+// Calendar priority colors (solid backgrounds for indicators)
+export const CALENDAR_PRIORITY_COLORS = {
+  [PRIORITIES.URGENT]: 'bg-red-500',
+  [PRIORITIES.HIGH]: 'bg-orange-500',
+  [PRIORITIES.MEDIUM]: 'bg-yellow-500',
+  [PRIORITIES.LOW]: 'bg-gray-400',
+};
+
+// Calendar priority border colors (for hover/focus states)
+export const CALENDAR_PRIORITY_BORDER_COLORS = {
+  [PRIORITIES.URGENT]: 'border-red-500',
+  [PRIORITIES.HIGH]: 'border-orange-500',
+  [PRIORITIES.MEDIUM]: 'border-yellow-500',
+  [PRIORITIES.LOW]: 'border-gray-400',
+};
+
+// =============================================================================
+// AI Service Constants
+// =============================================================================
+
+// AI Service Configuration
+export const AI_CONFIG = {
+  MODEL: 'gemini-pro',
+  ENDPOINT: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
+  MAX_TOKENS: 1024,
+  TEMPERATURE: 0.7,
+  TIMEOUT_MS: 10000,
+  MAX_DESCRIPTION_LENGTH: 2000,
+};
+
+// AI Suggestion Defaults (used when AI is unavailable)
+export const AI_DEFAULTS = {
+  COMPLEXITY: 5,
+  PRIORITY: PRIORITIES.MEDIUM,
+  CATEGORY: CATEGORIES.DEVELOPMENT,
+  TAGS: [],
+  ESTIMATED_DURATION: 60,
+  REASONING_DEFAULT: 'Using default values due to AI unavailability',
+  REASONING_OFFLINE: 'AI analysis unavailable - using default values',
+  REASONING_TIMEOUT: 'AI analysis timed out - using default values',
+};
+
+// AI Error Messages
+export const AI_ERROR_MESSAGES = {
+  NOT_CONFIGURED: 'AI not configured',
+  OFFLINE: 'AI analysis unavailable - using default values',
+  TIMEOUT: 'AI analysis timed out - using default values',
+  RATE_LIMIT: 'AI temporarily unavailable - please try again in a moment',
+  GENERIC: 'AI analysis unavailable - using default values',
+};
+
+// AI Analysis Prompt Template
+export const AI_ANALYSIS_PROMPT = `You are a task analysis assistant. Analyze the following task and provide structured suggestions.
+
+Task Name: {taskName}
+Description: {description}
+
+Respond with a JSON object containing EXACTLY these fields:
+{
+  "complexity": <number 1-10>,
+  "priority": <"urgent" | "high" | "medium" | "low">,
+  "category": <"development" | "fix" | "support">,
+  "tags": <array of 2-5 strings>,
+  "estimatedDuration": <number in minutes>,
+  "reasoning": <string explaining your analysis>
+}
+
+Guidelines:
+- Complexity: 1=trivial, 5=moderate, 10=extremely complex
+- Priority: urgent=blocking, high=important, medium=standard, low=backlog
+- Category: development=new features, fix=bugs, support=maintenance
+- Duration: Realistic minutes based on complexity
+- Tags: 2-5 relevant keywords
+
+Respond ONLY with the JSON object. No markdown, no explanation, no code blocks.`;
+
+// =============================================================================
+// Keyboard Shortcuts Constants
+// =============================================================================
+
+// Shortcut contexts - where shortcuts are active
+export const SHORTCUT_CONTEXTS = {
+  GLOBAL: 'global',
+  VIEW_LIST: 'view-list',
+  VIEW_KANBAN: 'view-kanban',
+  VIEW_CALENDAR: 'view-calendar',
+  VIEW_FOCUS: 'view-focus',
+  TASK_FOCUSED: 'task-focused',
+  MODAL_OPEN: 'modal-open',
+};
+
+// Shortcut categories for help overlay grouping
+export const SHORTCUT_CATEGORIES = {
+  GLOBAL: 'global',
+  NAVIGATION: 'navigation',
+  TASK_ACTIONS: 'task-actions',
+  SELECTION: 'selection',
+};
+
+// Shortcut category labels for display
+export const SHORTCUT_CATEGORY_LABELS = {
+  [SHORTCUT_CATEGORIES.GLOBAL]: 'Global',
+  [SHORTCUT_CATEGORIES.NAVIGATION]: 'Navigation',
+  [SHORTCUT_CATEGORIES.TASK_ACTIONS]: 'Task Actions',
+  [SHORTCUT_CATEGORIES.SELECTION]: 'Selection',
+};
+
+// Keyboard shortcut definitions
+export const KEYBOARD_SHORTCUTS = [
+  // Global shortcuts (work from anywhere)
+  {
+    key: 'n',
+    modifiers: ['ctrl'],
+    action: 'createTask',
+    context: SHORTCUT_CONTEXTS.GLOBAL,
+    category: SHORTCUT_CATEGORIES.GLOBAL,
+    description: 'Create new task',
+    enabled: true,
+  },
+  {
+    key: 'f',
+    modifiers: ['ctrl'],
+    action: 'focusSearch',
+    context: SHORTCUT_CONTEXTS.GLOBAL,
+    category: SHORTCUT_CATEGORIES.GLOBAL,
+    description: 'Focus search bar',
+    enabled: true,
+  },
+  {
+    key: '/',
+    modifiers: ['ctrl'],
+    action: 'showHelp',
+    context: SHORTCUT_CONTEXTS.GLOBAL,
+    category: SHORTCUT_CATEGORIES.GLOBAL,
+    description: 'Show keyboard shortcuts',
+    enabled: true,
+  },
+  {
+    key: 'Escape',
+    modifiers: [],
+    action: 'closeOrClear',
+    context: SHORTCUT_CONTEXTS.GLOBAL,
+    category: SHORTCUT_CATEGORIES.GLOBAL,
+    description: 'Close modal or clear selection',
+    enabled: true,
+  },
+
+  // Navigation shortcuts (view switching)
+  {
+    key: '1',
+    modifiers: [],
+    action: 'switchToList',
+    context: SHORTCUT_CONTEXTS.GLOBAL,
+    category: SHORTCUT_CATEGORIES.NAVIGATION,
+    description: 'Switch to List view',
+    enabled: true,
+  },
+  {
+    key: '2',
+    modifiers: [],
+    action: 'switchToKanban',
+    context: SHORTCUT_CONTEXTS.GLOBAL,
+    category: SHORTCUT_CATEGORIES.NAVIGATION,
+    description: 'Switch to Kanban view',
+    enabled: true,
+  },
+  {
+    key: '3',
+    modifiers: [],
+    action: 'switchToCalendar',
+    context: SHORTCUT_CONTEXTS.GLOBAL,
+    category: SHORTCUT_CATEGORIES.NAVIGATION,
+    description: 'Switch to Calendar view',
+    enabled: true,
+  },
+  {
+    key: '4',
+    modifiers: [],
+    action: 'switchToFocus',
+    context: SHORTCUT_CONTEXTS.GLOBAL,
+    category: SHORTCUT_CATEGORIES.NAVIGATION,
+    description: 'Switch to Focus view',
+    enabled: true,
+  },
+  {
+    key: 'ArrowUp',
+    modifiers: [],
+    action: 'navigatePrev',
+    context: SHORTCUT_CONTEXTS.TASK_FOCUSED,
+    category: SHORTCUT_CATEGORIES.NAVIGATION,
+    description: 'Previous task',
+    enabled: true,
+  },
+  {
+    key: 'ArrowDown',
+    modifiers: [],
+    action: 'navigateNext',
+    context: SHORTCUT_CONTEXTS.TASK_FOCUSED,
+    category: SHORTCUT_CATEGORIES.NAVIGATION,
+    description: 'Next task',
+    enabled: true,
+  },
+
+  // Task action shortcuts (require focused task)
+  {
+    key: 'e',
+    modifiers: [],
+    action: 'editTask',
+    context: SHORTCUT_CONTEXTS.TASK_FOCUSED,
+    category: SHORTCUT_CATEGORIES.TASK_ACTIONS,
+    description: 'Edit task',
+    enabled: true,
+  },
+  {
+    key: 'd',
+    modifiers: [],
+    action: 'deleteTask',
+    context: SHORTCUT_CONTEXTS.TASK_FOCUSED,
+    category: SHORTCUT_CATEGORIES.TASK_ACTIONS,
+    description: 'Delete task',
+    enabled: true,
+  },
+  {
+    key: 'c',
+    modifiers: [],
+    action: 'completeTask',
+    context: SHORTCUT_CONTEXTS.TASK_FOCUSED,
+    category: SHORTCUT_CATEGORIES.TASK_ACTIONS,
+    description: 'Complete task',
+    enabled: true,
+  },
+  {
+    key: 's',
+    modifiers: [],
+    action: 'startTask',
+    context: SHORTCUT_CONTEXTS.TASK_FOCUSED,
+    category: SHORTCUT_CATEGORIES.TASK_ACTIONS,
+    description: 'Start task',
+    enabled: true,
+  },
+
+  // Selection shortcuts
+  {
+    key: ' ',
+    modifiers: [],
+    action: 'toggleSelect',
+    context: SHORTCUT_CONTEXTS.TASK_FOCUSED,
+    category: SHORTCUT_CATEGORIES.SELECTION,
+    description: 'Toggle task selection',
+    enabled: true,
+  },
+];

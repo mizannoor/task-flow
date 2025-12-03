@@ -3,7 +3,7 @@
  * Form for creating and editing tasks with validation
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { validateCreateTaskInput, validateUpdateTaskInput } from '../../utils/validators';
 import { formatDateForInput } from '../../utils/formatters';
 import {
@@ -13,7 +13,11 @@ import {
   CATEGORY_LABELS,
   TASK_DEFAULTS,
   TASK_LIMITS,
+  AI_ERROR_MESSAGES,
 } from '../../utils/constants';
+import { useAISuggestions } from '../../hooks/useAISuggestions';
+import { AISuggestionPanel } from './AISuggestionPanel';
+import { SparkleIcon } from '../ui/SparkleIcon';
 
 /**
  * TaskForm component
@@ -54,6 +58,38 @@ export function TaskForm({
   // Tag input state
   const [tagInput, setTagInput] = useState('');
 
+  // AI suggestions state
+  const {
+    suggestions,
+    isLoading: isAILoading,
+    error: aiError,
+    isConfigured: isAIConfigured,
+    lastAnalyzedInput,
+    analyzeTask,
+    acceptSuggestion,
+    acceptAll: getAcceptAllValues,
+    dismiss: dismissSuggestions,
+    reanalyze,
+  } = useAISuggestions();
+
+  // Track which fields have AI-suggested values
+  const [aiSuggestedFields, setAiSuggestedFields] = useState(new Set());
+
+  // Track which fields have been manually modified after AI suggestions
+  const [modifiedFields, setModifiedFields] = useState(new Set());
+
+  // Track previous suggestions for visual diff
+  const [previousSuggestions, setPreviousSuggestions] = useState(null);
+
+  // Check if input has changed since last analysis
+  const hasInputChanged = useMemo(() => {
+    if (!lastAnalyzedInput) return false;
+    return (
+      formData.taskName !== lastAnalyzedInput.taskName ||
+      formData.description !== lastAnalyzedInput.description
+    );
+  }, [formData.taskName, formData.description, lastAnalyzedInput]);
+
   // Initialize form with initial values (for edit mode)
   useEffect(() => {
     if (initialValues && Object.keys(initialValues).length > 0) {
@@ -89,6 +125,16 @@ export function TaskForm({
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: null }));
     }
+
+    // Clear AI suggested indicator when user manually modifies a field
+    if (aiSuggestedFields.has(name)) {
+      setAiSuggestedFields((prev) => {
+        const next = new Set(prev);
+        next.delete(name);
+        return next;
+      });
+      setModifiedFields((prev) => new Set([...prev, name]));
+    }
   };
 
   // Handle tag addition
@@ -117,6 +163,78 @@ export function TaskForm({
       e.preventDefault();
       handleAddTag();
     }
+  };
+
+  // Handle AI analysis request
+  const handleGetAISuggestions = async () => {
+    if (!formData.taskName.trim()) return;
+    setPreviousSuggestions(suggestions);
+    await analyzeTask(formData.taskName, formData.description);
+  };
+
+  // Handle accepting a single AI suggestion field
+  const handleAcceptField = (field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+    setAiSuggestedFields((prev) => new Set([...prev, field]));
+    setModifiedFields((prev) => {
+      const next = new Set(prev);
+      next.delete(field);
+      return next;
+    });
+  };
+
+  // Handle accepting all AI suggestions
+  const handleAcceptAll = () => {
+    const values = getAcceptAllValues();
+    if (!values || Object.keys(values).length === 0) return;
+
+    setFormData((prev) => ({
+      ...prev,
+      ...values,
+    }));
+
+    // Mark all suggestion fields as AI-suggested
+    const fields = new Set(['complexity', 'priority', 'category', 'tags', 'estimatedDuration']);
+    setAiSuggestedFields(fields);
+    setModifiedFields(new Set());
+  };
+
+  // Handle accepting remaining (non-modified) suggestions
+  const handleAcceptRemaining = () => {
+    const values = getAcceptAllValues();
+    if (!values || Object.keys(values).length === 0) return;
+
+    const fieldsToAccept = ['complexity', 'priority', 'category', 'tags', 'estimatedDuration']
+      .filter((field) => !modifiedFields.has(field));
+
+    const newFormData = { ...formData };
+    const newAiFields = new Set(aiSuggestedFields);
+
+    fieldsToAccept.forEach((field) => {
+      if (field in values) {
+        newFormData[field] = values[field];
+        newAiFields.add(field);
+      }
+    });
+
+    setFormData(newFormData);
+    setAiSuggestedFields(newAiFields);
+  };
+
+  // Handle dismissing AI suggestions
+  const handleDismissSuggestions = () => {
+    dismissSuggestions();
+    setPreviousSuggestions(null);
+    // Don't clear aiSuggestedFields - keep them if user already accepted some
+  };
+
+  // Handle re-analysis
+  const handleReanalyze = async () => {
+    setPreviousSuggestions(suggestions);
+    await reanalyze(formData.taskName, formData.description);
   };
 
   // Handle form submission
@@ -159,9 +277,10 @@ export function TaskForm({
           value={formData.taskName}
           onChange={handleChange}
           maxLength={TASK_LIMITS.NAME_MAX_LENGTH}
+          autoFocus
           className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${errors.taskName
-              ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
-              : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
+            ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
+            : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
             }`}
           placeholder="Enter task name"
           disabled={isLoading}
@@ -188,8 +307,8 @@ export function TaskForm({
           rows={3}
           maxLength={TASK_LIMITS.DESCRIPTION_MAX_LENGTH}
           className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${errors.description
-              ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
-              : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
+            ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
+            : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
             }`}
           placeholder="Enter task description (optional)"
           disabled={isLoading}
@@ -202,19 +321,65 @@ export function TaskForm({
         </p>
       </div>
 
+      {/* AI Suggestions Section */}
+      {!isEditMode && (
+        <div className="relative">
+          {/* Get AI Suggestions Button */}
+          {!suggestions && !isAILoading && (
+            <button
+              type="button"
+              onClick={handleGetAISuggestions}
+              disabled={!formData.taskName.trim() || !isAIConfigured || isLoading}
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-indigo-700 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-900/30 dark:text-indigo-300 dark:hover:bg-indigo-900/50 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              title={
+                !isAIConfigured
+                  ? AI_ERROR_MESSAGES.NOT_CONFIGURED
+                  : !formData.taskName.trim()
+                    ? 'Enter a task name first'
+                    : 'Get AI suggestions for this task'
+              }
+            >
+              <SparkleIcon size={16} />
+              Get AI Suggestions
+            </button>
+          )}
+
+          {/* AI Suggestion Panel */}
+          <AISuggestionPanel
+            suggestions={suggestions}
+            isLoading={isAILoading}
+            error={aiError}
+            isConfigured={isAIConfigured}
+            onAnalyze={handleGetAISuggestions}
+            onAcceptField={handleAcceptField}
+            onAcceptAll={handleAcceptAll}
+            onAcceptRemaining={handleAcceptRemaining}
+            onDismiss={handleDismissSuggestions}
+            showReanalyze={hasInputChanged && suggestions !== null}
+            onReanalyze={handleReanalyze}
+            modifiedFields={modifiedFields}
+            previousSuggestions={previousSuggestions}
+            isReanalyzing={isAILoading && suggestions !== null}
+          />
+        </div>
+      )}
+
       {/* Priority and Category - Side by side */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {/* Priority */}
         <div>
-          <label htmlFor="priority" className="block text-sm font-medium text-gray-700">
-            Priority
+          <label htmlFor="priority" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <span className="inline-flex items-center gap-1">
+              Priority
+              {aiSuggestedFields.has('priority') && <SparkleIcon size={14} />}
+            </span>
           </label>
           <select
             id="priority"
             name="priority"
             value={formData.priority}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             disabled={isLoading}
           >
             {Object.entries(PRIORITY_LABELS).map(([value, label]) => (
@@ -227,15 +392,18 @@ export function TaskForm({
 
         {/* Category */}
         <div>
-          <label htmlFor="category" className="block text-sm font-medium text-gray-700">
-            Category
+          <label htmlFor="category" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <span className="inline-flex items-center gap-1">
+              Category
+              {aiSuggestedFields.has('category') && <SparkleIcon size={14} />}
+            </span>
           </label>
           <select
             id="category"
             name="category"
             value={formData.category}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             disabled={isLoading}
           >
             {Object.entries(CATEGORY_LABELS).map(([value, label]) => (
@@ -251,8 +419,11 @@ export function TaskForm({
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {/* Complexity */}
         <div>
-          <label htmlFor="complexity" className="block text-sm font-medium text-gray-700">
-            Complexity (1-10)
+          <label htmlFor="complexity" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <span className="inline-flex items-center gap-1">
+              Complexity (1-10)
+              {aiSuggestedFields.has('complexity') && <SparkleIcon size={14} />}
+            </span>
           </label>
           <input
             type="number"
@@ -262,9 +433,9 @@ export function TaskForm({
             onChange={handleChange}
             min={TASK_LIMITS.COMPLEXITY_MIN}
             max={TASK_LIMITS.COMPLEXITY_MAX}
-            className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${errors.complexity
-                ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
-                : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
+            className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm dark:bg-gray-700 dark:text-white ${errors.complexity
+              ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
+              : 'border-gray-300 dark:border-gray-600 focus:border-indigo-500 focus:ring-indigo-500'
               }`}
             disabled={isLoading}
           />
@@ -275,8 +446,11 @@ export function TaskForm({
 
         {/* Estimated Duration */}
         <div>
-          <label htmlFor="estimatedDuration" className="block text-sm font-medium text-gray-700">
-            Est. Duration (minutes)
+          <label htmlFor="estimatedDuration" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <span className="inline-flex items-center gap-1">
+              Est. Duration (minutes)
+              {aiSuggestedFields.has('estimatedDuration') && <SparkleIcon size={14} />}
+            </span>
           </label>
           <input
             type="number"
@@ -286,9 +460,9 @@ export function TaskForm({
             onChange={handleChange}
             min={TASK_LIMITS.DURATION_MIN}
             max={TASK_LIMITS.DURATION_MAX}
-            className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${errors.estimatedDuration
-                ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
-                : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
+            className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm dark:bg-gray-700 dark:text-white ${errors.estimatedDuration
+              ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
+              : 'border-gray-300 dark:border-gray-600 focus:border-indigo-500 focus:ring-indigo-500'
               }`}
             disabled={isLoading}
           />
@@ -310,8 +484,8 @@ export function TaskForm({
           value={formData.deadline}
           onChange={handleChange}
           className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${errors.deadline
-              ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
-              : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
+            ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
+            : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'
             }`}
           disabled={isLoading}
         />
@@ -345,8 +519,11 @@ export function TaskForm({
 
       {/* Tags */}
       <div>
-        <label htmlFor="tagInput" className="block text-sm font-medium text-gray-700">
-          Tags
+        <label htmlFor="tagInput" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <span className="inline-flex items-center gap-1">
+            Tags
+            {aiSuggestedFields.has('tags') && <SparkleIcon size={14} />}
+          </span>
         </label>
         <div className="mt-1 flex rounded-md shadow-sm">
           <input
