@@ -704,20 +704,6 @@ export function calculateTeamVelocity(tasks, users, dateRange, aggregation = 'da
   };
 }
 
-/**
- * Get the Monday of the week for a given date
- * @param {Date} date - The date
- * @returns {Date} - Monday of that week
- */
-function getWeekStartDate(date) {
-  const d = new Date(date);
-  const day = d.getDay();
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-  d.setDate(diff);
-  d.setHours(0, 0, 0, 0);
-  return d;
-}
-
 // =============================================================================
 // Team Analytics: Category Distribution by User
 // =============================================================================

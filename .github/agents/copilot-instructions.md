@@ -15,6 +15,8 @@ Auto-generated from all feature plans. Last updated: 2025-12-01
 - IndexedDB via Dexie.js - reads from existing Task table, no schema changes needed (006-personal-analytics)
 - JavaScript ES2022+ (React 18+) + React, Tailwind CSS, Google Gemini API (`gemini-pro` model) (008-ai-task-analysis)
 - N/A (AI suggestions are ephemeral; only accepted values persist in IndexedDB via existing TaskService) (008-ai-task-analysis)
+- JavaScript ES2022+ (React 18+) + React, Dexie.js (IndexedDB), Tailwind CSS (010-keyboard-shortcuts)
+- IndexedDB via Dexie.js for shortcut usage analytics (010-keyboard-shortcuts)
 
 - JavaScript/TypeScript ES2022+ + React 18+, Dexie.js (IndexedDB wrapper), Tailwind CSS (001-auth-system)
 
@@ -35,9 +37,9 @@ npm test; npm run lint
 JavaScript/TypeScript ES2022+: Follow standard conventions
 
 ## Recent Changes
+- 010-keyboard-shortcuts: Added JavaScript ES2022+ (React 18+) + React, Dexie.js (IndexedDB), Tailwind CSS
 - 008-ai-task-analysis: Added JavaScript ES2022+ (React 18+) + React, Tailwind CSS, Google Gemini API (`gemini-pro` model)
 - 007-calendar-view: Added JavaScript ES2022+ (React 19.x) + React 19, Tailwind CSS, Dexie.js (existing)
-- 006-personal-analytics: Added JavaScript ES2022+ (React 18+) + React Context API, Dexie.js (IndexedDB), Recharts (NEW), Tailwind CSS
 
 
 <!-- MANUAL ADDITIONS START -->

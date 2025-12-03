@@ -43,6 +43,13 @@ db.version(3)
       });
   });
 
+// Version 4: Add shortcutUsage table for keyboard shortcut analytics
+db.version(4).stores({
+  users: '&id, &identifier, identifierType, createdAt',
+  tasks: '&id, userId, createdBy, status, priority, category, createdAt, deadline, timerStartedAt',
+  shortcutUsage: '++id, [userId+shortcutKey+date], userId, date',
+});
+
 // Export the database instance
 export { db };
 

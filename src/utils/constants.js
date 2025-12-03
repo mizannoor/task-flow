@@ -639,3 +639,180 @@ Guidelines:
 - Tags: 2-5 relevant keywords
 
 Respond ONLY with the JSON object. No markdown, no explanation, no code blocks.`;
+
+// =============================================================================
+// Keyboard Shortcuts Constants
+// =============================================================================
+
+// Shortcut contexts - where shortcuts are active
+export const SHORTCUT_CONTEXTS = {
+  GLOBAL: 'global',
+  VIEW_LIST: 'view-list',
+  VIEW_KANBAN: 'view-kanban',
+  VIEW_CALENDAR: 'view-calendar',
+  VIEW_FOCUS: 'view-focus',
+  TASK_FOCUSED: 'task-focused',
+  MODAL_OPEN: 'modal-open',
+};
+
+// Shortcut categories for help overlay grouping
+export const SHORTCUT_CATEGORIES = {
+  GLOBAL: 'global',
+  NAVIGATION: 'navigation',
+  TASK_ACTIONS: 'task-actions',
+  SELECTION: 'selection',
+};
+
+// Shortcut category labels for display
+export const SHORTCUT_CATEGORY_LABELS = {
+  [SHORTCUT_CATEGORIES.GLOBAL]: 'Global',
+  [SHORTCUT_CATEGORIES.NAVIGATION]: 'Navigation',
+  [SHORTCUT_CATEGORIES.TASK_ACTIONS]: 'Task Actions',
+  [SHORTCUT_CATEGORIES.SELECTION]: 'Selection',
+};
+
+// Keyboard shortcut definitions
+export const KEYBOARD_SHORTCUTS = [
+  // Global shortcuts (work from anywhere)
+  {
+    key: 'n',
+    modifiers: ['ctrl'],
+    action: 'createTask',
+    context: SHORTCUT_CONTEXTS.GLOBAL,
+    category: SHORTCUT_CATEGORIES.GLOBAL,
+    description: 'Create new task',
+    enabled: true,
+  },
+  {
+    key: 'f',
+    modifiers: ['ctrl'],
+    action: 'focusSearch',
+    context: SHORTCUT_CONTEXTS.GLOBAL,
+    category: SHORTCUT_CATEGORIES.GLOBAL,
+    description: 'Focus search bar',
+    enabled: true,
+  },
+  {
+    key: '/',
+    modifiers: ['ctrl'],
+    action: 'showHelp',
+    context: SHORTCUT_CONTEXTS.GLOBAL,
+    category: SHORTCUT_CATEGORIES.GLOBAL,
+    description: 'Show keyboard shortcuts',
+    enabled: true,
+  },
+  {
+    key: 'Escape',
+    modifiers: [],
+    action: 'closeOrClear',
+    context: SHORTCUT_CONTEXTS.GLOBAL,
+    category: SHORTCUT_CATEGORIES.GLOBAL,
+    description: 'Close modal or clear selection',
+    enabled: true,
+  },
+
+  // Navigation shortcuts (view switching)
+  {
+    key: '1',
+    modifiers: [],
+    action: 'switchToList',
+    context: SHORTCUT_CONTEXTS.GLOBAL,
+    category: SHORTCUT_CATEGORIES.NAVIGATION,
+    description: 'Switch to List view',
+    enabled: true,
+  },
+  {
+    key: '2',
+    modifiers: [],
+    action: 'switchToKanban',
+    context: SHORTCUT_CONTEXTS.GLOBAL,
+    category: SHORTCUT_CATEGORIES.NAVIGATION,
+    description: 'Switch to Kanban view',
+    enabled: true,
+  },
+  {
+    key: '3',
+    modifiers: [],
+    action: 'switchToCalendar',
+    context: SHORTCUT_CONTEXTS.GLOBAL,
+    category: SHORTCUT_CATEGORIES.NAVIGATION,
+    description: 'Switch to Calendar view',
+    enabled: true,
+  },
+  {
+    key: '4',
+    modifiers: [],
+    action: 'switchToFocus',
+    context: SHORTCUT_CONTEXTS.GLOBAL,
+    category: SHORTCUT_CATEGORIES.NAVIGATION,
+    description: 'Switch to Focus view',
+    enabled: true,
+  },
+  {
+    key: 'ArrowUp',
+    modifiers: [],
+    action: 'navigatePrev',
+    context: SHORTCUT_CONTEXTS.TASK_FOCUSED,
+    category: SHORTCUT_CATEGORIES.NAVIGATION,
+    description: 'Previous task',
+    enabled: true,
+  },
+  {
+    key: 'ArrowDown',
+    modifiers: [],
+    action: 'navigateNext',
+    context: SHORTCUT_CONTEXTS.TASK_FOCUSED,
+    category: SHORTCUT_CATEGORIES.NAVIGATION,
+    description: 'Next task',
+    enabled: true,
+  },
+
+  // Task action shortcuts (require focused task)
+  {
+    key: 'e',
+    modifiers: [],
+    action: 'editTask',
+    context: SHORTCUT_CONTEXTS.TASK_FOCUSED,
+    category: SHORTCUT_CATEGORIES.TASK_ACTIONS,
+    description: 'Edit task',
+    enabled: true,
+  },
+  {
+    key: 'd',
+    modifiers: [],
+    action: 'deleteTask',
+    context: SHORTCUT_CONTEXTS.TASK_FOCUSED,
+    category: SHORTCUT_CATEGORIES.TASK_ACTIONS,
+    description: 'Delete task',
+    enabled: true,
+  },
+  {
+    key: 'c',
+    modifiers: [],
+    action: 'completeTask',
+    context: SHORTCUT_CONTEXTS.TASK_FOCUSED,
+    category: SHORTCUT_CATEGORIES.TASK_ACTIONS,
+    description: 'Complete task',
+    enabled: true,
+  },
+  {
+    key: 's',
+    modifiers: [],
+    action: 'startTask',
+    context: SHORTCUT_CONTEXTS.TASK_FOCUSED,
+    category: SHORTCUT_CATEGORIES.TASK_ACTIONS,
+    description: 'Start task',
+    enabled: true,
+  },
+
+  // Selection shortcuts
+  {
+    key: ' ',
+    modifiers: [],
+    action: 'toggleSelect',
+    context: SHORTCUT_CONTEXTS.TASK_FOCUSED,
+    category: SHORTCUT_CATEGORIES.SELECTION,
+    description: 'Toggle task selection',
+    enabled: true,
+  },
+];
