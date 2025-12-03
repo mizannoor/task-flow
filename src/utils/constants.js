@@ -390,6 +390,89 @@ export const DEFAULT_ANALYTICS_PREFERENCES = {
 };
 
 // =============================================================================
+// Team Analytics Constants
+// =============================================================================
+
+// Team Analytics storage key for session persistence
+export const TEAM_ANALYTICS_STORAGE_KEY = 'taskflow_team_analytics_preferences';
+
+// Default team analytics preferences
+export const DEFAULT_TEAM_ANALYTICS_PREFERENCES = {
+  selectedDateRange: DATE_RANGES.THIS_WEEK,
+  leaderboardSortField: 'completed',
+  leaderboardSortOrder: 'desc',
+  velocityAggregation: 'day',
+  velocityShowByUser: false,
+  completionsComparisonEnabled: false,
+  categoryShowTeamTotals: false,
+};
+
+// Leaderboard sort fields
+export const LEADERBOARD_SORT_FIELDS = {
+  COMPLETED: 'completed',
+  ACCURACY: 'accuracy',
+  STREAK: 'streak',
+};
+
+// Leaderboard sort field labels
+export const LEADERBOARD_SORT_LABELS = {
+  [LEADERBOARD_SORT_FIELDS.COMPLETED]: 'Tasks Completed',
+  [LEADERBOARD_SORT_FIELDS.ACCURACY]: 'Estimation Accuracy',
+  [LEADERBOARD_SORT_FIELDS.STREAK]: 'Current Streak',
+};
+
+// Rank badges for top 3 performers
+export const RANK_BADGES = {
+  1: '🥇',
+  2: '🥈',
+  3: '🥉',
+};
+
+// Team analytics color palette (hex values for Recharts)
+export const TEAM_CHART_COLORS = {
+  // Primary colors for user bars/areas
+  PRIMARY: '#3B82F6', // Blue-500
+  SECONDARY: '#8B5CF6', // Violet-500
+  TERTIARY: '#EC4899', // Pink-500
+  
+  // Category colors (consistent with personal analytics)
+  DEVELOPMENT: '#3B82F6', // Blue-500
+  FIX: '#EF4444', // Red-500
+  SUPPORT: '#10B981', // Emerald-500
+  
+  // User palette for stacked charts (10 distinct colors)
+  USER_PALETTE: [
+    '#3B82F6', // Blue-500
+    '#10B981', // Emerald-500
+    '#F59E0B', // Amber-500
+    '#EF4444', // Red-500
+    '#8B5CF6', // Violet-500
+    '#EC4899', // Pink-500
+    '#06B6D4', // Cyan-500
+    '#F97316', // Orange-500
+    '#84CC16', // Lime-500
+    '#6366F1', // Indigo-500
+  ],
+  
+  // Comparison mode colors
+  CURRENT_PERIOD: '#3B82F6', // Blue-500
+  PREVIOUS_PERIOD: '#9CA3AF', // Gray-400
+};
+
+// Maximum users to display by default in leaderboard
+export const LEADERBOARD_DEFAULT_LIMIT = 10;
+
+// Team analytics empty state messages
+export const TEAM_ANALYTICS_MESSAGES = {
+  NO_USERS: 'No team members found',
+  NO_TASKS: 'No tasks to analyze',
+  NO_COMPLETED: 'No completed tasks in this period',
+  NO_DATA_IN_RANGE: 'No data available for selected period',
+  SINGLE_USER: 'Add more team members to see comparative analytics',
+  INSUFFICIENT_DATA: 'More data accumulating as your team uses TaskFlow',
+};
+
+// =============================================================================
 // Calendar View Constants
 // =============================================================================
 
