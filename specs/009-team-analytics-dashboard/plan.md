@@ -108,11 +108,13 @@ tests/
 _Skip if no unknowns exist. Document findings in `research.md`._
 
 **Research Questions**:
+
 - None required - team analytics builds on proven patterns from 006-personal-analytics
 
 ### Phase 1: Design
 
 **Deliverables**:
+
 1. `data-model.md` - Team analytics data structures and aggregation logic
 2. `quickstart.md` - Developer onboarding guide
 3. `contracts/team-analytics-types.ts` - TypeScript interfaces for team metrics
@@ -154,18 +156,21 @@ _Tasks will be generated via `/speckit.tasks` based on user stories._
 **Task Breakdown by User Story**:
 
 #### US1: Team Workload Distribution (P1) - ~4 hours
+
 - [ ] Implement `calculateTeamWorkload()` in analyticsService.js
 - [ ] Create `TeamWorkloadChart.jsx` component (horizontal bar chart)
 - [ ] Add unit tests for workload calculation
 - [ ] Add integration test for workload chart
 
 #### US2: Team Completion Performance (P1) - ~4 hours
+
 - [ ] Implement `calculateTeamCompletions()` in analyticsService.js
 - [ ] Create `TeamCompletionChart.jsx` component (grouped bar chart)
 - [ ] Add period comparison mode toggle
 - [ ] Add unit tests for completion calculation
 
 #### US3: Team Leaderboard (P1) - ~5 hours
+
 - [ ] Implement `calculateLeaderboard()` in analyticsService.js
 - [ ] Create `TeamLeaderboard.jsx` component (sortable table)
 - [ ] Add rank badges (🥇🥈🥉) logic
@@ -174,28 +179,33 @@ _Tasks will be generated via `/speckit.tasks` based on user stories._
 - [ ] Add unit tests for ranking/tie-breaking logic
 
 #### US4: Team Velocity Over Time (P2) - ~3 hours
+
 - [ ] Implement `calculateTeamVelocity()` in analyticsService.js
 - [ ] Create `TeamVelocityChart.jsx` component (area chart)
 - [ ] Add daily/weekly aggregation toggle
 - [ ] Add "Show by User" stacked mode
 
 #### US5: Category Distribution by User (P2) - ~3 hours
+
 - [ ] Implement `calculateTeamCategoryDistribution()` in analyticsService.js
 - [ ] Create `TeamCategoryChart.jsx` component (stacked bar chart)
 - [ ] Add team totals summary bar option
 
 #### US6: Date Range Filtering (P2) - ~2 hours
+
 - [ ] Create `useTeamAnalytics.js` hook with date filtering
 - [ ] Integrate `PeriodFilter` component
 - [ ] Ensure filter applies globally to all team charts
 - [ ] Persist filter selection in session
 
 #### US7: Navigation Access (P3) - ~2 hours
+
 - [ ] Modify `Dashboard.jsx` to add Team Analytics view
 - [ ] Add navigation tab/link between Personal and Team Analytics
 - [ ] Ensure mobile navigation accessibility
 
 #### Infrastructure & Integration - ~4 hours
+
 - [ ] Create `TeamDashboard.jsx` main container component
 - [ ] Create `TeamEmptyState.jsx` for no-data scenarios
 - [ ] Add team analytics constants to `constants.js`
@@ -244,25 +254,25 @@ _Tasks will be generated via `/speckit.tasks` based on user stories._
 
 ## Risk Mitigation
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|------------|--------|------------|
-| Performance degradation with 50+ users | Medium | High | Implement pagination/virtualization for leaderboard; memoize calculations |
-| Recharts memory issues with large datasets | Low | Medium | Use data sampling for velocity chart; limit visible data points |
-| Date filtering complexity | Low | Low | Reuse proven patterns from personal analytics |
-| User deletion edge case | Low | Medium | Exclude deleted users from current analytics; document behavior |
+| Risk                                       | Likelihood | Impact | Mitigation                                                                |
+| ------------------------------------------ | ---------- | ------ | ------------------------------------------------------------------------- |
+| Performance degradation with 50+ users     | Medium     | High   | Implement pagination/virtualization for leaderboard; memoize calculations |
+| Recharts memory issues with large datasets | Low        | Medium | Use data sampling for velocity chart; limit visible data points           |
+| Date filtering complexity                  | Low        | Low    | Reuse proven patterns from personal analytics                             |
+| User deletion edge case                    | Low        | Medium | Exclude deleted users from current analytics; document behavior           |
 
 ## Success Criteria Mapping
 
-| Success Criteria | Implementation | Verification |
-|------------------|----------------|--------------|
-| SC-001: <3s dashboard load | Memoized calculations, efficient queries | Performance test with 50 users |
-| SC-002: 100% accuracy | Unit tests for all calculations | Test coverage report |
-| SC-003: 50 users, 10k tasks | IndexedDB query optimization | Load test with synthetic data |
-| SC-004: Identify imbalances in <10s | Clear visual bar chart | UX testing |
-| SC-005: <200ms interactions | React memoization, efficient state updates | Performance profiling |
-| SC-006: 320px - 2560px responsive | Recharts ResponsiveContainer | Browser testing at breakpoints |
-| SC-007: Leaderboard motivation | Gamification elements (badges) | User feedback collection |
-| SC-008: Period comparison in <30s | Intuitive filter UI | UX testing |
+| Success Criteria                    | Implementation                             | Verification                   |
+| ----------------------------------- | ------------------------------------------ | ------------------------------ |
+| SC-001: <3s dashboard load          | Memoized calculations, efficient queries   | Performance test with 50 users |
+| SC-002: 100% accuracy               | Unit tests for all calculations            | Test coverage report           |
+| SC-003: 50 users, 10k tasks         | IndexedDB query optimization               | Load test with synthetic data  |
+| SC-004: Identify imbalances in <10s | Clear visual bar chart                     | UX testing                     |
+| SC-005: <200ms interactions         | React memoization, efficient state updates | Performance profiling          |
+| SC-006: 320px - 2560px responsive   | Recharts ResponsiveContainer               | Browser testing at breakpoints |
+| SC-007: Leaderboard motivation      | Gamification elements (badges)             | User feedback collection       |
+| SC-008: Period comparison in <30s   | Intuitive filter UI                        | UX testing                     |
 
 ## Next Steps
 

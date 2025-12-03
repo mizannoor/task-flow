@@ -39,18 +39,18 @@ Dashboard.jsx (VIEW_TYPES.TEAM_ANALYTICS)
 
 ## Key Files to Modify/Create
 
-| File | Action | Purpose |
-|------|--------|---------|
-| `src/components/Dashboard.jsx` | MODIFY | Add Team Analytics view type |
-| `src/components/analytics/TeamDashboard.jsx` | CREATE | Main container component |
-| `src/components/analytics/TeamWorkloadChart.jsx` | CREATE | Horizontal bar chart |
-| `src/components/analytics/TeamCompletionChart.jsx` | CREATE | Grouped bar chart |
-| `src/components/analytics/TeamLeaderboard.jsx` | CREATE | Sortable ranked table |
-| `src/components/analytics/TeamVelocityChart.jsx` | CREATE | Area chart with stacking |
-| `src/components/analytics/TeamCategoryChart.jsx` | CREATE | Stacked bar chart |
-| `src/hooks/useTeamAnalytics.js` | CREATE | Team-scoped analytics hook |
-| `src/services/analyticsService.js` | MODIFY | Add team calculation functions |
-| `src/utils/constants.js` | MODIFY | Add team analytics constants |
+| File                                               | Action | Purpose                        |
+| -------------------------------------------------- | ------ | ------------------------------ |
+| `src/components/Dashboard.jsx`                     | MODIFY | Add Team Analytics view type   |
+| `src/components/analytics/TeamDashboard.jsx`       | CREATE | Main container component       |
+| `src/components/analytics/TeamWorkloadChart.jsx`   | CREATE | Horizontal bar chart           |
+| `src/components/analytics/TeamCompletionChart.jsx` | CREATE | Grouped bar chart              |
+| `src/components/analytics/TeamLeaderboard.jsx`     | CREATE | Sortable ranked table          |
+| `src/components/analytics/TeamVelocityChart.jsx`   | CREATE | Area chart with stacking       |
+| `src/components/analytics/TeamCategoryChart.jsx`   | CREATE | Stacked bar chart              |
+| `src/hooks/useTeamAnalytics.js`                    | CREATE | Team-scoped analytics hook     |
+| `src/services/analyticsService.js`                 | MODIFY | Add team calculation functions |
+| `src/utils/constants.js`                           | MODIFY | Add team analytics constants   |
 
 ## Getting Started
 
@@ -81,10 +81,7 @@ Use the app UI or browser console:
 
 ```javascript
 // analyticsService.js - Reuse existing functions
-import { 
-  calculateStreak, 
-  calculateEstimationAccuracy 
-} from './analyticsService';
+import { calculateStreak, calculateEstimationAccuracy } from './analyticsService';
 
 // Calculate per-user metrics
 function calculateLeaderboardEntry(userId, userTasks) {
@@ -104,7 +101,7 @@ import { useAuth } from './useAuth';
 export function useTeamAnalytics() {
   const { tasks } = useTasks(); // ALL tasks, not filtered
   const { currentUser, users } = useAuth();
-  
+
   // Group tasks by userId for team metrics
   const tasksByUser = useMemo(() => {
     return tasks.reduce((acc, task) => {
@@ -113,7 +110,7 @@ export function useTeamAnalytics() {
       return acc;
     }, {});
   }, [tasks]);
-  
+
   // Calculate team metrics...
 }
 ```
@@ -183,6 +180,7 @@ npm run test -- teamAnalyticsService
 **Cause**: Recharts needs `ResponsiveContainer` with explicit height.
 
 **Fix**:
+
 ```jsx
 <ResponsiveContainer width="100%" height={300}>
   <BarChart ...>
@@ -193,10 +191,11 @@ npm run test -- teamAnalyticsService
 **Cause**: Users with 0 tasks may be filtered out.
 
 **Fix**: Include all users from `useAuth().users`, merge with task data:
+
 ```javascript
-const allUsers = users.map(u => ({
+const allUsers = users.map((u) => ({
   ...u,
-  taskCount: tasksByUser[u.id]?.length || 0
+  taskCount: tasksByUser[u.id]?.length || 0,
 }));
 ```
 
@@ -205,10 +204,11 @@ const allUsers = users.map(u => ({
 **Cause**: Missing `isCurrentUser` flag in calculation.
 
 **Fix**:
+
 ```javascript
-entries.map(entry => ({
+entries.map((entry) => ({
   ...entry,
-  isCurrentUser: entry.userId === currentUser.id
+  isCurrentUser: entry.userId === currentUser.id,
 }));
 ```
 

@@ -15,14 +15,14 @@ Team Analytics aggregates task and user data from IndexedDB to compute team-wide
 ```typescript
 interface Task {
   id: string;
-  userId: string;           // Assignee - used for grouping
-  createdBy: string;        // Creator - different from assignee
+  userId: string; // Assignee - used for grouping
+  createdBy: string; // Creator - different from assignee
   status: 'pending' | 'in-progress' | 'completed';
   priority: 'urgent' | 'high' | 'medium' | 'low';
   category: 'development' | 'fix' | 'support';
-  complexity: number;       // 1-10
+  complexity: number; // 1-10
   estimatedDuration: number; // minutes
-  actualDuration: number;   // minutes (tracked time)
+  actualDuration: number; // minutes (tracked time)
   createdAt: Date;
   completedAt: Date | null;
   deadline: Date | null;
@@ -35,7 +35,7 @@ interface Task {
 ```typescript
 interface User {
   id: string;
-  identifier: string;       // email/username/phone
+  identifier: string; // email/username/phone
   displayName: string;
   createdAt: Date;
   preferences: {
@@ -62,11 +62,12 @@ interface UserWorkload {
   userId: string;
   userName: string;
   taskCount: number;
-  percentage: number;       // % of total team tasks
+  percentage: number; // % of total team tasks
 }
 ```
 
 **Calculation**:
+
 ```javascript
 // Group tasks by userId, count each group
 tasks.reduce((acc, task) => {
@@ -96,10 +97,11 @@ interface UserCompletions {
 ```
 
 **Calculation**:
+
 ```javascript
 // Filter completed tasks in date range, group by userId
 tasks
-  .filter(t => t.status === 'completed' && isInDateRange(t.completedAt))
+  .filter((t) => t.status === 'completed' && isInDateRange(t.completedAt))
   .reduce((acc, task) => {
     acc[task.userId] = (acc[task.userId] || 0) + 1;
     return acc;
@@ -130,11 +132,13 @@ interface LeaderboardEntry {
 ```
 
 **Ranking Logic**:
+
 1. Sort by selected metric (descending by default)
 2. Tie-breaker: estimation accuracy (higher wins)
 3. If still tied: alphabetical by userName
 
 **Rank Badges**:
+
 - Rank 1: 🥇
 - Rank 2: 🥈
 - Rank 3: 🥉
@@ -153,19 +157,21 @@ interface TeamVelocity {
 }
 
 interface VelocityDataPoint {
-  date: string;           // ISO date string or formatted
-  count: number;          // Completions on this date
-  breakdown?: {           // For stacked area chart
+  date: string; // ISO date string or formatted
+  count: number; // Completions on this date
+  breakdown?: {
+    // For stacked area chart
     [userId: string]: number;
   };
 }
 ```
 
 **Calculation**:
+
 ```javascript
 // Group completed tasks by completedAt date, aggregate by day/week
 const byDate = tasks
-  .filter(t => t.status === 'completed' && t.completedAt)
+  .filter((t) => t.status === 'completed' && t.completedAt)
   .reduce((acc, task) => {
     const dateKey = formatDate(task.completedAt, aggregation);
     acc[dateKey] = (acc[dateKey] || 0) + 1;
@@ -198,6 +204,7 @@ interface CategoryCounts {
 ```
 
 **Calculation**:
+
 ```javascript
 // Group tasks by userId, then by category within each user
 const byUserCategory = tasks.reduce((acc, task) => {
@@ -214,7 +221,7 @@ const byUserCategory = tasks.reduce((acc, task) => {
 All team metrics support date range filtering using the same presets as Personal Analytics:
 
 ```typescript
-type DateRangeKey = 
+type DateRangeKey =
   | 'today'
   | 'this-week'
   | 'last-week'
@@ -230,6 +237,7 @@ interface DateRange {
 ```
 
 **Filter Application**:
+
 - **Workload**: Filter by `createdAt` within date range
 - **Completions**: Filter by `completedAt` within date range
 - **Leaderboard**: Filter completed tasks by `completedAt` for counts
@@ -251,6 +259,7 @@ type MetricResult<T> = T | MetricError;
 ```
 
 **Example**:
+
 ```javascript
 function calculateEstimationAccuracy(tasks) {
   try {

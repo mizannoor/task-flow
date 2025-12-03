@@ -697,9 +697,9 @@ export function calculateTeamVelocity(tasks, users, dateRange, aggregation = 'da
     insufficientData,
     userNames: showByUser
       ? users.reduce((acc, u) => {
-          acc[u.id] = u.displayName || u.identifier;
-          return acc;
-        }, {})
+        acc[u.id] = u.displayName || u.identifier;
+        return acc;
+      }, {})
       : null,
   };
 }

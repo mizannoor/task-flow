@@ -14,9 +14,8 @@ import { TeamEmptyState } from './TeamEmptyState';
  */
 const SortIcon = ({ active, direction }) => (
   <svg
-    className={`w-4 h-4 inline-block ml-1 transition-colors ${
-      active ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400'
-    }`}
+    className={`w-4 h-4 inline-block ml-1 transition-colors ${active ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400'
+      }`}
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
@@ -186,11 +185,10 @@ export function TeamLeaderboard({
             {visibleEntries.map((entry) => (
               <tr
                 key={entry.userId}
-                className={`transition-colors ${
-                  entry.isCurrentUser
-                    ? 'bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30'
-                    : 'hover:bg-gray-50 dark:hover:bg-gray-700/50'
-                }`}
+                className={`transition-colors ${entry.isCurrentUser
+                  ? 'bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30'
+                  : 'hover:bg-gray-50 dark:hover:bg-gray-700/50'
+                  }`}
               >
                 {/* Rank */}
                 <td className="px-3 py-3 whitespace-nowrap">
@@ -209,11 +207,10 @@ export function TeamLeaderboard({
                 <td className="px-3 py-3 whitespace-nowrap">
                   <div className="flex items-center gap-2">
                     <span
-                      className={`font-medium ${
-                        entry.isCurrentUser
-                          ? 'text-blue-700 dark:text-blue-300'
-                          : 'text-gray-900 dark:text-gray-100'
-                      }`}
+                      className={`font-medium ${entry.isCurrentUser
+                        ? 'text-blue-700 dark:text-blue-300'
+                        : 'text-gray-900 dark:text-gray-100'
+                        }`}
                     >
                       {entry.userName}
                     </span>
@@ -236,13 +233,12 @@ export function TeamLeaderboard({
                 <td className="px-3 py-3 whitespace-nowrap text-right">
                   {entry.estimationAccuracy !== null ? (
                     <span
-                      className={`text-sm font-medium ${
-                        entry.estimationAccuracy >= 80
-                          ? 'text-green-600 dark:text-green-400'
-                          : entry.estimationAccuracy >= 60
+                      className={`text-sm font-medium ${entry.estimationAccuracy >= 80
+                        ? 'text-green-600 dark:text-green-400'
+                        : entry.estimationAccuracy >= 60
                           ? 'text-yellow-600 dark:text-yellow-400'
                           : 'text-red-600 dark:text-red-400'
-                      }`}
+                        }`}
                     >
                       {entry.estimationAccuracy}%
                     </span>

@@ -56,13 +56,12 @@ const CustomTooltip = ({ active, payload, comparisonEnabled }) => {
             </p>
             {data.changePercent !== undefined && (
               <p
-                className={`text-xs font-medium ${
-                  data.changePercent > 0
-                    ? 'text-green-600'
-                    : data.changePercent < 0
+                className={`text-xs font-medium ${data.changePercent > 0
+                  ? 'text-green-600'
+                  : data.changePercent < 0
                     ? 'text-red-600'
                     : 'text-gray-500'
-                }`}
+                  }`}
               >
                 {data.changePercent > 0 ? '↑' : data.changePercent < 0 ? '↓' : '→'}{' '}
                 {Math.abs(data.changePercent)}% change
@@ -176,11 +175,10 @@ export function TeamCompletionChart({
             <button
               type="button"
               onClick={onToggleComparison}
-              className={`text-xs px-2 py-1 rounded-md transition-colors ${
-                comparisonEnabled
-                  ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
-                  : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400'
-              }`}
+              className={`text-xs px-2 py-1 rounded-md transition-colors ${comparisonEnabled
+                ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
+                : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400'
+                }`}
             >
               {comparisonEnabled ? 'Comparing' : 'Compare'}
             </button>

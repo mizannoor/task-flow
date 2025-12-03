@@ -14,13 +14,13 @@ Team Analytics builds directly on the proven architecture of Personal Analytics 
 
 The existing Recharts setup supports all required chart types:
 
-| Chart Type | Recharts Component | Used In |
-|------------|-------------------|---------|
-| Horizontal Bar | `<BarChart layout="vertical">` | Team Workload |
-| Grouped Bar | `<BarChart>` with multiple `<Bar>` | Team Completions |
-| Area Chart | `<AreaChart>` | Team Velocity |
-| Stacked Bar | `<BarChart>` with `stackId` | Category by User |
-| Table | Custom component (not Recharts) | Leaderboard |
+| Chart Type     | Recharts Component                 | Used In          |
+| -------------- | ---------------------------------- | ---------------- |
+| Horizontal Bar | `<BarChart layout="vertical">`     | Team Workload    |
+| Grouped Bar    | `<BarChart>` with multiple `<Bar>` | Team Completions |
+| Area Chart     | `<AreaChart>`                      | Team Velocity    |
+| Stacked Bar    | `<BarChart>` with `stackId`        | Category by User |
+| Table          | Custom component (not Recharts)    | Leaderboard      |
 
 ### 2. Data Access Patterns (Verified)
 
@@ -43,11 +43,13 @@ const tasksByUser = tasks.reduce((acc, task) => {
 ### 3. Performance Considerations
 
 Based on Personal Analytics performance:
+
 - 1,000 tasks: <100ms calculation time
 - 10,000 tasks: ~500ms calculation time (acceptable)
 - 50 users: Minimal overhead for user iteration
 
 **Recommendations**:
+
 - Use `useMemo` for all calculations
 - Limit velocity chart to 90 data points
 - Paginate leaderboard at 10 users (expandable)
@@ -55,6 +57,7 @@ Based on Personal Analytics performance:
 ### 4. Reusable Components
 
 From Personal Analytics:
+
 - `PeriodFilter.jsx` - Fully reusable for date range selection
 - `AnalyticsEmptyState.jsx` - Pattern for empty states
 - `dateUtils.js` - All date range utilities
@@ -63,24 +66,26 @@ From Personal Analytics:
 ### 5. Accessibility Patterns
 
 Recharts 3.x provides:
+
 - Keyboard navigation for chart elements
 - Screen reader support via ARIA
 - Focus indicators
 
 Custom requirements:
+
 - Leaderboard table needs proper `<th>` headers
 - Current user row needs `aria-current="true"`
 - Sort buttons need `aria-sort` attribute
 
 ## Decisions Made
 
-| Decision | Choice | Rationale |
-|----------|--------|-----------|
-| Chart library | Recharts (existing) | Already installed, proven patterns |
-| State management | React Context + useMemo | Consistent with Personal Analytics |
-| Date filtering | Reuse PeriodFilter | Code reuse, consistent UX |
+| Decision              | Choice                      | Rationale                                 |
+| --------------------- | --------------------------- | ----------------------------------------- |
+| Chart library         | Recharts (existing)         | Already installed, proven patterns        |
+| State management      | React Context + useMemo     | Consistent with Personal Analytics        |
+| Date filtering        | Reuse PeriodFilter          | Code reuse, consistent UX                 |
 | Leaderboard component | Custom table (not Recharts) | Better control over sorting, highlighting |
-| Error handling | Silent fallback with "—" | Per clarification session |
+| Error handling        | Silent fallback with "—"    | Per clarification session                 |
 
 ## Open Questions (Resolved)
 

@@ -434,12 +434,12 @@ export const TEAM_CHART_COLORS = {
   PRIMARY: '#3B82F6', // Blue-500
   SECONDARY: '#8B5CF6', // Violet-500
   TERTIARY: '#EC4899', // Pink-500
-  
+
   // Category colors (consistent with personal analytics)
   DEVELOPMENT: '#3B82F6', // Blue-500
   FIX: '#EF4444', // Red-500
   SUPPORT: '#10B981', // Emerald-500
-  
+
   // User palette for stacked charts (10 distinct colors)
   USER_PALETTE: [
     '#3B82F6', // Blue-500
@@ -453,7 +453,7 @@ export const TEAM_CHART_COLORS = {
     '#84CC16', // Lime-500
     '#6366F1', // Indigo-500
   ],
-  
+
   // Comparison mode colors
   CURRENT_PERIOD: '#3B82F6', // Blue-500
   PREVIOUS_PERIOD: '#9CA3AF', // Gray-400

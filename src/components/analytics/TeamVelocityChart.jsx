@@ -150,22 +150,20 @@ export function TeamVelocityChart({
               <button
                 type="button"
                 onClick={() => onAggregationChange('day')}
-                className={`px-2 py-1 text-xs font-medium rounded-l-md transition-colors ${
-                  aggregation === 'day'
-                    ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
-                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
-                }`}
+                className={`px-2 py-1 text-xs font-medium rounded-l-md transition-colors ${aggregation === 'day'
+                  ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+                  }`}
               >
                 Daily
               </button>
               <button
                 type="button"
                 onClick={() => onAggregationChange('week')}
-                className={`px-2 py-1 text-xs font-medium rounded-r-md transition-colors ${
-                  aggregation === 'week'
-                    ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
-                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
-                }`}
+                className={`px-2 py-1 text-xs font-medium rounded-r-md transition-colors ${aggregation === 'week'
+                  ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+                  }`}
               >
                 Weekly
               </button>
@@ -177,11 +175,10 @@ export function TeamVelocityChart({
             <button
               type="button"
               onClick={onToggleShowByUser}
-              className={`text-xs px-2 py-1 rounded-md transition-colors ${
-                showByUser
-                  ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
-                  : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400'
-              }`}
+              className={`text-xs px-2 py-1 rounded-md transition-colors ${showByUser
+                ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
+                : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400'
+                }`}
             >
               By User
             </button>

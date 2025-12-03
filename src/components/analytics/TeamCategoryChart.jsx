@@ -226,11 +226,10 @@ export function TeamCategoryChart({
           <button
             type="button"
             onClick={onToggleTeamTotals}
-            className={`text-xs px-2 py-1 rounded-md transition-colors ${
-              showTeamTotals
-                ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
-                : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400'
-            }`}
+            className={`text-xs px-2 py-1 rounded-md transition-colors ${showTeamTotals
+              ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
+              : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400'
+              }`}
           >
             Team Total
           </button>
