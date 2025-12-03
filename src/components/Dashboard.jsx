@@ -108,8 +108,8 @@ function DashboardContent() {
   useEffect(() => {
     if (lastAutoStoppedTask) {
       toast.info(
-        t('toast.timerStopped', { 
-          duration: formatDurationShort(lastAutoStoppedTask.savedMinutes) 
+        t('toast.timerStopped', {
+          duration: formatDurationShort(lastAutoStoppedTask.savedMinutes)
         }),
         5000
       );

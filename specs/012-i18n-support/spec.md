@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "Implement multilanguage support i18n for this app in the entire codebase for text that currently is hardcoded. Create en.ts for English (default) and ms.ts for Malay translation. This app will support this 2 language and user can change the language by selecting the language dropdown."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - View Application in Preferred Language (Priority: P1)
 
@@ -96,7 +96,7 @@ All views in the application (List, Kanban, Focus, Calendar, Statistics, Team An
 - How are dynamic values (dates, numbers, task names) handled within translated strings? → Use interpolation placeholders
 - What happens during language switch when a modal is open? → Modal content updates without closing
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -130,7 +130,7 @@ All views in the application (List, Kanban, Focus, Calendar, Statistics, Team An
 - **LanguageContext**: Application state managing current language selection and translation function access
 - **LanguagePreference**: User's stored language preference in localStorage
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

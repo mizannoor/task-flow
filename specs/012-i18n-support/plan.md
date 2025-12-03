@@ -21,16 +21,16 @@ Implement multilanguage support (i18n) for TaskFlow by creating a React Context-
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
-| Principle | Status | Notes |
-|-----------|--------|-------|
-| I. Client-Side First | ✅ PASS | Translations bundled in app, localStorage persistence, works offline |
-| II. AI-Augmented Intelligence | ✅ N/A | No AI integration in this feature |
-| III. Performance Excellence | ✅ PASS | React Context memoization, <100ms switch time |
-| IV. Multi-User Experience | ✅ PASS | Language preference per device (not per user), instant switching |
-| V. Data Integrity | ✅ PASS | Validation for language codes, fallback to English for missing keys |
-| VI. Responsive & Accessible Design | ✅ PASS | Language selector accessible via keyboard, ARIA labels translated |
+| Principle                          | Status  | Notes                                                                |
+| ---------------------------------- | ------- | -------------------------------------------------------------------- |
+| I. Client-Side First               | ✅ PASS | Translations bundled in app, localStorage persistence, works offline |
+| II. AI-Augmented Intelligence      | ✅ N/A  | No AI integration in this feature                                    |
+| III. Performance Excellence        | ✅ PASS | React Context memoization, <100ms switch time                        |
+| IV. Multi-User Experience          | ✅ PASS | Language preference per device (not per user), instant switching     |
+| V. Data Integrity                  | ✅ PASS | Validation for language codes, fallback to English for missing keys  |
+| VI. Responsive & Accessible Design | ✅ PASS | Language selector accessible via keyboard, ARIA labels translated    |
 
 **Gate Result**: ✅ PASSED - No violations
 
@@ -78,5 +78,5 @@ src/
 > No Constitution violations - this section is empty.
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| - | - | - |
+| --------- | ---------- | ------------------------------------ |
+| -         | -          | -                                    |

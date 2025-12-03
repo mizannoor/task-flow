@@ -183,16 +183,16 @@ export function TaskTimer({ task, variant = 'full', className = '', onManualEntr
         <div className="flex items-center gap-3">
           {/* Timer status indicator */}
           <div className={`flex items-center justify-center w-10 h-10 rounded-full ${isActive && timerStatus === TIMER_STATUS.RUNNING
-              ? 'bg-green-100'
-              : isActive && timerStatus === TIMER_STATUS.PAUSED
-                ? 'bg-yellow-100'
-                : 'bg-gray-100'
+            ? 'bg-green-100'
+            : isActive && timerStatus === TIMER_STATUS.PAUSED
+              ? 'bg-yellow-100'
+              : 'bg-gray-100'
             }`}>
             <ClockIcon className={`h-5 w-5 ${isActive && timerStatus === TIMER_STATUS.RUNNING
-                ? 'text-green-600'
-                : isActive && timerStatus === TIMER_STATUS.PAUSED
-                  ? 'text-yellow-600'
-                  : 'text-gray-400'
+              ? 'text-green-600'
+              : isActive && timerStatus === TIMER_STATUS.PAUSED
+                ? 'text-yellow-600'
+                : 'text-gray-400'
               }`} />
           </div>
 

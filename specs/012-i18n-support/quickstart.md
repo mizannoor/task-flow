@@ -16,7 +16,7 @@ import { useTranslation } from '../hooks/useTranslation';
 
 function MyComponent() {
   const { t } = useTranslation();
-  
+
   return (
     <div>
       <h1>{t('tasks.myTasks')}</h1>
@@ -31,7 +31,7 @@ function MyComponent() {
 ```jsx
 function TaskDeleteConfirm({ taskName }) {
   const { t } = useTranslation();
-  
+
   return (
     <p>{t('tasks.deleteConfirmMessage', { name: taskName })}</p>
     // Output: "Are you sure you want to delete "Fix bug"?"
@@ -44,13 +44,11 @@ function TaskDeleteConfirm({ taskName }) {
 ```jsx
 function LanguageDisplay() {
   const { language, setLanguage } = useTranslation();
-  
+
   return (
     <div>
       <p>Current: {language}</p>
-      <button onClick={() => setLanguage('ms')}>
-        Switch to Malay
-      </button>
+      <button onClick={() => setLanguage('ms')}>Switch to Malay</button>
     </div>
   );
 }
@@ -85,7 +83,7 @@ export const ms = {
 ```jsx
 function MyFeature({ featureName }) {
   const { t } = useTranslation();
-  
+
   return (
     <div>
       <h1>{t('myFeature.title')}</h1>
@@ -103,21 +101,21 @@ Add the new keys to `specs/012-i18n-support/contracts/translation-keys.md` for r
 
 ### Namespaces
 
-| Namespace | Use For |
-|-----------|---------|
-| `common` | Shared UI elements (buttons, labels) |
-| `auth` | Authentication screens |
-| `tasks` | Task management |
-| `kanban` | Kanban view |
-| `focus` | Focus view |
-| `calendar` | Calendar view |
-| `timer` | Time tracking |
-| `analytics` | Analytics dashboards |
-| `settings` | User settings |
-| `errors` | Error messages |
-| `toast` | Toast notifications |
-| `views` | View names |
-| `ai` | AI features |
+| Namespace   | Use For                              |
+| ----------- | ------------------------------------ |
+| `common`    | Shared UI elements (buttons, labels) |
+| `auth`      | Authentication screens               |
+| `tasks`     | Task management                      |
+| `kanban`    | Kanban view                          |
+| `focus`     | Focus view                           |
+| `calendar`  | Calendar view                        |
+| `timer`     | Time tracking                        |
+| `analytics` | Analytics dashboards                 |
+| `settings`  | User settings                        |
+| `errors`    | Error messages                       |
+| `toast`     | Toast notifications                  |
+| `views`     | View names                           |
+| `ai`        | AI features                          |
 
 ### Key Structure
 
@@ -126,6 +124,7 @@ namespace.section.key
 ```
 
 Examples:
+
 - `tasks.form.taskName` - Task form field label
 - `errors.validation.taskNameRequired` - Validation error
 - `toast.success.taskCreated` - Success toast message
@@ -153,7 +152,7 @@ import { useTranslation } from '../hooks/useTranslation';
 
 function TaskList() {
   const { t } = useTranslation();
-  
+
   return (
     <div>
       <h1>{t('tasks.myTasks')}</h1>
@@ -174,7 +173,7 @@ import { PRIORITIES } from '../utils/constants';
 
 function PriorityBadge({ priority }) {
   const { t } = useTranslation();
-  
+
   // Map constant value to translation key
   const priorityLabels = {
     [PRIORITIES.URGENT]: t('priorities.urgent'),
@@ -182,7 +181,7 @@ function PriorityBadge({ priority }) {
     [PRIORITIES.MEDIUM]: t('priorities.medium'),
     [PRIORITIES.LOW]: t('priorities.low'),
   };
-  
+
   return <span>{priorityLabels[priority]}</span>;
 }
 ```
@@ -194,11 +193,13 @@ import { useTranslatedLabels } from '../hooks/useTranslatedLabels';
 
 function PrioritySelect() {
   const { priorityLabels } = useTranslatedLabels();
-  
+
   return (
     <select>
       {Object.entries(priorityLabels).map(([value, label]) => (
-        <option key={value} value={value}>{label}</option>
+        <option key={value} value={value}>
+          {label}
+        </option>
       ))}
     </select>
   );
@@ -295,13 +296,13 @@ Use browser's Intl API with current language:
 ```jsx
 function FormattedDate({ date }) {
   const { language } = useTranslation();
-  
+
   const formatted = new Intl.DateTimeFormat(language, {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   }).format(date);
-  
+
   return <span>{formatted}</span>;
 }
 ```
@@ -311,11 +312,11 @@ function FormattedDate({ date }) {
 ```jsx
 function StatusBadge({ status }) {
   const { t } = useTranslation();
-  
+
   // Convert status value to translation key
   // 'in-progress' → 'inProgress'
   const key = status.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
-  
+
   return <span>{t(`statuses.${key}`)}</span>;
 }
 ```

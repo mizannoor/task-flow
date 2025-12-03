@@ -9,11 +9,11 @@
 
 Represents a supported language in the application.
 
-| Attribute | Type | Description | Constraints |
-|-----------|------|-------------|-------------|
-| code | string | ISO 639-1 language code | `'en'` \| `'ms'` |
-| nativeName | string | Language name in its own language | Non-empty string |
-| englishName | string | Language name in English | Non-empty string |
+| Attribute   | Type   | Description                       | Constraints      |
+| ----------- | ------ | --------------------------------- | ---------------- |
+| code        | string | ISO 639-1 language code           | `'en'` \| `'ms'` |
+| nativeName  | string | Language name in its own language | Non-empty string |
+| englishName | string | Language name in English          | Non-empty string |
 
 **Supported Languages**:
 | Code | Native Name | English Name |
@@ -25,13 +25,14 @@ Represents a supported language in the application.
 
 User's selected language stored in localStorage.
 
-| Attribute | Type | Description | Constraints |
-|-----------|------|-------------|-------------|
-| value | string | Selected language code | `'en'` \| `'ms'` |
+| Attribute | Type   | Description            | Constraints      |
+| --------- | ------ | ---------------------- | ---------------- |
+| value     | string | Selected language code | `'en'` \| `'ms'` |
 
 **Storage Key**: `taskflow_language`
 
 **Validation Rules**:
+
 - Value MUST be a supported language code
 - Invalid values default to browser detection
 - Empty/null values trigger browser language detection → English fallback
@@ -40,29 +41,29 @@ User's selected language stored in localStorage.
 
 Complete translation dictionary for a single language.
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| common | CommonTranslations | Shared UI elements |
-| auth | AuthTranslations | Authentication screens |
-| tasks | TaskTranslations | Task management |
-| kanban | KanbanTranslations | Kanban view |
-| focus | FocusTranslations | Focus view |
-| calendar | CalendarTranslations | Calendar view |
-| analytics | AnalyticsTranslations | Analytics dashboards |
-| settings | SettingsTranslations | User settings |
-| errors | ErrorTranslations | Error messages |
-| toast | ToastTranslations | Toast notifications |
+| Attribute | Type                  | Description            |
+| --------- | --------------------- | ---------------------- |
+| common    | CommonTranslations    | Shared UI elements     |
+| auth      | AuthTranslations      | Authentication screens |
+| tasks     | TaskTranslations      | Task management        |
+| kanban    | KanbanTranslations    | Kanban view            |
+| focus     | FocusTranslations     | Focus view             |
+| calendar  | CalendarTranslations  | Calendar view          |
+| analytics | AnalyticsTranslations | Analytics dashboards   |
+| settings  | SettingsTranslations  | User settings          |
+| errors    | ErrorTranslations     | Error messages         |
+| toast     | ToastTranslations     | Toast notifications    |
 
 ### LanguageContextState (Runtime)
 
 React Context state for language management.
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| language | `'en'` \| `'ms'` | Current active language |
-| setLanguage | `(lang: string) => void` | Update language preference |
-| t | `(key: string, params?: object) => string` | Translation function |
-| isLoading | boolean | True during initial detection |
+| Attribute   | Type                                       | Description                   |
+| ----------- | ------------------------------------------ | ----------------------------- |
+| language    | `'en'` \| `'ms'`                           | Current active language       |
+| setLanguage | `(lang: string) => void`                   | Update language preference    |
+| t           | `(key: string, params?: object) => string` | Translation function          |
+| isLoading   | boolean                                    | True during initial detection |
 
 ## Translation Key Structure
 
@@ -94,17 +95,17 @@ common: {
 
 ```typescript
 auth: {
-  appName: string;                    // "TaskFlow"
-  signInTitle: string;                // "Sign in to your account"
-  signInDescription: string;          // "Enter your email, username, or phone..."
-  noPasswordNeeded: string;           // "No password needed!"
-  identifierLabel: string;            // "Email, username, or phone"
-  identifierPlaceholder: string;      // "Email, username, or phone number"
-  signInButton: string;               // "Sign in"
-  signingIn: string;                  // "Signing in..."
-  switchUser: string;                 // "Switch User"
-  signOut: string;                    // "Sign Out"
-  welcome: string;                    // "Welcome, {name}"
+  appName: string; // "TaskFlow"
+  signInTitle: string; // "Sign in to your account"
+  signInDescription: string; // "Enter your email, username, or phone..."
+  noPasswordNeeded: string; // "No password needed!"
+  identifierLabel: string; // "Email, username, or phone"
+  identifierPlaceholder: string; // "Email, username, or phone number"
+  signInButton: string; // "Sign in"
+  signingIn: string; // "Signing in..."
+  switchUser: string; // "Switch User"
+  signOut: string; // "Sign Out"
+  welcome: string; // "Welcome, {name}"
 }
 ```
 
@@ -113,44 +114,44 @@ auth: {
 ```typescript
 tasks: {
   // Headers
-  myTasks: string;                    // "My Tasks"
-  allTasks: string;                   // "All Tasks"
-  createTask: string;                 // "Create Task"
-  editTask: string;                   // "Edit Task"
-  taskDetails: string;                // "Task Details"
-  
+  myTasks: string; // "My Tasks"
+  allTasks: string; // "All Tasks"
+  createTask: string; // "Create Task"
+  editTask: string; // "Edit Task"
+  taskDetails: string; // "Task Details"
+
   // Form fields
-  taskName: string;                   // "Task Name"
-  taskNamePlaceholder: string;        // "Enter task name"
-  description: string;                // "Description"
-  descriptionPlaceholder: string;     // "Enter task description"
-  priority: string;                   // "Priority"
-  category: string;                   // "Category"
-  status: string;                     // "Status"
-  complexity: string;                 // "Complexity"
-  estimatedDuration: string;          // "Estimated Duration"
-  deadline: string;                   // "Deadline"
-  assignedTo: string;                 // "Assigned To"
-  tags: string;                       // "Tags"
-  tagsPlaceholder: string;            // "Add tags..."
-  
+  taskName: string; // "Task Name"
+  taskNamePlaceholder: string; // "Enter task name"
+  description: string; // "Description"
+  descriptionPlaceholder: string; // "Enter task description"
+  priority: string; // "Priority"
+  category: string; // "Category"
+  status: string; // "Status"
+  complexity: string; // "Complexity"
+  estimatedDuration: string; // "Estimated Duration"
+  deadline: string; // "Deadline"
+  assignedTo: string; // "Assigned To"
+  tags: string; // "Tags"
+  tagsPlaceholder: string; // "Add tags..."
+
   // Actions
-  startTask: string;                  // "Start Task"
-  completeTask: string;               // "Complete Task"
-  reopenTask: string;                 // "Reopen Task"
-  deleteTask: string;                 // "Delete Task"
-  
+  startTask: string; // "Start Task"
+  completeTask: string; // "Complete Task"
+  reopenTask: string; // "Reopen Task"
+  deleteTask: string; // "Delete Task"
+
   // Empty states
-  emptyTitle: string;                 // "No tasks yet"
-  emptyDescription: string;           // "Get started by creating a new task."
-  emptyFilterTitle: string;           // "No matching tasks"
-  emptyFilterDescription: string;     // "Try adjusting your filters."
-  
+  emptyTitle: string; // "No tasks yet"
+  emptyDescription: string; // "Get started by creating a new task."
+  emptyFilterTitle: string; // "No matching tasks"
+  emptyFilterDescription: string; // "Try adjusting your filters."
+
   // Confirmation
-  deleteConfirmTitle: string;         // "Delete Task"
-  deleteConfirmMessage: string;       // "Are you sure you want to delete \"{name}\"?"
-  reopenConfirmTitle: string;         // "Reopen Task"
-  reopenConfirmMessage: string;       // "Reopen \"{name}\"?"
+  deleteConfirmTitle: string; // "Delete Task"
+  deleteConfirmMessage: string; // "Are you sure you want to delete \"{name}\"?"
+  reopenConfirmTitle: string; // "Reopen Task"
+  reopenConfirmMessage: string; // "Reopen \"{name}\"?"
 }
 ```
 
@@ -158,10 +159,10 @@ tasks: {
 
 ```typescript
 priorities: {
-  urgent: string;       // "Urgent"
-  high: string;         // "High"
-  medium: string;       // "Medium"
-  low: string;          // "Low"
+  urgent: string; // "Urgent"
+  high: string; // "High"
+  medium: string; // "Medium"
+  low: string; // "Low"
 }
 ```
 
@@ -169,9 +170,9 @@ priorities: {
 
 ```typescript
 statuses: {
-  pending: string;      // "Pending"
-  inProgress: string;   // "In Progress"
-  completed: string;    // "Completed"
+  pending: string; // "Pending"
+  inProgress: string; // "In Progress"
+  completed: string; // "Completed"
 }
 ```
 
@@ -179,9 +180,9 @@ statuses: {
 
 ```typescript
 categories: {
-  development: string;  // "Development"
-  fix: string;          // "Fix"
-  support: string;      // "Support"
+  development: string; // "Development"
+  fix: string; // "Fix"
+  support: string; // "Support"
 }
 ```
 
@@ -189,12 +190,12 @@ categories: {
 
 ```typescript
 kanban: {
-  title: string;              // "Kanban Board"
-  collapseColumn: string;     // "Collapse column"
-  expandColumn: string;       // "Expand column"
-  taskCount: string;          // "{count} tasks"
-  dropHere: string;           // "Drop here"
-  moveToColumn: string;       // "Move to {column}"
+  title: string; // "Kanban Board"
+  collapseColumn: string; // "Collapse column"
+  expandColumn: string; // "Expand column"
+  taskCount: string; // "{count} tasks"
+  dropHere: string; // "Drop here"
+  moveToColumn: string; // "Move to {column}"
 }
 ```
 
@@ -202,15 +203,15 @@ kanban: {
 
 ```typescript
 focus: {
-  title: string;              // "Today's Focus"
-  subtitle: string;           // "Your priority tasks for today"
-  overdue: string;            // "Overdue"
-  dueToday: string;           // "Due Today"
-  inProgress: string;         // "In Progress"
-  highPriority: string;       // "High Priority"
-  emptyTitle: string;         // "All caught up!"
-  emptyDescription: string;   // "No urgent tasks need attention."
-  maxTasksNote: string;       // "Showing top {count} priority tasks"
+  title: string; // "Today's Focus"
+  subtitle: string; // "Your priority tasks for today"
+  overdue: string; // "Overdue"
+  dueToday: string; // "Due Today"
+  inProgress: string; // "In Progress"
+  highPriority: string; // "High Priority"
+  emptyTitle: string; // "All caught up!"
+  emptyDescription: string; // "No urgent tasks need attention."
+  maxTasksNote: string; // "Showing top {count} priority tasks"
 }
 ```
 
@@ -218,12 +219,12 @@ focus: {
 
 ```typescript
 calendar: {
-  title: string;              // "Calendar"
-  today: string;              // "Today"
-  month: string;              // "Month"
-  week: string;               // "Week"
-  noDeadline: string;         // "No deadline"
-  tasksOnDate: string;        // "{count} tasks on {date}"
+  title: string; // "Calendar"
+  today: string; // "Today"
+  month: string; // "Month"
+  week: string; // "Week"
+  noDeadline: string; // "No deadline"
+  tasksOnDate: string; // "{count} tasks on {date}"
 }
 ```
 
@@ -231,22 +232,22 @@ calendar: {
 
 ```typescript
 timer: {
-  startTimer: string;         // "Start Timer"
-  stopTimer: string;          // "Stop Timer"
-  pauseTimer: string;         // "Pause Timer"
-  resumeTimer: string;        // "Resume Timer"
-  timeSpent: string;          // "Time Spent"
-  addManualTime: string;      // "Add Manual Time"
-  hours: string;              // "Hours"
-  minutes: string;            // "Minutes"
-  longSessionTitle: string;   // "Long Session Detected"
+  startTimer: string; // "Start Timer"
+  stopTimer: string; // "Stop Timer"
+  pauseTimer: string; // "Pause Timer"
+  resumeTimer: string; // "Resume Timer"
+  timeSpent: string; // "Time Spent"
+  addManualTime: string; // "Add Manual Time"
+  hours: string; // "Hours"
+  minutes: string; // "Minutes"
+  longSessionTitle: string; // "Long Session Detected"
   longSessionMessage: string; // "You've been working for {duration}. Would you like to continue or stop?"
-  continueSession: string;    // "Continue"
-  stopSession: string;        // "Stop & Save"
-  recoveryTitle: string;      // "Timer Recovery"
-  recoveryMessage: string;    // "A timer was running when the browser closed. Would you like to recover it?"
-  recoverTimer: string;       // "Recover Timer"
-  discardTimer: string;       // "Discard"
+  continueSession: string; // "Continue"
+  stopSession: string; // "Stop & Save"
+  recoveryTitle: string; // "Timer Recovery"
+  recoveryMessage: string; // "A timer was running when the browser closed. Would you like to recover it?"
+  recoverTimer: string; // "Recover Timer"
+  discardTimer: string; // "Discard"
 }
 ```
 
@@ -314,29 +315,29 @@ settings: {
 ```typescript
 errors: {
   // General
-  unknown: string;                    // "An unexpected error occurred"
-  networkError: string;               // "Network error. Please check your connection."
-  storageUnavailable: string;         // "Local storage is not available..."
-  
+  unknown: string; // "An unexpected error occurred"
+  networkError: string; // "Network error. Please check your connection."
+  storageUnavailable: string; // "Local storage is not available..."
+
   // Auth
-  identifierRequired: string;         // "Please enter an email, username, or phone number"
-  invalidIdentifier: string;          // "Invalid identifier format"
-  userNotFound: string;               // "User not found"
-  sessionCorrupted: string;           // "Your session data is corrupted..."
-  
+  identifierRequired: string; // "Please enter an email, username, or phone number"
+  invalidIdentifier: string; // "Invalid identifier format"
+  userNotFound: string; // "User not found"
+  sessionCorrupted: string; // "Your session data is corrupted..."
+
   // Task validation
-  taskNameRequired: string;           // "Task name is required"
-  taskNameTooLong: string;            // "Task name must be at most {max} characters"
-  descriptionTooLong: string;         // "Description must be at most {max} characters"
-  invalidComplexity: string;          // "Complexity must be between {min} and {max}"
-  invalidDuration: string;            // "Duration must be between {min} and {max} minutes"
-  invalidDeadline: string;            // "Invalid deadline date"
-  
+  taskNameRequired: string; // "Task name is required"
+  taskNameTooLong: string; // "Task name must be at most {max} characters"
+  descriptionTooLong: string; // "Description must be at most {max} characters"
+  invalidComplexity: string; // "Complexity must be between {min} and {max}"
+  invalidDuration: string; // "Duration must be between {min} and {max} minutes"
+  invalidDeadline: string; // "Invalid deadline date"
+
   // Timer
-  timerTaskNotInProgress: string;     // "Timer can only be started on tasks that are in progress"
-  timerAlreadyRunning: string;        // "Timer is already running"
-  noActiveTimer: string;              // "No active timer"
-  invalidManualTime: string;          // "Please enter a valid time"
+  timerTaskNotInProgress: string; // "Timer can only be started on tasks that are in progress"
+  timerAlreadyRunning: string; // "Timer is already running"
+  noActiveTimer: string; // "No active timer"
+  invalidManualTime: string; // "Please enter a valid time"
 }
 ```
 
@@ -345,21 +346,21 @@ errors: {
 ```typescript
 toast: {
   // Success
-  taskCreated: string;          // "Task created successfully"
-  taskUpdated: string;          // "Task updated successfully"
-  taskDeleted: string;          // "Task deleted successfully"
-  taskStarted: string;          // "Task \"{name}\" started!"
-  taskCompleted: string;        // "Task \"{name}\" completed!"
-  taskReopened: string;         // "Task \"{name}\" reopened"
-  timerStopped: string;         // "Timer stopped. {duration} saved."
-  languageChanged: string;      // "Language changed to {language}"
-  
+  taskCreated: string; // "Task created successfully"
+  taskUpdated: string; // "Task updated successfully"
+  taskDeleted: string; // "Task deleted successfully"
+  taskStarted: string; // "Task \"{name}\" started!"
+  taskCompleted: string; // "Task \"{name}\" completed!"
+  taskReopened: string; // "Task \"{name}\" reopened"
+  timerStopped: string; // "Timer stopped. {duration} saved."
+  languageChanged: string; // "Language changed to {language}"
+
   // Errors
-  taskCreateFailed: string;     // "Failed to create task"
-  taskUpdateFailed: string;     // "Failed to update task"
-  taskDeleteFailed: string;     // "Failed to delete task"
-  taskStartFailed: string;      // "Failed to start task"
-  taskCompleteFailed: string;   // "Failed to complete task"
+  taskCreateFailed: string; // "Failed to create task"
+  taskUpdateFailed: string; // "Failed to update task"
+  taskDeleteFailed: string; // "Failed to delete task"
+  taskStartFailed: string; // "Failed to start task"
+  taskCompleteFailed: string; // "Failed to complete task"
 }
 ```
 
@@ -367,14 +368,14 @@ toast: {
 
 ```typescript
 sort: {
-  priority: string;           // "Priority"
-  complexity: string;         // "Complexity"
-  estimatedDuration: string;  // "Duration"
-  createdAt: string;          // "Created"
-  deadline: string;           // "Deadline"
-  taskName: string;           // "Name"
-  ascending: string;          // "Ascending"
-  descending: string;         // "Descending"
+  priority: string; // "Priority"
+  complexity: string; // "Complexity"
+  estimatedDuration: string; // "Duration"
+  createdAt: string; // "Created"
+  deadline: string; // "Deadline"
+  taskName: string; // "Name"
+  ascending: string; // "Ascending"
+  descending: string; // "Descending"
 }
 ```
 
@@ -463,10 +464,7 @@ export interface TranslationParams {
   [key: string]: string | number;
 }
 
-export type TranslationFunction = (
-  key: string,
-  params?: TranslationParams
-) => string;
+export type TranslationFunction = (key: string, params?: TranslationParams) => string;
 
 export interface LanguageContextValue {
   language: SupportedLanguage;

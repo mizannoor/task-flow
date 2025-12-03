@@ -10,6 +10,7 @@
 **Decision**: Custom lightweight implementation using React Context
 
 **Rationale**:
+
 - TaskFlow only needs 2 languages (English, Malay) - no need for heavy libraries
 - Existing pattern: ThemeContext, AuthContext, TaskContext all use React Context
 - No plural rules needed for these languages (simpler than German, Russian, Arabic)
@@ -17,11 +18,13 @@
 - Full control over interpolation syntax and fallback behavior
 
 **Alternatives Considered**:
+
 - `react-i18next` - Powerful but overkill for 2 languages, adds ~40KB to bundle
 - `react-intl` - Full ICU support unnecessary, complex API for simple use case
 - `lingui` - Good for extraction but requires build tooling changes
 
 **Implementation Pattern**:
+
 ```javascript
 // Simple context-based approach
 const LanguageContext = createContext({
@@ -36,6 +39,7 @@ const LanguageContext = createContext({
 **Decision**: TypeScript files with nested object structure
 
 **Rationale**:
+
 - Type safety with IDE autocomplete for translation keys
 - No JSON parsing overhead at runtime
 - Tree-shaking potential for unused keys
@@ -43,6 +47,7 @@ const LanguageContext = createContext({
 - Easy diff reviews for translation changes
 
 **File Structure**:
+
 ```typescript
 // src/i18n/locales/en.ts
 export const en = {
@@ -69,6 +74,7 @@ export const en = {
 ```
 
 **Alternatives Considered**:
+
 - JSON files - No type safety, requires async import or bundler plugin
 - YAML files - Requires parser, no IDE support in React projects
 - Flat key structure (`'auth.signIn'`) - Harder to organize, no tree structure benefit
@@ -78,12 +84,14 @@ export const en = {
 **Decision**: Priority order: localStorage > browser language > default (English)
 
 **Rationale**:
+
 - User's explicit choice (localStorage) should always win
 - Browser language detection covers first-time users
 - English fallback ensures app always works
 - Consistent with existing pattern (theme detection uses same order)
 
 **Implementation**:
+
 ```javascript
 function detectLanguage() {
   // 1. Check localStorage
@@ -108,12 +116,14 @@ function detectLanguage() {
 **Decision**: Use `{variable}` syntax with simple regex replacement
 
 **Rationale**:
+
 - Familiar syntax (similar to template literals)
 - Easy to implement without external library
 - Clear visual distinction between static and dynamic content
 - Works with React elements when needed
 
 **Implementation**:
+
 ```javascript
 function interpolate(template, params = {}) {
   return template.replace(/{(\w+)}/g, (match, key) => {
@@ -122,12 +132,13 @@ function interpolate(template, params = {}) {
 }
 
 // Usage
-t('tasks.completedMessage', { name: 'Fix bug' })
+t('tasks.completedMessage', { name: 'Fix bug' });
 // Template: 'Task "{name}" completed!'
 // Result: 'Task "Fix bug" completed!'
 ```
 
 **Alternatives Considered**:
+
 - ICU MessageFormat - Overkill for simple interpolation, requires parser
 - `${}` syntax - Conflicts with JavaScript template literals, confusing
 - `{{variable}}` (Handlebars style) - More characters, no benefit
@@ -137,6 +148,7 @@ t('tasks.completedMessage', { name: 'Fix bug' })
 **Decision**: Dot-notation namespace hierarchy: `namespace.section.key`
 
 **Rationale**:
+
 - Groups related translations logically
 - Matches file/component structure
 - Easy to find translations by feature area
@@ -161,16 +173,18 @@ t('tasks.completedMessage', { name: 'Fix bug' })
 **Decision**: Fallback chain: requested language → English → return key
 
 **Rationale**:
+
 - English as fallback ensures app remains usable
 - Returning key as last resort makes missing translations visible in development
 - Console warning in dev mode for missing keys aids debugging
 
 **Implementation**:
+
 ```javascript
 function translate(key, params, language, translations) {
   // Try requested language
   let value = getNestedValue(translations[language], key);
-  
+
   // Fallback to English
   if (!value && language !== 'en') {
     value = getNestedValue(translations['en'], key);
@@ -178,7 +192,7 @@ function translate(key, params, language, translations) {
       console.warn(`Missing translation for "${key}" in "${language}"`);
     }
   }
-  
+
   // Last resort: return key
   if (!value) {
     if (process.env.NODE_ENV === 'development') {
@@ -186,7 +200,7 @@ function translate(key, params, language, translations) {
     }
     return key;
   }
-  
+
   return params ? interpolate(value, params) : value;
 }
 ```
@@ -196,12 +210,14 @@ function translate(key, params, language, translations) {
 **Decision**: Dropdown in header near theme toggle, showing native language names
 
 **Rationale**:
+
 - Consistent placement with theme toggle (user preferences area)
 - Native names (`English`, `Bahasa Melayu`) help users find their language
 - Dropdown pattern matches existing filter dropdowns
 - Shows current language clearly
 
 **Display Format**:
+
 ```javascript
 const LANGUAGE_OPTIONS = [
   { code: 'en', nativeName: 'English', englishName: 'English' },
@@ -214,6 +230,7 @@ const LANGUAGE_OPTIONS = [
 **Decision**: Replace static label objects in constants.js with translation keys
 
 **Rationale**:
+
 - `PRIORITY_LABELS`, `STATUS_LABELS`, `CATEGORY_LABELS` etc. are static strings
 - Moving to translation keys allows dynamic language switching
 - Components call `t('priorities.urgent')` instead of `PRIORITY_LABELS.urgent`
@@ -237,12 +254,14 @@ const LANGUAGE_OPTIONS = [
 **Decision**: Incremental migration using `useTranslation` hook
 
 **Rationale**:
+
 - Hook-based approach consistent with existing patterns (`useAuth`, `useTheme`, `useTasks`)
 - Components can be migrated one at a time
 - Easy to search for remaining hardcoded strings
 - No breaking changes to component APIs
 
 **Migration Pattern**:
+
 ```javascript
 // Before
 function TaskEmptyState() {
@@ -261,11 +280,13 @@ function TaskEmptyState() {
 **Decision**: Use `taskflow_language` as storage key
 
 **Rationale**:
+
 - Follows existing pattern: `taskflow_session`, `taskflow_theme`, `taskflow_view_preference`
 - Clear namespace avoids conflicts with other apps
 - Consistent prefix for all TaskFlow preferences
 
 **Implementation**:
+
 ```javascript
 // src/utils/constants.js
 export const LANGUAGE_STORAGE_KEY = 'taskflow_language';

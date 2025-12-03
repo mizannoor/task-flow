@@ -71,17 +71,17 @@ export function setStoredLanguage(language) {
  */
 export function getNestedValue(obj, path) {
   if (!obj || !path) return undefined;
-  
+
   const keys = path.split('.');
   let current = obj;
-  
+
   for (const key of keys) {
     if (current === null || current === undefined || typeof current !== 'object') {
       return undefined;
     }
     current = current[key];
   }
-  
+
   return current;
 }
 
@@ -100,7 +100,7 @@ export function interpolate(template, params = {}) {
   if (!template || typeof template !== 'string') {
     return template;
   }
-  
+
   return template.replace(/{(\w+)}/g, (match, key) => {
     const value = params[key];
     return value !== undefined ? String(value) : match;
@@ -117,16 +117,16 @@ export function createTranslator(translations, language) {
   return function t(key, params) {
     // Try requested language
     let value = getNestedValue(translations[language], key);
-    
+
     // Fallback to English if key not found in requested language
     if (value === undefined && language !== 'en') {
       value = getNestedValue(translations['en'], key);
-      
+
       if (process.env.NODE_ENV === 'development' && value !== undefined) {
         console.warn(`Missing translation for "${key}" in "${language}"`);
       }
     }
-    
+
     // Last resort: return the key itself
     if (value === undefined) {
       if (process.env.NODE_ENV === 'development') {
@@ -134,7 +134,7 @@ export function createTranslator(translations, language) {
       }
       return key;
     }
-    
+
     // Apply interpolation if params provided
     return params ? interpolate(value, params) : value;
   };

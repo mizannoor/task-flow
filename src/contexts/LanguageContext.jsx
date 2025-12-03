@@ -11,7 +11,7 @@ import { SUPPORTED_LANGUAGES } from '../utils/constants';
 // Create context with default values
 const LanguageContext = createContext({
   language: 'en',
-  setLanguage: () => {},
+  setLanguage: () => { },
   t: (key) => key,
   supportedLanguages: SUPPORTED_LANGUAGES,
 });

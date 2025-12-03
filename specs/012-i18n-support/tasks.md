@@ -13,6 +13,7 @@
 ## Path Conventions
 
 Based on plan.md structure:
+
 - **i18n infrastructure**: `src/i18n/`
 - **React Context**: `src/contexts/`
 - **Components**: `src/components/`
@@ -142,23 +143,29 @@ Based on plan.md structure:
 ### Implementation for User Story 5
 
 #### Kanban View
+
 - [x] T043 [P] [US5] Update `src/components/views/KanbanView.jsx` - replace column headers and labels with t() calls
 
 #### Focus View
+
 - [x] T044 [P] [US5] Update `src/components/views/FocusView.jsx` - replace tier labels and headings with t() calls
 
 #### Calendar View
+
 - [x] T045 [P] [US5] Update `src/components/views/CalendarView.jsx` - replace calendar labels with t() calls
 
 #### Analytics Views
+
 - [x] T046 [P] [US5] Update `src/components/analytics/PersonalDashboard.jsx` - replace analytics labels with t() calls
 - [x] T047 [P] [US5] Update `src/components/analytics/TeamDashboard.jsx` - replace team analytics labels with t() calls
 
 #### Settings & Help
+
 - [x] T048 [P] [US5] Update `src/components/ui/ThemeToggle.jsx` - replace tooltip text with t() calls
 - [x] T049 [P] [US5] Update `src/components/ui/KeyboardShortcutsHelp.jsx` - replace shortcut descriptions with t() calls
 
 #### View Navigation
+
 - [x] T050 [US5] Update view switcher buttons in `src/components/Dashboard.jsx` - replace view names with t() calls
 
 **Checkpoint**: User Story 5 complete - all views display consistently in selected language
@@ -204,24 +211,27 @@ Phase 8 (Polish) ◄────────────────────
 
 ### User Story Dependencies
 
-| Story | Depends On | Can Parallel With |
-|-------|-----------|-------------------|
-| US1 (Preferred Language) | Phase 2 complete | US2 |
-| US2 (Language Dropdown) | Phase 2 complete | US1 |
-| US3 (Persistence) | US2 (dropdown exists) | US4, US5 |
-| US4 (Dynamic Content) | US1 (core translations work) | US3, US5 |
-| US5 (All Views) | US1 (core translations work) | US3, US4 |
+| Story                    | Depends On                   | Can Parallel With |
+| ------------------------ | ---------------------------- | ----------------- |
+| US1 (Preferred Language) | Phase 2 complete             | US2               |
+| US2 (Language Dropdown)  | Phase 2 complete             | US1               |
+| US3 (Persistence)        | US2 (dropdown exists)        | US4, US5          |
+| US4 (Dynamic Content)    | US1 (core translations work) | US3, US5          |
+| US5 (All Views)          | US1 (core translations work) | US3, US4          |
 
 ### Parallel Opportunities
 
 **Phase 1** (all can run in parallel):
+
 - T001, T002, T003 - Different files, no dependencies
 - T004, T005 - Translation files can be written simultaneously
 
 **Phase 6** (most tasks parallelizable):
+
 - T026-T042 - Different component files, all depend only on useTranslation hook
 
 **Phase 7** (all view updates parallelizable):
+
 - T043-T050 - Different view files, no cross-dependencies
 
 ---

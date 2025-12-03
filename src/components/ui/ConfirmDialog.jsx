@@ -31,7 +31,7 @@ export function ConfirmDialog({
   isLoading = false,
 }) {
   const { t } = useTranslation();
-  
+
   // Use provided text or fall back to translations
   const displayTitle = title || t('common.confirm');
   const displayMessage = message || t('common.confirmMessage');
@@ -203,7 +203,7 @@ export function DeleteConfirmDialog({
   isLoading = false,
 }) {
   const { t } = useTranslation();
-  
+
   return (
     <ConfirmDialog
       isOpen={isOpen}
@@ -230,7 +230,7 @@ export function ReopenConfirmDialog({
   isLoading = false,
 }) {
   const { t } = useTranslation();
-  
+
   return (
     <ConfirmDialog
       isOpen={isOpen}

@@ -14,7 +14,7 @@ import { Dashboard } from './components/Dashboard';
  */
 function LoadingSpinner() {
   const { t } = useTranslation();
-  
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-900">
       <div className="text-center">
@@ -50,7 +50,7 @@ function LoadingSpinner() {
  */
 function StorageError() {
   const { t } = useTranslation();
-  
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-900 px-4">
       <div className="max-w-md w-full text-center">

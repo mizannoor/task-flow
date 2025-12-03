@@ -75,28 +75,28 @@ export function LanguageSelector({ className = '' }) {
         aria-label={t('settings.language.selectLanguage')}
       >
         {/* Globe Icon */}
-        <svg 
-          className="w-5 h-5" 
-          fill="none" 
-          stroke="currentColor" 
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
           viewBox="0 0 24 24"
           aria-hidden="true"
         >
-          <path 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            strokeWidth={2} 
-            d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" 
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
           />
         </svg>
-        
+
         <span className="hidden sm:inline">{currentLanguage.nativeName}</span>
-        
+
         {/* Chevron */}
-        <svg 
+        <svg
           className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-          fill="none" 
-          stroke="currentColor" 
+          fill="none"
+          stroke="currentColor"
           viewBox="0 0 24 24"
           aria-hidden="true"
         >
@@ -106,7 +106,7 @@ export function LanguageSelector({ className = '' }) {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div 
+        <div
           className="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-lg
             bg-white dark:bg-gray-800
             shadow-lg ring-1 ring-black ring-opacity-5
@@ -126,8 +126,8 @@ export function LanguageSelector({ className = '' }) {
                 className={`
                   w-full px-4 py-2 text-left text-sm
                   flex items-center justify-between
-                  ${lang.code === language 
-                    ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' 
+                  ${lang.code === language
+                    ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
                     : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
                   }
                   focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700
@@ -142,21 +142,21 @@ export function LanguageSelector({ className = '' }) {
                     </span>
                   )}
                 </span>
-                
+
                 {/* Checkmark for selected language */}
                 {lang.code === language && (
-                  <svg 
-                    className="w-4 h-4 text-blue-600 dark:text-blue-400" 
-                    fill="none" 
-                    stroke="currentColor" 
+                  <svg
+                    className="w-4 h-4 text-blue-600 dark:text-blue-400"
+                    fill="none"
+                    stroke="currentColor"
                     viewBox="0 0 24 24"
                     aria-hidden="true"
                   >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth={2} 
-                      d="M5 13l4 4L19 7" 
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
                     />
                   </svg>
                 )}
