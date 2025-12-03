@@ -73,16 +73,16 @@ export function CalendarDayView({
 
   return (
     <div
-      className="flex h-full flex-col overflow-auto bg-white"
+      className="flex h-full flex-col overflow-auto bg-white dark:bg-slate-900"
       onDrop={handleDrop}
       onDragOver={handleDragOver}
     >
       {/* Day header */}
-      <div className="sticky top-0 border-b border-gray-200 bg-white px-6 py-4">
-        <h2 className="text-xl font-semibold text-gray-900">
+      <div className="sticky top-0 border-b border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-6 py-4">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
           {dateDisplay}
         </h2>
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
           {tasks.length} task{tasks.length !== 1 ? 's' : ''} due
         </p>
       </div>
@@ -92,7 +92,7 @@ export function CalendarDayView({
         {/* In Progress Section */}
         {inProgressTasks.length > 0 && (
           <section>
-            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-blue-700">
+            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-blue-700 dark:text-blue-400">
               <span className="h-2 w-2 rounded-full bg-blue-500"></span>
               In Progress ({inProgressTasks.length})
             </h3>
@@ -107,7 +107,7 @@ export function CalendarDayView({
         {/* Pending Section */}
         {pendingTasks.length > 0 && (
           <section>
-            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-gray-700">
+            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
               <span className="h-2 w-2 rounded-full bg-gray-400"></span>
               Pending ({pendingTasks.length})
             </h3>
@@ -122,7 +122,7 @@ export function CalendarDayView({
         {/* Completed Section */}
         {completedTasks.length > 0 && (
           <section>
-            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-green-700">
+            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-green-700 dark:text-green-400">
               <span className="h-2 w-2 rounded-full bg-green-500"></span>
               Completed ({completedTasks.length})
             </h3>
@@ -139,7 +139,7 @@ export function CalendarDayView({
           <div className="flex h-64 items-center justify-center">
             <div className="text-center">
               <svg
-                className="mx-auto h-12 w-12 text-gray-300"
+                className="mx-auto h-12 w-12 text-gray-300 dark:text-gray-600"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -151,7 +151,7 @@ export function CalendarDayView({
                   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
                 />
               </svg>
-              <p className="mt-2 text-sm text-gray-500">
+              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                 No tasks due on this day
               </p>
             </div>
@@ -178,8 +178,8 @@ function TaskCard({ task, onClick }) {
   return (
     <div
       className={`
-        cursor-pointer rounded-lg border border-l-4 bg-white p-4 shadow-sm
-        transition-shadow hover:shadow-md
+        cursor-pointer rounded-lg border border-l-4 bg-white dark:bg-slate-800 p-4 shadow-sm
+        transition-shadow hover:shadow-md dark:shadow-slate-900/50
         ${priorityColors[task.priority] || priorityColors[PRIORITIES.MEDIUM]}
         ${isCompleted ? 'opacity-60' : ''}
       `}
@@ -190,20 +190,20 @@ function TaskCard({ task, onClick }) {
         e.dataTransfer.setData('application/taskflow-calendar-task', task.id);
       }}
     >
-      <h4 className={`font-medium text-gray-900 ${isCompleted ? 'line-through' : ''}`}>
+      <h4 className={`font-medium text-gray-900 dark:text-white ${isCompleted ? 'line-through' : ''}`}>
         {task.taskName}
       </h4>
       {task.description && (
-        <p className="mt-1 line-clamp-2 text-sm text-gray-500">
+        <p className="mt-1 line-clamp-2 text-sm text-gray-500 dark:text-gray-400">
           {task.description}
         </p>
       )}
       <div className="mt-2 flex items-center gap-2">
         <span className={`
           rounded-full px-2 py-0.5 text-xs font-medium
-          ${task.status === STATUSES.IN_PROGRESS ? 'bg-blue-100 text-blue-700' : ''}
-          ${task.status === STATUSES.PENDING ? 'bg-gray-100 text-gray-700' : ''}
-          ${task.status === STATUSES.COMPLETED ? 'bg-green-100 text-green-700' : ''}
+          ${task.status === STATUSES.IN_PROGRESS ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300' : ''}
+          ${task.status === STATUSES.PENDING ? 'bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300' : ''}
+          ${task.status === STATUSES.COMPLETED ? 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300' : ''}
         `}>
           {task.status}
         </span>

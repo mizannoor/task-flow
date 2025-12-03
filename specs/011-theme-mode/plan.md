@@ -23,14 +23,14 @@ Implement comprehensive dark/light theme support for TaskFlow, enabling users to
 
 _GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
-| Principle                     | Status  | Notes                                                                              |
-| ----------------------------- | ------- | ---------------------------------------------------------------------------------- |
-| I. Client-Side First          | ✅ PASS | Theme stored in localStorage, no backend required                                  |
-| II. AI-Augmented Intelligence | ✅ N/A  | Feature does not involve AI                                                        |
-| III. Performance Excellence   | ✅ PASS | Theme switch via CSS class toggle is <100ms                                        |
-| IV. Multi-User Experience     | ✅ PASS | Theme preference stored per browser (localStorage), instant switching              |
-| V. Data Integrity             | ✅ PASS | Theme value validated (only 'light' or 'dark' accepted)                            |
-| VI. Responsive & Accessible   | ✅ PASS | Theme toggle is keyboard accessible, colors meet WCAG AA contrast requirements     |
+| Principle                     | Status  | Notes                                                                          |
+| ----------------------------- | ------- | ------------------------------------------------------------------------------ |
+| I. Client-Side First          | ✅ PASS | Theme stored in localStorage, no backend required                              |
+| II. AI-Augmented Intelligence | ✅ N/A  | Feature does not involve AI                                                    |
+| III. Performance Excellence   | ✅ PASS | Theme switch via CSS class toggle is <100ms                                    |
+| IV. Multi-User Experience     | ✅ PASS | Theme preference stored per browser (localStorage), instant switching          |
+| V. Data Integrity             | ✅ PASS | Theme value validated (only 'light' or 'dark' accepted)                        |
+| VI. Responsive & Accessible   | ✅ PASS | Theme toggle is keyboard accessible, colors meet WCAG AA contrast requirements |
 
 **Result**: All gates passed. Proceed to Phase 0.
 
@@ -82,11 +82,11 @@ tailwind.config.js              # UPDATE: Enable darkMode: 'class'
 
 _Re-evaluated after Phase 1 design completion._
 
-| Principle                     | Status  | Design Verification                                                                                      |
-| ----------------------------- | ------- | -------------------------------------------------------------------------------------------------------- |
-| I. Client-Side First          | ✅ PASS | ThemeContext stores preference in localStorage; no server calls                                          |
-| II. AI-Augmented Intelligence | ✅ N/A  | No AI components in this feature                                                                         |
+| Principle                     | Status  | Design Verification                                                                                     |
+| ----------------------------- | ------- | ------------------------------------------------------------------------------------------------------- |
+| I. Client-Side First          | ✅ PASS | ThemeContext stores preference in localStorage; no server calls                                         |
+| II. AI-Augmented Intelligence | ✅ N/A  | No AI components in this feature                                                                        |
 | III. Performance Excellence   | ✅ PASS | Single class toggle on `<html>` element; CSS handles all styling; no React re-renders needed for colors |
-| IV. Multi-User Experience     | ✅ PASS | Theme persists per browser; switching users doesn't affect theme (personal preference)                   |
+| IV. Multi-User Experience     | ✅ PASS | Theme persists per browser; switching users doesn't affect theme (personal preference)                  |
 | V. Data Integrity             | ✅ PASS | Theme value validated via themeUtils; only 'light'/'dark' accepted; fallback to 'light'                 |
 | VI. Responsive & Accessible   | ✅ PASS | WCAG AA colors defined per PRD; keyboard shortcuts integrate with existing system; toggle is focusable  |

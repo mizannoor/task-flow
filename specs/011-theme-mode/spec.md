@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "develop functionality for dark and light mode theme for this app. This theme should apply all element including text, inputs, buttons, header, body. Ensure the theme allow users to read the text clearly when switching themes. User can switch the theme by selecting the mode at the top right header or they can use shortcuts key CTRL+Alt+D for dark and CTRL+Alt+L for light theme"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Toggle Theme via Header Control (Priority: P1)
 
@@ -99,7 +99,7 @@ For first-time users or when no preference is saved, the app should detect and r
 - What happens during theme transition? Transition should be smooth (not jarring) to avoid causing discomfort.
 - How are third-party components styled? Any charts or UI libraries should respect the theme or have appropriate overrides.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -129,7 +129,7 @@ For first-time users or when no preference is saved, the app should detect and r
 - **ThemePreference**: Represents the user's theme selection (light/dark) with attributes for value and timestamp
 - **ThemeConfig**: Configuration object defining color values for each theme mode (background, text, borders, accents)
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

@@ -62,26 +62,26 @@ export interface ThemeColors {
   background: string;
   surface: string;
   surfaceHover: string;
-  
+
   // Text
   textPrimary: string;
   textSecondary: string;
   textMuted: string;
-  
+
   // Accents
   primary: string;
   secondary: string;
   accent: string;
-  
+
   // Status
   success: string;
   warning: string;
   error: string;
-  
+
   // Borders
   border: string;
   borderHover: string;
-  
+
   // Inputs
   inputBg: string;
   inputBorder: string;

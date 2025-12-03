@@ -23,9 +23,9 @@ function FocusEmptyStateComponent({
     return (
       <div className="flex flex-col items-center justify-center py-16 px-4">
         {/* Celebration icon */}
-        <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mb-6">
+        <div className="w-20 h-20 rounded-full bg-green-100 dark:bg-green-900/50 flex items-center justify-center mb-6">
           <svg
-            className="w-10 h-10 text-green-600"
+            className="w-10 h-10 text-green-600 dark:text-green-400"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -39,10 +39,10 @@ function FocusEmptyStateComponent({
           </svg>
         </div>
 
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">
+        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
           All Done! 🎉
         </h3>
-        <p className="text-gray-600 text-center max-w-sm mb-6">
+        <p className="text-gray-600 dark:text-gray-400 text-center max-w-sm mb-6">
           You've completed all your focus tasks for today. Great work!
         </p>
 
@@ -50,7 +50,7 @@ function FocusEmptyStateComponent({
           <button
             type="button"
             onClick={onLoadMore}
-            className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-slate-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-slate-700 hover:bg-gray-50 dark:hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-slate-900 focus:ring-indigo-500"
           >
             <svg
               className="w-4 h-4 mr-2"
@@ -76,9 +76,9 @@ function FocusEmptyStateComponent({
   return (
     <div className="flex flex-col items-center justify-center py-16 px-4">
       {/* Empty state icon */}
-      <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mb-6">
+      <div className="w-20 h-20 rounded-full bg-gray-100 dark:bg-slate-700 flex items-center justify-center mb-6">
         <svg
-          className="w-10 h-10 text-gray-400"
+          className="w-10 h-10 text-gray-400 dark:text-gray-500"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -92,10 +92,10 @@ function FocusEmptyStateComponent({
         </svg>
       </div>
 
-      <h3 className="text-xl font-semibold text-gray-900 mb-2">
+      <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
         No Focus Tasks
       </h3>
-      <p className="text-gray-600 text-center max-w-sm mb-6">
+      <p className="text-gray-600 dark:text-gray-400 text-center max-w-sm mb-6">
         You don't have any urgent or overdue tasks right now. Create a high-priority task or set a deadline for today to see it here.
       </p>
 

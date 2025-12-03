@@ -1,5 +1,30 @@
 @import "tailwindcss";
 
+/* Configure dark mode to use class-based toggling (Tailwind v4) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* =============================================================================
+   Theme Transition Styles
+   ============================================================================= */
+
+/* Smooth transition for theme switching */
+html {
+  transition: background-color 150ms ease-in-out, color 150ms ease-in-out;
+}
+
+/* Prevent transition on initial page load to avoid flash */
+html.no-transition,
+html.no-transition * {
+  transition: none !important;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    transition: none;
+  }
+}
+
 /* =============================================================================
    Kanban View Styles
    Note: Using regular CSS with Tailwind v4. Components use Tailwind classes directly.
@@ -15,13 +40,27 @@
   border-radius: 9999px;
 }
 
+/* Dark mode scrollbar */
+.dark .kanban-column-content::-webkit-scrollbar-track {
+  background-color: #1e293b;
+}
+
 .kanban-column-content::-webkit-scrollbar-thumb {
   background-color: #d1d5db;
   border-radius: 9999px;
 }
 
+/* Dark mode scrollbar thumb */
+.dark .kanban-column-content::-webkit-scrollbar-thumb {
+  background-color: #475569;
+}
+
 .kanban-column-content::-webkit-scrollbar-thumb:hover {
   background-color: #9ca3af;
+}
+
+.dark .kanban-column-content::-webkit-scrollbar-thumb:hover {
+  background-color: #64748b;
 }
 
 /* Collapsed column text rotation */
@@ -59,6 +98,11 @@
   /* gray-200 */
 }
 
+.dark .calendar-grid {
+  background-color: #334155;
+  /* slate-700 */
+}
+
 /* Calendar cell base styles */
 .calendar-cell {
   background-color: white;
@@ -68,10 +112,20 @@
   transition: background-color 0.15s ease;
 }
 
+.dark .calendar-cell {
+  background-color: #1e293b;
+  /* slate-800 */
+}
+
 /* Today highlight */
 .calendar-cell--today {
   background-color: #eff6ff;
   /* blue-50 */
+}
+
+.dark .calendar-cell--today {
+  background-color: rgba(59, 130, 246, 0.15);
+  /* blue-500/15 */
 }
 
 .calendar-cell--today::before {
@@ -91,9 +145,19 @@
   /* gray-50 */
 }
 
+.dark .calendar-cell--adjacent {
+  background-color: #0f172a;
+  /* slate-900 */
+}
+
 .calendar-cell--adjacent .calendar-cell-date {
   color: #9ca3af;
   /* gray-400 */
+}
+
+.dark .calendar-cell--adjacent .calendar-cell-date {
+  color: #64748b;
+  /* slate-500 */
 }
 
 /* Cell hover state */
@@ -102,9 +166,19 @@
   /* gray-100 */
 }
 
+.dark .calendar-cell:hover {
+  background-color: #334155;
+  /* slate-700 */
+}
+
 .calendar-cell--today:hover {
   background-color: #dbeafe;
   /* blue-100 */
+}
+
+.dark .calendar-cell--today:hover {
+  background-color: rgba(59, 130, 246, 0.25);
+  /* blue-500/25 */
 }
 
 /* Drop target highlight */
@@ -114,6 +188,11 @@
   outline: 2px dashed #3b82f6;
   /* blue-500 */
   outline-offset: -2px;
+}
+
+.dark .calendar-cell--drop-target {
+  background-color: rgba(59, 130, 246, 0.2);
+  /* blue-500/20 */
 }
 
 /* Selected cell */
@@ -135,6 +214,11 @@
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
+}
+
+.dark .calendar-cell-date {
+  color: #e2e8f0;
+  /* slate-200 */
 }
 
 .calendar-cell--today .calendar-cell-date {
@@ -203,9 +287,19 @@
   transition: background-color 0.15s ease;
 }
 
+.dark .calendar-overflow-indicator {
+  color: #9ca3af;
+  /* gray-400 */
+}
+
 .calendar-overflow-indicator:hover {
   background-color: #e5e7eb;
   /* gray-200 */
+}
+
+.dark .calendar-overflow-indicator:hover {
+  background-color: #334155;
+  /* slate-700 */
 }
 
 /* Day names header */
@@ -218,6 +312,13 @@
   /* gray-200 */
 }
 
+.dark .calendar-day-header {
+  background-color: #1e293b;
+  /* slate-800 */
+  border-bottom-color: #334155;
+  /* slate-700 */
+}
+
 .calendar-day-header-cell {
   padding: 0.5rem;
   text-align: center;
@@ -226,6 +327,11 @@
   color: #6b7280;
   /* gray-500 */
   text-transform: uppercase;
+}
+
+.dark .calendar-day-header-cell {
+  color: #94a3b8;
+  /* slate-400 */
 }
 
 /* Unscheduled sidebar */
@@ -237,6 +343,13 @@
   /* gray-200 */
   transition: width 0.2s ease, transform 0.2s ease;
   overflow: hidden;
+}
+
+.dark .calendar-sidebar {
+  background-color: #0f172a;
+  /* slate-900 */
+  border-left-color: #334155;
+  /* slate-700 */
 }
 
 .calendar-sidebar--collapsed {
@@ -255,9 +368,21 @@
   transition: background-color 0.15s ease;
 }
 
+.dark .calendar-sidebar-toggle {
+  background-color: #1e293b;
+  /* slate-800 */
+  border-bottom-color: #334155;
+  /* slate-700 */
+}
+
 .calendar-sidebar-toggle:hover {
   background-color: #f3f4f6;
   /* gray-100 */
+}
+
+.dark .calendar-sidebar-toggle:hover {
+  background-color: #334155;
+  /* slate-700 */
 }
 
 /* Responsive calendar styles */
@@ -308,11 +433,51 @@
   border-radius: 9999px;
 }
 
+.dark .calendar-sidebar-content::-webkit-scrollbar-track {
+  background-color: #1e293b;
+}
+
 .calendar-sidebar-content::-webkit-scrollbar-thumb {
   background-color: #d1d5db;
   border-radius: 9999px;
 }
 
+.dark .calendar-sidebar-content::-webkit-scrollbar-thumb {
+  background-color: #475569;
+}
+
 .calendar-sidebar-content::-webkit-scrollbar-thumb:hover {
   background-color: #9ca3af;
+}
+
+.dark .calendar-sidebar-content::-webkit-scrollbar-thumb:hover {
+  background-color: #64748b;
+}
+
+/* =============================================================================
+   Print Styles - Force light theme for readability
+   ============================================================================= */
+
+@media print {
+  html {
+    color-scheme: light;
+  }
+
+  html.dark {
+    background-color: #fff !important;
+    color: #000 !important;
+  }
+
+  .dark * {
+    background-color: #fff !important;
+    color: #000 !important;
+    border-color: #ccc !important;
+  }
+
+  /* Hide theme toggle and other interactive elements when printing */
+  .no-print,
+  button[aria-label*="theme"],
+  button[title*="theme"] {
+    display: none !important;
+  }
 }

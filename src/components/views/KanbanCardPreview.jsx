@@ -52,7 +52,7 @@ function KanbanCardPreviewComponent({ task, position, onClose }) {
   const previewContent = (
     <div
       ref={previewRef}
-      className="absolute z-50 bg-white rounded-lg shadow-xl border border-gray-200 p-4 w-72 max-w-xs pointer-events-none"
+      className="absolute z-50 bg-white dark:bg-slate-800 rounded-lg shadow-xl dark:shadow-slate-900/50 border border-gray-200 dark:border-slate-700 p-4 w-72 max-w-xs pointer-events-none"
       style={{
         left: position.x,
         top: position.y,
@@ -61,13 +61,13 @@ function KanbanCardPreviewComponent({ task, position, onClose }) {
       aria-label={`Preview for task: ${task.taskName}`}
     >
       {/* Task name */}
-      <h4 className="font-semibold text-gray-900 mb-2 line-clamp-2">
+      <h4 className="font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2">
         {task.taskName}
       </h4>
 
       {/* Description */}
       {task.description && (
-        <p className="text-sm text-gray-600 mb-3 line-clamp-3">
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-3">
           {task.description}
         </p>
       )}
@@ -79,13 +79,13 @@ function KanbanCardPreviewComponent({ task, position, onClose }) {
             {task.tags.slice(0, 5).map((tag, index) => (
               <span
                 key={index}
-                className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-700"
+                className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300"
               >
                 {tag}
               </span>
             ))}
             {task.tags.length > 5 && (
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray-500 dark:text-gray-400">
                 +{task.tags.length - 5} more
               </span>
             )}
@@ -94,7 +94,7 @@ function KanbanCardPreviewComponent({ task, position, onClose }) {
       )}
 
       {/* Duration info */}
-      <div className="flex items-center justify-between text-xs text-gray-500 pt-2 border-t border-gray-100">
+      <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-100 dark:border-slate-700">
         <div className="flex items-center gap-1">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -112,7 +112,7 @@ function KanbanCardPreviewComponent({ task, position, onClose }) {
       </div>
 
       {/* Created date */}
-      <div className="text-xs text-gray-400 mt-2">
+      <div className="text-xs text-gray-400 dark:text-gray-500 mt-2">
         Created {formatDate(task.createdAt, { relative: true })}
       </div>
     </div>

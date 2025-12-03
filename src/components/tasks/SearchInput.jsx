@@ -79,7 +79,7 @@ export function SearchInput({
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
-        className="block w-full rounded-md border-0 py-2 pl-10 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        className="block w-full rounded-md border-0 py-2 pl-10 pr-10 text-gray-900 dark:text-white bg-white dark:bg-slate-800 ring-1 ring-inset ring-gray-300 dark:ring-slate-600 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-500 sm:text-sm sm:leading-6"
         aria-label="Search tasks"
       />
 
@@ -88,7 +88,7 @@ export function SearchInput({
         <button
           type="button"
           onClick={handleClear}
-          className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
+          className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
           aria-label="Clear search"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -106,7 +106,7 @@ export function SearchInput({
       {inputValue !== debouncedValue && (
         <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
           <svg
-            className="animate-spin h-4 w-4 text-gray-400"
+            className="animate-spin h-4 w-4 text-gray-400 dark:text-gray-500"
             fill="none"
             viewBox="0 0 24 24"
           >
@@ -208,7 +208,7 @@ export function SearchInputWithFilters({
         onFocus={() => setShowSuggestions(inputValue.length > 0 && suggestions.length > 0)}
         onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
         placeholder={placeholder}
-        className="block w-full rounded-md border-0 py-2 pl-10 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        className="block w-full rounded-md border-0 py-2 pl-10 pr-10 text-gray-900 dark:text-white bg-white dark:bg-slate-800 ring-1 ring-inset ring-gray-300 dark:ring-slate-600 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-500 sm:text-sm sm:leading-6"
         aria-label="Search tasks"
         aria-expanded={showSuggestions}
         aria-haspopup="listbox"
@@ -219,7 +219,7 @@ export function SearchInputWithFilters({
         <button
           type="button"
           onClick={handleClear}
-          className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
+          className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
           aria-label="Clear search"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -236,14 +236,14 @@ export function SearchInputWithFilters({
       {/* Suggestions dropdown */}
       {showSuggestions && suggestions.length > 0 && (
         <ul
-          className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+          className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-slate-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 dark:ring-slate-700 focus:outline-none"
           role="listbox"
         >
           {suggestions.map((suggestion, index) => (
             <li
               key={index}
               onClick={() => handleSuggestionClick(suggestion)}
-              className="relative cursor-pointer select-none py-2 px-4 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-900"
+              className="relative cursor-pointer select-none py-2 px-4 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-50 dark:hover:bg-indigo-900/50 hover:text-indigo-900 dark:hover:text-indigo-300"
               role="option"
             >
               {suggestion}

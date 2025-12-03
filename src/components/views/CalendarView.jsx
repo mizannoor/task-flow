@@ -20,8 +20,11 @@ import { CALENDAR_VIEW_MODES, STATUSES } from '../../utils/constants';
 
 /**
  * CalendarView container component
+ * @param {object} props
+ * @param {Function} props.onEditTask - Callback when task edit is requested
+ * @param {Function} props.onDeleteTask - Callback when task delete is requested
  */
-export function CalendarView() {
+export function CalendarView({ onEditTask, onDeleteTask }) {
   // Calendar state management
   const calendar = useCalendar();
 
@@ -111,18 +114,17 @@ export function CalendarView() {
 
   // Handle task edit request
   const handleTaskEdit = useCallback((task) => {
-    // TODO: Open task edit modal/form
-    console.log('Edit task:', task.id);
-  }, []);
+    handlePanelClose();
+    onEditTask?.(task);
+  }, [onEditTask, handlePanelClose]);
 
   // Handle task delete
   const handleTaskDelete = useCallback(
     async (taskId) => {
-      // TODO: Implement delete with confirmation
-      console.log('Delete task:', taskId);
       handlePanelClose();
+      onDeleteTask?.(taskId);
     },
-    [handlePanelClose]
+    [handlePanelClose, onDeleteTask]
   );
 
   // Render the appropriate view based on view mode
@@ -169,7 +171,7 @@ export function CalendarView() {
   const hasNoScheduledTasks = tasksByDate.size === 0;
 
   return (
-    <div className="flex h-full flex-col bg-white">
+    <div className="flex h-full flex-col bg-white dark:bg-slate-900">
       {/* Calendar Header */}
       <CalendarHeader
         viewMode={calendar.state.viewMode}
@@ -192,7 +194,7 @@ export function CalendarView() {
             <div className="flex h-full items-center justify-center">
               <div className="text-center">
                 <svg
-                  className="mx-auto h-16 w-16 text-gray-300"
+                  className="mx-auto h-16 w-16 text-gray-300 dark:text-gray-600"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -204,8 +206,8 @@ export function CalendarView() {
                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
-                <h3 className="mt-4 text-lg font-medium text-gray-900">No tasks yet</h3>
-                <p className="mt-2 text-sm text-gray-500">
+                <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-white">No tasks yet</h3>
+                <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                   Create tasks with deadlines to see them on the calendar.
                 </p>
               </div>
@@ -238,6 +240,14 @@ export function CalendarView() {
   );
 }
 
-CalendarView.propTypes = {};
+CalendarView.propTypes = {
+  onEditTask: PropTypes.func,
+  onDeleteTask: PropTypes.func,
+};
+
+CalendarView.defaultProps = {
+  onEditTask: null,
+  onDeleteTask: null,
+};
 
 export default CalendarView;

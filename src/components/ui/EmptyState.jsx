@@ -50,11 +50,11 @@ export function EmptyState({
       <div className="mb-4">{icon || defaultIcon}</div>
 
       {/* Title */}
-      <h3 className="text-sm font-medium text-gray-900">{title}</h3>
+      <h3 className="text-sm font-medium text-gray-900 dark:text-white">{title}</h3>
 
       {/* Description */}
       {description && (
-        <p className="mt-1 text-sm text-gray-500">{description}</p>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{description}</p>
       )}
 
       {/* Action */}
@@ -147,7 +147,7 @@ export function SearchEmptyState({ searchQuery, onClearSearch }) {
           <button
             type="button"
             onClick={onClearSearch}
-            className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-slate-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-slate-700 hover:bg-gray-50 dark:hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-slate-900 focus:ring-indigo-500"
           >
             Clear filters
           </button>
@@ -186,7 +186,7 @@ export function FilterEmptyState({ onClearFilters }) {
           <button
             type="button"
             onClick={onClearFilters}
-            className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-slate-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-slate-700 hover:bg-gray-50 dark:hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-slate-900 focus:ring-indigo-500"
           >
             Clear all filters
           </button>

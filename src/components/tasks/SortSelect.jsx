@@ -57,12 +57,12 @@ export function SortSelect({ field, order, onChange }) {
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="inline-flex items-center gap-1 rounded-md bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+          className="inline-flex items-center gap-1 rounded-md bg-white dark:bg-slate-800 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700"
           aria-haspopup="listbox"
           aria-expanded={isOpen}
         >
           <svg
-            className="h-4 w-4 text-gray-400"
+            className="h-4 w-4 text-gray-400 dark:text-gray-500"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -76,7 +76,7 @@ export function SortSelect({ field, order, onChange }) {
           </svg>
           {currentLabel}
           <svg
-            className={`h-4 w-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+            className={`h-4 w-4 text-gray-400 dark:text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`}
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -94,15 +94,15 @@ export function SortSelect({ field, order, onChange }) {
         <button
           type="button"
           onClick={handleToggleOrder}
-          className="inline-flex items-center rounded-md bg-white px-2 py-2 text-sm font-medium text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+          className="inline-flex items-center rounded-md bg-white dark:bg-slate-800 px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700"
           title={order === SORT_ORDERS.ASC ? 'Ascending' : 'Descending'}
         >
           {order === SORT_ORDERS.ASC ? (
-            <svg className="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="h-4 w-4 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
             </svg>
           ) : (
-            <svg className="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="h-4 w-4 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           )}
@@ -111,7 +111,7 @@ export function SortSelect({ field, order, onChange }) {
 
       {/* Dropdown menu */}
       {isOpen && (
-        <div className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <div className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white dark:bg-slate-800 shadow-lg ring-1 ring-black ring-opacity-5 dark:ring-slate-700 focus:outline-none">
           <div className="py-1" role="listbox">
             {Object.entries(SORT_FIELDS).map(([key, value]) => (
               <button
@@ -119,8 +119,8 @@ export function SortSelect({ field, order, onChange }) {
                 type="button"
                 onClick={() => handleFieldSelect(value)}
                 className={`flex w-full items-center justify-between px-4 py-2 text-sm ${field === value
-                    ? 'bg-indigo-50 text-indigo-700'
-                    : 'text-gray-700 hover:bg-gray-50'
+                  ? 'bg-indigo-50 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300'
+                  : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-700'
                   }`}
                 role="option"
                 aria-selected={field === value}
@@ -128,7 +128,7 @@ export function SortSelect({ field, order, onChange }) {
                 <span>{SORT_FIELD_LABELS[value]}</span>
                 {field === value && (
                   <svg
-                    className="h-4 w-4 text-indigo-600"
+                    className="h-4 w-4 text-indigo-600 dark:text-indigo-400"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"

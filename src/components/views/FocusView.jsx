@@ -129,16 +129,16 @@ function FocusViewComponent({
     return (
       <div className="space-y-4">
         {/* Loading skeleton */}
-        <div className="bg-gray-100 rounded-xl p-5 animate-pulse">
-          <div className="h-4 bg-gray-200 rounded w-1/4 mb-2" />
-          <div className="h-8 bg-gray-200 rounded w-1/3 mb-3" />
-          <div className="h-3 bg-gray-200 rounded-full" />
+        <div className="bg-gray-100 dark:bg-slate-700 rounded-xl p-5 animate-pulse">
+          <div className="h-4 bg-gray-200 dark:bg-slate-600 rounded w-1/4 mb-2" />
+          <div className="h-8 bg-gray-200 dark:bg-slate-600 rounded w-1/3 mb-3" />
+          <div className="h-3 bg-gray-200 dark:bg-slate-600 rounded-full" />
         </div>
         {[1, 2, 3].map(i => (
-          <div key={i} className="bg-white rounded-xl border-2 border-gray-200 p-5 animate-pulse">
-            <div className="h-4 bg-gray-200 rounded w-1/4 mb-3" />
-            <div className="h-6 bg-gray-200 rounded w-3/4 mb-2" />
-            <div className="h-4 bg-gray-200 rounded w-1/2" />
+          <div key={i} className="bg-white dark:bg-slate-800 rounded-xl border-2 border-gray-200 dark:border-slate-700 p-5 animate-pulse">
+            <div className="h-4 bg-gray-200 dark:bg-slate-600 rounded w-1/4 mb-3" />
+            <div className="h-6 bg-gray-200 dark:bg-slate-600 rounded w-3/4 mb-2" />
+            <div className="h-4 bg-gray-200 dark:bg-slate-600 rounded w-1/2" />
           </div>
         ))}
       </div>
@@ -148,12 +148,12 @@ function FocusViewComponent({
   // Error state
   if (error) {
     return (
-      <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
+      <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-6 text-center">
         <svg className="w-12 h-12 text-red-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
         </svg>
-        <h3 className="text-lg font-semibold text-red-800 mb-2">Failed to load tasks</h3>
-        <p className="text-red-600">{error}</p>
+        <h3 className="text-lg font-semibold text-red-800 dark:text-red-300 mb-2">Failed to load tasks</h3>
+        <p className="text-red-600 dark:text-red-400">{error}</p>
       </div>
     );
   }
@@ -226,7 +226,7 @@ function FocusViewComponent({
           <button
             type="button"
             onClick={loadMore}
-            className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-slate-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-slate-700 hover:bg-gray-50 dark:hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-slate-900"
           >
             Load More Tasks
           </button>
@@ -234,12 +234,12 @@ function FocusViewComponent({
       )}
 
       {/* Keyboard shortcuts hint */}
-      <div className="mt-6 text-center text-xs text-gray-400">
+      <div className="mt-6 text-center text-xs text-gray-400 dark:text-gray-500">
         <span className="inline-flex items-center gap-2">
-          <kbd className="px-1.5 py-0.5 bg-gray-100 rounded border text-gray-600">↑↓</kbd> Navigate
-          <kbd className="px-1.5 py-0.5 bg-gray-100 rounded border text-gray-600">Enter</kbd> Action
-          <kbd className="px-1.5 py-0.5 bg-gray-100 rounded border text-gray-600">E</kbd> Expand
-          <kbd className="px-1.5 py-0.5 bg-gray-100 rounded border text-gray-600">Esc</kbd> Collapse
+          <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-slate-700 rounded border dark:border-slate-600 text-gray-600 dark:text-gray-400">↑↓</kbd> Navigate
+          <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-slate-700 rounded border dark:border-slate-600 text-gray-600 dark:text-gray-400">Enter</kbd> Action
+          <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-slate-700 rounded border dark:border-slate-600 text-gray-600 dark:text-gray-400">E</kbd> Expand
+          <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-slate-700 rounded border dark:border-slate-600 text-gray-600 dark:text-gray-400">Esc</kbd> Collapse
         </span>
       </div>
     </div>

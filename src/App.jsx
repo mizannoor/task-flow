@@ -4,6 +4,7 @@
  */
 
 import { useAuth } from './hooks/useAuth';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { LoginForm } from './components/auth/LoginForm';
 import { Dashboard } from './components/Dashboard';
 import { ERROR_MESSAGES } from './utils/constants';
@@ -13,10 +14,10 @@ import { ERROR_MESSAGES } from './utils/constants';
  */
 function LoadingSpinner() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-900">
       <div className="text-center">
         <svg
-          className="animate-spin h-10 w-10 text-indigo-600 mx-auto"
+          className="animate-spin h-10 w-10 text-indigo-600 dark:text-indigo-400 mx-auto"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -35,7 +36,7 @@ function LoadingSpinner() {
             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
           />
         </svg>
-        <p className="mt-4 text-sm text-gray-600">Loading...</p>
+        <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">Loading...</p>
       </div>
     </div>
   );
@@ -47,11 +48,11 @@ function LoadingSpinner() {
  */
 function StorageError() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-900 px-4">
       <div className="max-w-md w-full text-center">
-        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-red-900/30">
           <svg
-            className="h-6 w-6 text-red-600"
+            className="h-6 w-6 text-red-600 dark:text-red-400"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -64,23 +65,23 @@ function StorageError() {
             />
           </svg>
         </div>
-        <h2 className="mt-4 text-lg font-medium text-gray-900">
+        <h2 className="mt-4 text-lg font-medium text-gray-900 dark:text-white">
           Storage Unavailable
         </h2>
-        <p className="mt-2 text-sm text-gray-600">
+        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
           {ERROR_MESSAGES.STORAGE_UNAVAILABLE}
         </p>
         <div className="mt-6">
           <button
             type="button"
             onClick={() => window.location.reload()}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-slate-900"
           >
             Retry
           </button>
         </div>
         <div className="mt-4">
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-gray-500 dark:text-gray-500">
             Please ensure your browser allows local storage and IndexedDB,
             and that you're not in private/incognito mode.
           </p>
@@ -111,4 +112,16 @@ function App() {
   return isAuthenticated ? <Dashboard /> : <LoginForm />;
 }
 
-export default App;
+/**
+ * App with Theme Provider
+ * Wraps the entire app with theme context
+ */
+function AppWithTheme() {
+  return (
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
+  );
+}
+
+export default AppWithTheme;

@@ -114,9 +114,9 @@ function KanbanCardComponent({
   const { isOverdue, isDueToday } = getDeadlineStatus(task.deadline);
 
   // Build class names with Tailwind utilities
-  const baseCardClasses = 'bg-white rounded-lg shadow-sm border border-gray-200 p-3 cursor-grab transition-all duration-200 ease-in-out hover:shadow-md hover:border-gray-300 active:cursor-grabbing';
-  const draggingClasses = isDragging ? 'opacity-50 shadow-lg ring-2 ring-indigo-500 ring-offset-2' : '';
-  const focusedClasses = isFocused ? 'ring-2 ring-indigo-500 ring-offset-2 outline-none' : '';
+  const baseCardClasses = 'bg-white dark:bg-slate-700 rounded-lg shadow-sm border border-gray-200 dark:border-slate-600 p-3 cursor-grab transition-all duration-200 ease-in-out hover:shadow-md hover:border-gray-300 dark:hover:border-slate-500 active:cursor-grabbing';
+  const draggingClasses = isDragging ? 'opacity-50 shadow-lg ring-2 ring-indigo-500 ring-offset-2 dark:ring-offset-slate-800' : '';
+  const focusedClasses = isFocused ? 'ring-2 ring-indigo-500 ring-offset-2 dark:ring-offset-slate-800 outline-none' : '';
 
   const cardClasses = `${baseCardClasses} ${draggingClasses} ${focusedClasses}`.trim();
 
@@ -135,7 +135,7 @@ function KanbanCardComponent({
       {...dragHandlers}
     >
       {/* Task name */}
-      <h4 className="font-medium text-gray-900 text-sm mb-2 line-clamp-2">
+      <h4 className="font-medium text-gray-900 dark:text-white text-sm mb-2 line-clamp-2">
         {task.taskName}
       </h4>
 
@@ -164,7 +164,7 @@ function KanbanCardComponent({
 
         {/* Complexity indicator - only show if no time data */}
         {!isTimerActive && !task.actualDuration && !task.estimatedDuration && (
-          <div className="flex items-center gap-1 text-gray-500" title={`Complexity: ${task.complexity}/10`}>
+          <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400" title={`Complexity: ${task.complexity}/10`}>
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
@@ -174,7 +174,7 @@ function KanbanCardComponent({
       </div>
 
       {/* Bottom row: deadline and assignee */}
-      <div className="flex items-center justify-between mt-2 pt-2 border-t border-gray-100">
+      <div className="flex items-center justify-between mt-2 pt-2 border-t border-gray-100 dark:border-slate-600">
         {/* Deadline */}
         {task.deadline ? (
           <span
@@ -193,12 +193,12 @@ function KanbanCardComponent({
             {formatDate(task.deadline)}
           </span>
         ) : (
-          <span className="text-xs text-gray-400">No deadline</span>
+          <span className="text-xs text-gray-400 dark:text-gray-500">No deadline</span>
         )}
 
         {/* User avatar */}
         <div
-          className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-medium"
+          className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 flex items-center justify-center text-xs font-medium"
           title={task.assignee?.displayName || task.assignee?.identifier || 'Unassigned'}
         >
           {getUserInitials(task.assignee)}

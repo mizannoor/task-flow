@@ -19,9 +19,9 @@
 
 **Purpose**: Configure Tailwind dark mode and add theme constants
 
-- [ ] T001 [P] Enable darkMode: 'class' in tailwind.config.js
-- [ ] T002 [P] Add THEME_STORAGE_KEY, THEME_MODES, DEFAULT_THEME constants to src/utils/constants.js
-- [ ] T003 [P] Add theme keyboard shortcuts to KEYBOARD_SHORTCUTS array in src/utils/constants.js
+- [x] T001 [P] Enable darkMode: 'class' in tailwind.config.js
+- [x] T002 [P] Add THEME_STORAGE_KEY, THEME_MODES, DEFAULT_THEME constants to src/utils/constants.js
+- [x] T003 [P] Add theme keyboard shortcuts to KEYBOARD_SHORTCUTS array in src/utils/constants.js
 
 **Checkpoint**: Tailwind configured for dark mode, constants ready for use
 
@@ -33,9 +33,9 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T004 Create theme utilities (getSystemTheme, isValidTheme, getStoredTheme, setStoredTheme, applyThemeClass, getInitialTheme) in src/utils/themeUtils.js
-- [ ] T005 Create ThemeContext with ThemeProvider and useTheme hook in src/contexts/ThemeContext.jsx
-- [ ] T006 Add CSS transition for smooth theme switching in src/styles/globals.css
+- [x] T004 Create theme utilities (getSystemTheme, isValidTheme, getStoredTheme, setStoredTheme, applyThemeClass, getInitialTheme) in src/utils/themeUtils.js
+- [x] T005 Create ThemeContext with ThemeProvider and useTheme hook in src/contexts/ThemeContext.jsx
+- [x] T006 Add CSS transition for smooth theme switching in src/styles/globals.css
 
 **Checkpoint**: Foundation ready - theme context available, user story implementation can begin
 
@@ -49,11 +49,11 @@
 
 ### Implementation for User Story 1
 
-- [ ] T007 [US1] Create ThemeToggle component with sun/moon icons in src/components/ui/ThemeToggle.jsx
-- [ ] T008 [US1] Wrap App with ThemeProvider in src/App.jsx or src/main.jsx
-- [ ] T009 [US1] Add ThemeToggle to header (top-right, next to UserSwitcher) in src/components/Dashboard.jsx
-- [ ] T010 [US1] Add keyboard accessibility (Enter/Space activation, focus ring) to ThemeToggle component
-- [ ] T011 [US1] Add tooltip with shortcut hint (Ctrl+Alt+D/L) to ThemeToggle in src/components/ui/ThemeToggle.jsx
+- [x] T007 [US1] Create ThemeToggle component with sun/moon icons in src/components/ui/ThemeToggle.jsx
+- [x] T008 [US1] Wrap App with ThemeProvider in src/App.jsx or src/main.jsx
+- [x] T009 [US1] Add ThemeToggle to header (top-right, next to UserSwitcher) in src/components/Dashboard.jsx
+- [x] T010 [US1] Add keyboard accessibility (Enter/Space activation, focus ring) to ThemeToggle component
+- [x] T011 [US1] Add tooltip with shortcut hint (Ctrl+Alt+D/L) to ThemeToggle in src/components/ui/ThemeToggle.jsx
 
 **Checkpoint**: User Story 1 complete - theme toggle works in header, icons update to show current mode
 
@@ -67,10 +67,10 @@
 
 ### Implementation for User Story 2
 
-- [ ] T012 [US2] Verify ThemeContext reads from localStorage on initialization in src/contexts/ThemeContext.jsx
-- [ ] T013 [US2] Verify ThemeContext saves to localStorage on theme change in src/contexts/ThemeContext.jsx
-- [ ] T014 [US2] Add fallback handling when localStorage is unavailable in src/utils/themeUtils.js
-- [ ] T015 [US2] Prevent flash of wrong theme by applying theme class early in index.html
+- [x] T012 [US2] Verify ThemeContext reads from localStorage on initialization in src/contexts/ThemeContext.jsx
+- [x] T013 [US2] Verify ThemeContext saves to localStorage on theme change in src/contexts/ThemeContext.jsx
+- [x] T014 [US2] Add fallback handling when localStorage is unavailable in src/utils/themeUtils.js
+- [x] T015 [US2] Prevent flash of wrong theme by applying theme class early in index.html
 
 **Checkpoint**: User Story 2 complete - theme persists across browser sessions
 
@@ -84,10 +84,10 @@
 
 ### Implementation for User Story 3
 
-- [ ] T016 [US3] Register switchToDark and switchToLight handlers in KeyboardShortcutContext in src/contexts/KeyboardShortcutContext.jsx
-- [ ] T017 [US3] Connect theme handlers to ThemeContext setTheme function in src/components/Dashboard.jsx
-- [ ] T018 [US3] Verify theme shortcuts appear in keyboard shortcuts help overlay (Ctrl+/)
-- [ ] T019 [US3] Add screen reader announcement for theme changes in src/contexts/ThemeContext.jsx
+- [x] T016 [US3] Register switchToDark and switchToLight handlers in KeyboardShortcutContext in src/contexts/KeyboardShortcutContext.jsx
+- [x] T017 [US3] Connect theme handlers to ThemeContext setTheme function in src/components/Dashboard.jsx
+- [x] T018 [US3] Verify theme shortcuts appear in keyboard shortcuts help overlay (Ctrl+/)
+- [x] T019 [US3] Add screen reader announcement for theme changes in src/contexts/ThemeContext.jsx
 
 **Checkpoint**: User Story 3 complete - keyboard shortcuts work for theme switching
 
@@ -101,64 +101,64 @@
 
 ### Core Layout Theming
 
-- [ ] T020 [P] [US4] Add dark mode classes to main layout (body, main container) in src/App.jsx
-- [ ] T021 [P] [US4] Add dark mode classes to header in src/components/Dashboard.jsx
-- [ ] T022 [P] [US4] Add dark mode classes to sidebar/navigation elements in src/components/Dashboard.jsx
+- [x] T020 [P] [US4] Add dark mode classes to main layout (body, main container) in src/App.jsx
+- [x] T021 [P] [US4] Add dark mode classes to header in src/components/Dashboard.jsx
+- [x] T022 [P] [US4] Add dark mode classes to sidebar/navigation elements in src/components/Dashboard.jsx
 
 ### Form Element Theming
 
-- [ ] T023 [P] [US4] Add dark mode classes to input fields in all form components
-- [ ] T024 [P] [US4] Add dark mode classes to select dropdowns in all form components
-- [ ] T025 [P] [US4] Add dark mode classes to textarea elements in all form components
-- [ ] T026 [P] [US4] Add dark mode classes to checkbox/radio elements in all form components
+- [x] T023 [P] [US4] Add dark mode classes to input fields in all form components
+- [x] T024 [P] [US4] Add dark mode classes to select dropdowns in all form components
+- [x] T025 [P] [US4] Add dark mode classes to textarea elements in all form components
+- [x] T026 [P] [US4] Add dark mode classes to checkbox/radio elements in all form components
 
 ### Button Theming
 
-- [ ] T027 [P] [US4] Add dark mode classes to primary buttons across components
-- [ ] T028 [P] [US4] Add dark mode classes to secondary buttons across components
-- [ ] T029 [P] [US4] Add dark mode classes to destructive/danger buttons across components
-- [ ] T030 [P] [US4] Add dark mode classes to ghost/link buttons across components
+- [x] T027 [P] [US4] Add dark mode classes to primary buttons across components
+- [x] T028 [P] [US4] Add dark mode classes to secondary buttons across components
+- [x] T029 [P] [US4] Add dark mode classes to destructive/danger buttons across components
+- [x] T030 [P] [US4] Add dark mode classes to ghost/link buttons across components
 
 ### Card and Modal Theming
 
-- [ ] T031 [P] [US4] Add dark mode classes to card components in src/components/tasks/TaskCard.jsx
-- [ ] T032 [P] [US4] Add dark mode classes to modal/dialog components in src/components/ui/Modal.jsx
-- [ ] T033 [P] [US4] Add dark mode classes to TaskModal in src/components/tasks/TaskModal.jsx
-- [ ] T034 [P] [US4] Add dark mode classes to ConfirmDialog in src/components/ui/ConfirmDialog.jsx
-- [ ] T035 [P] [US4] Add dark mode classes to dropdown menus
+- [x] T031 [P] [US4] Add dark mode classes to card components in src/components/tasks/TaskCard.jsx
+- [x] T032 [P] [US4] Add dark mode classes to modal/dialog components in src/components/ui/Modal.jsx
+- [x] T033 [P] [US4] Add dark mode classes to TaskModal in src/components/tasks/TaskModal.jsx
+- [x] T034 [P] [US4] Add dark mode classes to ConfirmDialog in src/components/ui/ConfirmDialog.jsx
+- [x] T035 [P] [US4] Add dark mode classes to dropdown menus
 
 ### View-Specific Theming
 
-- [ ] T036 [P] [US4] Add dark mode classes to TaskList view in src/components/tasks/TaskList.jsx
-- [ ] T037 [P] [US4] Add dark mode classes to KanbanView in src/components/views/KanbanView.jsx
-- [ ] T038 [P] [US4] Add dark mode classes to CalendarView in src/components/views/CalendarView.jsx
-- [ ] T039 [P] [US4] Add dark mode classes to FocusView in src/components/views/FocusView.jsx
+- [x] T036 [P] [US4] Add dark mode classes to TaskList view in src/components/tasks/TaskList.jsx
+- [x] T037 [P] [US4] Add dark mode classes to KanbanView in src/components/views/KanbanView.jsx
+- [x] T038 [P] [US4] Add dark mode classes to CalendarView in src/components/views/CalendarView.jsx
+- [x] T039 [P] [US4] Add dark mode classes to FocusView in src/components/views/FocusView.jsx
 
 ### Priority Badge Theming
 
-- [ ] T040 [US4] Update priority badge colors for dark mode (use data-model.md palette) in src/components/tasks/TaskCard.jsx
-- [ ] T041 [US4] Ensure priority badges maintain distinct colors in dark mode in src/components/ui/PriorityBadge.jsx (if exists)
+- [x] T040 [US4] Update priority badge colors for dark mode (use data-model.md palette) in src/components/tasks/TaskCard.jsx
+- [x] T041 [US4] Ensure priority badges maintain distinct colors in dark mode in src/components/ui/PriorityBadge.jsx (if exists)
 
 ### Analytics and Charts Theming
 
-- [ ] T042 [US4] Create chartColors object in ThemeContext for Recharts in src/contexts/ThemeContext.jsx
-- [ ] T043 [P] [US4] Add dark mode classes to PersonalDashboard in src/components/analytics/PersonalDashboard.jsx
-- [ ] T044 [P] [US4] Add dark mode classes to TeamDashboard in src/components/analytics/TeamDashboard.jsx
-- [ ] T045 [US4] Pass theme-appropriate colors to Recharts components in analytics views
+- [x] T042 [US4] Create chartColors object in ThemeContext for Recharts in src/contexts/ThemeContext.jsx
+- [x] T043 [P] [US4] Add dark mode classes to PersonalDashboard in src/components/analytics/PersonalDashboard.jsx
+- [x] T044 [P] [US4] Add dark mode classes to TeamDashboard in src/components/analytics/TeamDashboard.jsx
+- [x] T045 [US4] Pass theme-appropriate colors to Recharts components in analytics views
 
 ### Additional UI Elements
 
-- [ ] T046 [P] [US4] Add dark mode classes to Toast notifications in src/components/ui/Toast.jsx
-- [ ] T047 [P] [US4] Add dark mode classes to KeyboardShortcutsHelp overlay in src/components/ui/KeyboardShortcutsHelp.jsx
-- [ ] T048 [P] [US4] Add dark mode classes to timer components in src/components/tasks/TaskTimer.jsx
-- [ ] T049 [P] [US4] Add dark mode classes to UserSwitcher in src/components/auth/UserSwitcher.jsx
-- [ ] T050 [P] [US4] Add dark mode classes to LoginForm in src/components/auth/LoginForm.jsx
+- [x] T046 [P] [US4] Add dark mode classes to Toast notifications in src/components/ui/Toast.jsx
+- [x] T047 [P] [US4] Add dark mode classes to KeyboardShortcutsHelp overlay in src/components/ui/KeyboardShortcutsHelp.jsx
+- [x] T048 [P] [US4] Add dark mode classes to timer components in src/components/tasks/TaskTimer.jsx
+- [x] T049 [P] [US4] Add dark mode classes to UserSwitcher in src/components/auth/UserSwitcher.jsx
+- [x] T050 [P] [US4] Add dark mode classes to LoginForm in src/components/auth/LoginForm.jsx
 
 ### CSS Customizations
 
-- [ ] T051 [US4] Add dark mode styles for custom scrollbars in src/styles/globals.css
-- [ ] T052 [US4] Add dark mode styles for calendar grid in src/styles/globals.css
-- [ ] T053 [US4] Add dark mode styles for Kanban columns in src/styles/globals.css
+- [x] T051 [US4] Add dark mode styles for custom scrollbars in src/styles/globals.css
+- [x] T052 [US4] Add dark mode styles for calendar grid in src/styles/globals.css
+- [x] T053 [US4] Add dark mode styles for Kanban columns in src/styles/globals.css
 
 **Checkpoint**: User Story 4 complete - all elements properly themed, WCAG AA contrast met
 
@@ -172,9 +172,9 @@
 
 ### Implementation for User Story 5
 
-- [ ] T054 [US5] Verify getSystemTheme() uses prefers-color-scheme in src/utils/themeUtils.js
-- [ ] T055 [US5] Verify getInitialTheme() prioritizes stored > system > default in src/utils/themeUtils.js
-- [ ] T056 [US5] Track isSystemDefault state in ThemeContext for potential UI indication
+- [x] T054 [US5] Verify getSystemTheme() uses prefers-color-scheme in src/utils/themeUtils.js
+- [x] T055 [US5] Verify getInitialTheme() prioritizes stored > system > default in src/utils/themeUtils.js
+- [x] T056 [US5] Track isSystemDefault state in ThemeContext for potential UI indication
 
 **Checkpoint**: User Story 5 complete - OS theme detection works for first-time users
 
@@ -184,12 +184,12 @@
 
 **Purpose**: Final improvements affecting multiple user stories
 
-- [ ] T057 [P] Add print styles to force light theme in src/styles/globals.css
-- [ ] T058 [P] Add prefers-reduced-motion support for theme transitions in src/styles/globals.css
-- [ ] T059 Verify all text meets WCAG AA contrast (4.5:1 normal, 3:1 large) in dark mode
-- [ ] T060 Test rapid theme toggle clicks for visual glitches
-- [ ] T061 Cross-browser testing (Chrome, Firefox, Safari, Edge) for theme functionality
-- [ ] T062 Run quickstart.md validation to verify implementation matches guide
+- [x] T057 [P] Add print styles to force light theme in src/styles/globals.css
+- [x] T058 [P] Add prefers-reduced-motion support for theme transitions in src/styles/globals.css
+- [x] T059 Verify all text meets WCAG AA contrast (4.5:1 normal, 3:1 large) in dark mode
+- [x] T060 Test rapid theme toggle clicks for visual glitches
+- [x] T061 Cross-browser testing (Chrome, Firefox, Safari, Edge) for theme functionality
+- [x] T062 Run quickstart.md validation to verify implementation matches guide
 
 ---
 
@@ -208,22 +208,24 @@
 
 ### User Story Dependencies
 
-| Story | Can Start After | Notes |
-|-------|-----------------|-------|
-| US1 (Toggle) | Foundational | MVP - enables theme switching |
-| US2 (Persistence) | Foundational | Independent, enhances US1 |
-| US3 (Shortcuts) | Foundational | Integrates with keyboard system |
-| US4 (Element Theming) | US1 (Toggle) | Requires toggle to test theming |
-| US5 (OS Detection) | Foundational | Independent feature |
+| Story                 | Can Start After | Notes                           |
+| --------------------- | --------------- | ------------------------------- |
+| US1 (Toggle)          | Foundational    | MVP - enables theme switching   |
+| US2 (Persistence)     | Foundational    | Independent, enhances US1       |
+| US3 (Shortcuts)       | Foundational    | Integrates with keyboard system |
+| US4 (Element Theming) | US1 (Toggle)    | Requires toggle to test theming |
+| US5 (OS Detection)    | Foundational    | Independent feature             |
 
 ### Parallel Opportunities
 
 **Phase 1 (Setup)** - All tasks can run in parallel:
+
 ```
 T001 (tailwind config) | T002 (constants) | T003 (shortcuts)
 ```
 
 **Phase 6 (Element Theming)** - Most tasks can run in parallel:
+
 ```
 T020-T022 (layout) | T023-T026 (forms) | T027-T030 (buttons) | T031-T035 (cards/modals)
 T036-T039 (views) | T043-T044 (analytics) | T046-T050 (UI elements)

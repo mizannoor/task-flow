@@ -25,10 +25,7 @@ Update `tailwind.config.js`:
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: 'class',
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {},
   },
@@ -151,7 +148,7 @@ export function applyThemeClass(theme) {
 export function getInitialTheme() {
   const stored = getStoredTheme();
   if (stored) return { theme: stored, isSystemDefault: false };
-  
+
   const system = getSystemTheme();
   return { theme: system, isSystemDefault: true };
 }
@@ -194,9 +191,7 @@ export function ThemeProvider({ children }) {
   }, []);
 
   const toggleTheme = useCallback(() => {
-    const newTheme = state.theme === THEME_MODES.DARK 
-      ? THEME_MODES.LIGHT 
-      : THEME_MODES.DARK;
+    const newTheme = state.theme === THEME_MODES.DARK ? THEME_MODES.LIGHT : THEME_MODES.DARK;
     setTheme(newTheme);
   }, [state.theme, setTheme]);
 
@@ -208,11 +203,7 @@ export function ThemeProvider({ children }) {
     toggleTheme,
   };
 
-  return (
-    <ThemeContext.Provider value={value}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
 
 export function useTheme() {
@@ -245,12 +236,22 @@ export function ThemeToggle({ className = '' }) {
       {isDark ? (
         // Sun icon for dark mode (click to go light)
         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+          />
         </svg>
       ) : (
         // Moon icon for light mode (click to go dark)
         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+          />
         </svg>
       )}
     </button>
@@ -270,7 +271,7 @@ import { ThemeToggle } from './ui/ThemeToggle';
 <div className="flex items-center space-x-2">
   <ThemeToggle />
   <UserSwitcher />
-</div>
+</div>;
 
 // Wrap with ThemeProvider at top level (before KeyboardShortcutProvider)
 ```
@@ -353,24 +354,28 @@ Add `dark:` variants to components. Example patterns:
 ### Flash of Wrong Theme
 
 If you see a flash of light theme before dark loads:
+
 1. Add theme detection script in `<head>` of index.html
 2. Apply `no-transition` class initially, remove after hydration
 
 ### Charts Not Themed
 
 Recharts requires programmatic color updates:
+
 1. Use ThemeContext to get `chartColors`
 2. Pass colors to chart component props
 
 ### Third-Party Component Issues
 
 For components that don't respect Tailwind dark mode:
+
 1. Use CSS variables in globals.css
 2. Apply overrides with `.dark` selector
 
 ## Next Steps
 
 After basic implementation:
+
 1. Theme all remaining components
 2. Test across all views
 3. Verify WCAG contrast compliance
