@@ -14,12 +14,17 @@ import {
   TASK_DEFAULTS,
   TASK_LIMITS,
   AI_ERROR_MESSAGES,
+  DEPENDENCY_LIMITS,
 } from '../../utils/constants';
 import { useTranslation } from '../../hooks/useTranslation';
 import { useTranslatedLabels } from '../../hooks/useTranslatedLabels';
 import { useAISuggestions } from '../../hooks/useAISuggestions';
+import { useDependencies } from '../../hooks/useDependencies';
+import { useTasks } from '../../hooks/useTasks';
 import { AISuggestionPanel } from './AISuggestionPanel';
 import { SparkleIcon } from '../ui/SparkleIcon';
+import { DependencySelector } from './DependencySelector';
+import { DependencyList } from './DependencyList';
 
 /**
  * TaskForm component
@@ -576,6 +581,14 @@ export function TaskForm({
         )}
       </div>
 
+      {/* Dependencies Section - Only shown in edit mode */}
+      {isEditMode && initialValues?.id && (
+        <DependenciesSection
+          taskId={initialValues.id}
+          isLoading={isLoading}
+        />
+      )}
+
       {/* Form Actions */}
       <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-slate-700">
         <button
@@ -620,6 +633,206 @@ export function TaskForm({
         </button>
       </div>
     </form>
+  );
+}
+
+/**
+ * Dependencies Section Component
+ * Manages dependencies for an existing task
+ */
+function DependenciesSection({ taskId, isLoading: formLoading }) {
+  const { t } = useTranslation();
+  const { tasks } = useTasks();
+  const [showRemoveConfirm, setShowRemoveConfirm] = useState(null);
+
+  const {
+    isBlocked,
+    blockedBy,
+    blockedByIds,
+    blocks,
+    blocksIds,
+    dependencyCount,
+    loading: depsLoading,
+    error: depsError,
+    addDependency,
+    removeDependency,
+    canAddDependency,
+    getAvailableTasksSync,
+    clearError,
+  } = useDependencies(taskId);
+
+  const isLoading = formLoading || depsLoading;
+
+  // Get dependency IDs for removal
+  const [dependencyIdMap, setDependencyIdMap] = useState({});
+
+  // Load dependency ID mapping
+  useEffect(() => {
+    const loadDependencyIds = async () => {
+      const { getAllDependencies } = await import('../../services/dependencyService');
+      const allDeps = await getAllDependencies();
+      const map = {};
+      allDeps.forEach((dep) => {
+        if (dep.dependentTaskId === taskId) {
+          map[dep.blockingTaskId] = dep.id;
+        }
+      });
+      setDependencyIdMap(map);
+    };
+    loadDependencyIds();
+  }, [taskId, blockedByIds]);
+
+  const handleAddDependency = async (blockingTaskId) => {
+    try {
+      await addDependency(blockingTaskId);
+    } catch (err) {
+      // Error is already set in the hook
+      console.error('Failed to add dependency:', err);
+    }
+  };
+
+  const handleRemoveDependency = async (dependencyId) => {
+    if (showRemoveConfirm !== dependencyId) {
+      setShowRemoveConfirm(dependencyId);
+      return;
+    }
+
+    try {
+      await removeDependency(dependencyId);
+      setShowRemoveConfirm(null);
+    } catch (err) {
+      console.error('Failed to remove dependency:', err);
+    }
+  };
+
+  const handleCancelRemove = () => {
+    setShowRemoveConfirm(null);
+  };
+
+  // Get tasks that can be added as dependencies
+  const availableTasks = getAvailableTasksSync;
+
+  // Get blocking tasks with dependency IDs
+  const blockedByWithIds = blockedBy.map((task) => ({
+    task,
+    dependencyId: dependencyIdMap[task.id],
+  }));
+
+  return (
+    <div className="border-t border-gray-200 dark:border-slate-700 pt-4 mt-4">
+      <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+          />
+        </svg>
+        {t('tasks.dependencies', 'Dependencies')}
+        {isBlocked && (
+          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300">
+            {t('tasks.blocked', 'Blocked')}
+          </span>
+        )}
+      </h3>
+
+      {/* Error display */}
+      {depsError && (
+        <div className="mb-3 p-2 rounded bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+          <p className="text-sm text-red-600 dark:text-red-400">
+            {depsError.message || 'An error occurred'}
+          </p>
+          <button
+            type="button"
+            onClick={clearError}
+            className="text-xs text-red-500 underline mt-1"
+          >
+            Dismiss
+          </button>
+        </div>
+      )}
+
+      {/* Add Dependency Selector */}
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
+          {t('tasks.addDependency', 'Add Blocking Task')}
+        </label>
+        <DependencySelector
+          availableTasks={availableTasks}
+          onSelect={handleAddDependency}
+          canAddDependency={canAddDependency}
+          disabled={isLoading}
+          placeholder={t('tasks.searchTasksPlaceholder', 'Search tasks to add as dependency...')}
+          isLoading={depsLoading}
+          currentDependencyCount={dependencyCount}
+          maxDependencies={DEPENDENCY_LIMITS.MAX_DEPENDENCIES_PER_TASK}
+        />
+      </div>
+
+      {/* Blocked By List */}
+      {blockedBy.length > 0 && (
+        <div className="mb-4">
+          <DependencyList
+            tasks={blockedBy}
+            dependencyIds={blockedBy.map((t) => dependencyIdMap[t.id])}
+            title={t('tasks.blockedBy', 'Blocked By')}
+            showRemove={true}
+            onRemove={handleRemoveDependency}
+            isLoading={depsLoading}
+            type="blocked-by"
+            emptyMessage={t('tasks.noDependencies', 'No dependencies')}
+          />
+
+          {/* Remove confirmation */}
+          {showRemoveConfirm && (
+            <div className="mt-2 p-2 rounded bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800">
+              <p className="text-sm text-yellow-700 dark:text-yellow-300">
+                {t('tasks.confirmRemoveDependency', 'Remove this dependency?')}
+              </p>
+              <div className="mt-2 flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleRemoveDependency(showRemoveConfirm)}
+                  className="px-2 py-1 text-xs font-medium text-white bg-red-600 rounded hover:bg-red-700"
+                >
+                  {t('common.remove', 'Remove')}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCancelRemove}
+                  className="px-2 py-1 text-xs font-medium text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600"
+                >
+                  {t('common.cancel', 'Cancel')}
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Blocks List (read-only info) */}
+      {blocks.length > 0 && (
+        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-slate-700">
+          <DependencyList
+            tasks={blocks}
+            dependencyIds={[]}
+            title={t('tasks.blocks', 'Blocks')}
+            showRemove={false}
+            isLoading={depsLoading}
+            type="blocks"
+            emptyMessage=""
+          />
+        </div>
+      )}
+
+      {/* No dependencies message */}
+      {blockedBy.length === 0 && blocks.length === 0 && !depsLoading && (
+        <p className="text-sm text-gray-500 dark:text-gray-400 italic">
+          {t('tasks.noDependenciesYet', 'No dependencies yet. Add blocking tasks above.')}
+        </p>
+      )}
+    </div>
   );
 }
 

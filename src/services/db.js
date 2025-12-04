@@ -50,6 +50,14 @@ db.version(4).stores({
   shortcutUsage: '++id, [userId+shortcutKey+date], userId, date',
 });
 
+// Version 5: Add dependencies table for task dependencies feature
+db.version(5).stores({
+  users: '&id, &identifier, identifierType, createdAt',
+  tasks: '&id, userId, createdBy, status, priority, category, createdAt, deadline, timerStartedAt',
+  shortcutUsage: '++id, [userId+shortcutKey+date], userId, date',
+  dependencies: '&id, dependentTaskId, blockingTaskId, [dependentTaskId+blockingTaskId], createdAt',
+});
+
 // Export the database instance
 export { db };
 

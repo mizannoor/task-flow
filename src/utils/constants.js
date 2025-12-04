@@ -299,6 +299,56 @@ export const DEFAULT_COLLAPSED_COLUMNS = {
 // Kanban drag-and-drop data transfer type
 export const KANBAN_DND_TYPE = 'application/taskflow-kanban-card';
 
+// =============================================================================
+// Task Dependencies Constants
+// =============================================================================
+
+// Maximum dependencies a single task can have
+export const DEPENDENCY_LIMITS = {
+  MAX_DEPENDENCIES_PER_TASK: 10,
+};
+
+// Dependency error codes
+export const DEPENDENCY_ERROR_CODES = {
+  SELF_REFERENCE: 'SELF_REFERENCE',
+  DUPLICATE: 'DUPLICATE',
+  CIRCULAR: 'CIRCULAR',
+  LIMIT_EXCEEDED: 'LIMIT_EXCEEDED',
+  TASK_NOT_FOUND: 'TASK_NOT_FOUND',
+  NOT_FOUND: 'NOT_FOUND',
+};
+
+// Dependency error messages
+export const DEPENDENCY_ERROR_MESSAGES = {
+  [DEPENDENCY_ERROR_CODES.SELF_REFERENCE]: 'A task cannot depend on itself',
+  [DEPENDENCY_ERROR_CODES.DUPLICATE]: 'This dependency already exists',
+  [DEPENDENCY_ERROR_CODES.CIRCULAR]: 'Cannot add dependency: this would create a circular reference',
+  [DEPENDENCY_ERROR_CODES.LIMIT_EXCEEDED]: `Maximum of ${DEPENDENCY_LIMITS.MAX_DEPENDENCIES_PER_TASK} dependencies per task reached`,
+  [DEPENDENCY_ERROR_CODES.TASK_NOT_FOUND]: 'One or both tasks no longer exist',
+  [DEPENDENCY_ERROR_CODES.NOT_FOUND]: 'Dependency not found',
+};
+
+// Dependency status types (computed)
+export const DEPENDENCY_STATUS = {
+  BLOCKED: 'blocked',
+  READY: 'ready',
+  BLOCKING: 'blocking',
+};
+
+// Dependency status labels
+export const DEPENDENCY_STATUS_LABELS = {
+  [DEPENDENCY_STATUS.BLOCKED]: 'Blocked',
+  [DEPENDENCY_STATUS.READY]: 'Ready',
+  [DEPENDENCY_STATUS.BLOCKING]: 'Blocking Others',
+};
+
+// Dependency filter options
+export const DEPENDENCY_FILTER_OPTIONS = [
+  { value: '', label: 'All Tasks' },
+  { value: DEPENDENCY_STATUS.BLOCKED, label: 'Blocked Tasks' },
+  { value: DEPENDENCY_STATUS.BLOCKING, label: 'Blocking Others' },
+];
+
 // Kanban hover preview delay (milliseconds)
 export const KANBAN_PREVIEW_DELAY = 500;
 

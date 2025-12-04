@@ -7,6 +7,7 @@ import { useState, useMemo } from 'react';
 import { TaskRow, TaskRowCompact } from './TaskRow';
 import { TaskEmptyState, SearchEmptyState, FilterEmptyState } from '../ui/EmptyState';
 import { useTasks } from '../../hooks/useTasks';
+import { useDependencies } from '../../hooks/useDependencies';
 import { useTranslation } from '../../hooks/useTranslation';
 import { PAGINATION_DEFAULTS, SORT_FIELD_LABELS, SORT_ORDERS } from '../../utils/constants';
 import { FilterBar } from './FilterBar';
@@ -41,6 +42,7 @@ export function TaskList({
     loading,
     error
   } = useTasks();
+  const { dependencyMap } = useDependencies();
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = PAGINATION_DEFAULTS.PAGE_SIZE;
 
@@ -416,6 +418,7 @@ export function TaskList({
                 onEdit={onEditTask}
                 onDelete={onDeleteTask}
                 onStatusChange={onStatusChange}
+                dependencyInfo={dependencyMap[task.id]}
               />
             ))}
           </tbody>
@@ -431,6 +434,7 @@ export function TaskList({
             onEdit={onEditTask}
             onDelete={onDeleteTask}
             onStatusChange={onStatusChange}
+            dependencyInfo={dependencyMap[task.id]}
           />
         ))}
       </div>

@@ -7,6 +7,7 @@ import { db } from './db';
 import { v4 as uuidv4 } from 'uuid';
 import { TASK_DEFAULTS, STATUSES } from '../utils/constants';
 import * as timerService from './timerService';
+import * as dependencyService from './dependencyService';
 
 /**
  * Create a new task in the database
@@ -188,6 +189,7 @@ export async function reopenTask(id) {
 /**
  * Delete a task from the database
  * Discards any active timer without saving
+ * Cascades deletion to all associated dependencies
  * @param {string} id - The task ID
  * @returns {Promise<void>}
  */
@@ -197,6 +199,9 @@ export async function deleteTask(id) {
   if (task?.timerStartedAt) {
     await timerService.discardTaskTimer(id);
   }
+
+  // Cascade delete all dependencies involving this task
+  await dependencyService.deleteDependenciesForTask(id);
 
   return db.tasks.delete(id);
 }
