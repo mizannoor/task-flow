@@ -8,6 +8,7 @@ import useTranslation from '../../hooks/useTranslation';
 import { formatDate, formatDuration, formatDeadline } from '../../utils/formatters';
 import { TaskStatusButton } from './TaskActions';
 import { TaskTimer } from './TaskTimer';
+import { DependencyIndicator } from './DependencyBadge';
 
 /**
  * TaskRow component
@@ -17,6 +18,7 @@ import { TaskTimer } from './TaskTimer';
  * @param {Function} props.onStatusChange - Callback when status action is clicked
  * @param {Function} props.onDelete - Callback when delete is clicked
  * @param {boolean} props.showActions - Whether to show action buttons
+ * @param {object} props.dependencyInfo - Dependency information for this task
  */
 export function TaskRow({
   task,
@@ -24,6 +26,7 @@ export function TaskRow({
   onStatusChange,
   onDelete,
   showActions = true,
+  dependencyInfo = null,
 }) {
   const { t } = useTranslation();
   const deadline = formatDeadline(task.deadline);
@@ -55,9 +58,19 @@ export function TaskRow({
       {/* Task Name */}
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex flex-col">
-          <span className="text-sm font-medium text-gray-900 dark:text-white truncate max-w-xs">
-            {task.taskName}
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium text-gray-900 dark:text-white truncate max-w-xs">
+              {task.taskName}
+            </span>
+            {/* Dependency indicator */}
+            {dependencyInfo && (
+              <DependencyIndicator
+                isBlocked={dependencyInfo.isBlocked}
+                blocksCount={dependencyInfo.blocksIds?.length || 0}
+                size="sm"
+              />
+            )}
+          </div>
           {task.description && (
             <span className="text-sm text-gray-500 dark:text-gray-400 truncate max-w-xs">
               {task.description}
@@ -186,6 +199,7 @@ export function TaskRowCompact({
   onEdit,
   onStatusChange,
   onDelete,
+  dependencyInfo = null,
 }) {
   const { t } = useTranslation();
   const deadline = formatDeadline(task.deadline);
@@ -206,9 +220,19 @@ export function TaskRowCompact({
     >
       {/* Header row */}
       <div className="flex items-start justify-between mb-2">
-        <h4 className="text-sm font-medium text-gray-900 dark:text-white truncate flex-1">
-          {task.taskName}
-        </h4>
+        <div className="flex items-center gap-2 flex-1 min-w-0">
+          <h4 className="text-sm font-medium text-gray-900 dark:text-white truncate">
+            {task.taskName}
+          </h4>
+          {/* Dependency indicator */}
+          {dependencyInfo && (
+            <DependencyIndicator
+              isBlocked={dependencyInfo.isBlocked}
+              blocksCount={dependencyInfo.blocksIds?.length || 0}
+              size="sm"
+            />
+          )}
+        </div>
         <div className="ml-2 flex items-center gap-1">
           <PriorityBadge priority={task.priority} size="sm" />
           <StatusBadge status={task.status} size="sm" />
