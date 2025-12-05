@@ -141,11 +141,10 @@ export function TaskActions({
             type="button"
             onClick={handleStart}
             disabled={isLoading}
-            className={`inline-flex items-center justify-center rounded-md font-medium text-white ${
-              isBlocked
+            className={`inline-flex items-center justify-center rounded-md font-medium text-white ${isBlocked
                 ? 'bg-blue-400 hover:bg-blue-500 dark:bg-blue-500/70 dark:hover:bg-blue-500'
                 : 'bg-blue-600 hover:bg-blue-700'
-            } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 ${sizeClasses[size]}`}
+              } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 ${sizeClasses[size]}`}
             aria-label={
               isBlocked
                 ? t('tasks.startBlockedTask', 'Start (blocked)')

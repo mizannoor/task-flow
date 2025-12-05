@@ -102,11 +102,10 @@ export function DependencyChain({
           <button
             type="button"
             onClick={() => setActiveTab('upstream')}
-            className={`flex-1 py-2 px-4 text-sm font-medium border-b-2 transition-colors ${
-              activeTab === 'upstream'
+            className={`flex-1 py-2 px-4 text-sm font-medium border-b-2 transition-colors ${activeTab === 'upstream'
                 ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400'
                 : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
-            }`}
+              }`}
           >
             <div className="flex items-center justify-center gap-2">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -123,11 +122,10 @@ export function DependencyChain({
           <button
             type="button"
             onClick={() => setActiveTab('downstream')}
-            className={`flex-1 py-2 px-4 text-sm font-medium border-b-2 transition-colors ${
-              activeTab === 'downstream'
+            className={`flex-1 py-2 px-4 text-sm font-medium border-b-2 transition-colors ${activeTab === 'downstream'
                 ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400'
                 : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
-            }`}
+              }`}
           >
             <div className="flex items-center justify-center gap-2">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -294,11 +292,10 @@ function DependencyTreeNode({ item, onTaskClick }) {
       <button
         type="button"
         onClick={() => onTaskClick(task.id)}
-        className={`w-full p-2 rounded-lg text-left transition-colors flex items-center gap-2 ${
-          isCompleted
+        className={`w-full p-2 rounded-lg text-left transition-colors flex items-center gap-2 ${isCompleted
             ? 'bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/30'
             : 'bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700'
-        }`}
+          }`}
       >
         {/* Status indicator */}
         <span className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${getStatusColor(task.status)}`} />
@@ -306,11 +303,10 @@ function DependencyTreeNode({ item, onTaskClick }) {
         {/* Task info */}
         <div className="flex-1 min-w-0">
           <p
-            className={`text-sm truncate ${
-              isCompleted
+            className={`text-sm truncate ${isCompleted
                 ? 'text-gray-500 dark:text-gray-400 line-through'
                 : 'text-gray-900 dark:text-gray-100'
-            }`}
+              }`}
             title={task.taskName}
           >
             {task.taskName}

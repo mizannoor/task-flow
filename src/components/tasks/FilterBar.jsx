@@ -182,11 +182,10 @@ function DependencyStatusDropdown({ value, onChange }) {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium shadow-sm ring-1 ring-inset hover:bg-gray-50 dark:hover:bg-slate-700 ${
-          hasValue
+        className={`inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium shadow-sm ring-1 ring-inset hover:bg-gray-50 dark:hover:bg-slate-700 ${hasValue
             ? 'bg-purple-50 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 ring-purple-300 dark:ring-purple-600'
             : 'bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-200 ring-gray-300 dark:ring-slate-600'
-        }`}
+          }`}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
       >
@@ -230,20 +229,18 @@ function DependencyStatusDropdown({ value, onChange }) {
                 key={option.value}
                 type="button"
                 onClick={() => handleSelect(option.value)}
-                className={`flex w-full items-center px-4 py-2 text-sm ${
-                  value === option.value
+                className={`flex w-full items-center px-4 py-2 text-sm ${value === option.value
                     ? 'bg-purple-50 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300'
                     : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-700'
-                }`}
+                  }`}
                 role="option"
                 aria-selected={value === option.value}
               >
                 <span
-                  className={`mr-3 flex h-4 w-4 items-center justify-center rounded-full border ${
-                    value === option.value
+                  className={`mr-3 flex h-4 w-4 items-center justify-center rounded-full border ${value === option.value
                       ? 'border-purple-600 bg-purple-600'
                       : 'border-gray-300 dark:border-slate-500 bg-white dark:bg-slate-700'
-                  }`}
+                    }`}
                 >
                   {value === option.value && (
                     <svg className="h-2 w-2 text-white" fill="currentColor" viewBox="0 0 8 8">

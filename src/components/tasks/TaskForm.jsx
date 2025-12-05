@@ -739,7 +739,7 @@ function DependenciesSection({ taskId, isLoading: formLoading }) {
             </span>
           )}
         </h3>
-        
+
         {/* View Chain button */}
         {(blockedBy.length > 0 || blocks.length > 0) && (
           <button

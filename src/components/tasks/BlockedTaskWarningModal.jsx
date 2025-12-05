@@ -109,11 +109,10 @@ export function BlockedTaskWarningModal({
                 return (
                   <li
                     key={blockingTask.id}
-                    className={`flex items-center justify-between p-2 rounded-md ${
-                      isCompleted
+                    className={`flex items-center justify-between p-2 rounded-md ${isCompleted
                         ? 'bg-green-50 dark:bg-green-900/20'
                         : 'bg-white dark:bg-gray-700/50'
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center space-x-2 flex-1 min-w-0">
                       {/* Status Icon */}
@@ -147,11 +146,10 @@ export function BlockedTaskWarningModal({
 
                       {/* Task Name */}
                       <span
-                        className={`text-sm truncate ${
-                          isCompleted
+                        className={`text-sm truncate ${isCompleted
                             ? 'text-gray-500 dark:text-gray-400 line-through'
                             : 'text-gray-900 dark:text-gray-100'
-                        }`}
+                          }`}
                         title={blockingTask.taskName}
                       >
                         {blockingTask.taskName}
@@ -160,11 +158,10 @@ export function BlockedTaskWarningModal({
 
                     {/* Status Badge */}
                     <span
-                      className={`ml-2 px-2 py-0.5 text-xs font-medium rounded-full flex-shrink-0 ${
-                        isCompleted
+                      className={`ml-2 px-2 py-0.5 text-xs font-medium rounded-full flex-shrink-0 ${isCompleted
                           ? 'bg-green-100 text-green-800 dark:bg-green-800/30 dark:text-green-300'
                           : `bg-${statusColor}-100 text-${statusColor}-800 dark:bg-${statusColor}-800/30 dark:text-${statusColor}-300`
-                      }`}
+                        }`}
                     >
                       {isCompleted
                         ? t('status.completed', 'Completed')

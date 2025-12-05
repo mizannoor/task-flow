@@ -8,7 +8,8 @@
 
 Implement task dependencies feature allowing users to define "finish-to-start" relationships between tasks. A task can be blocked by up to 10 other tasks, with circular dependency detection and soft blocking (warning with override). Dependencies persist in IndexedDB and are visualized through badges, lists, and chain visualization.
 
-**Technical Approach**: 
+**Technical Approach**:
+
 - New `dependencies` table in IndexedDB (Dexie.js schema v5)
 - Custom `useDependencies` hook for state management
 - DFS-based circular dependency detection algorithm
@@ -29,16 +30,16 @@ Implement task dependencies feature allowing users to define "finish-to-start" r
 
 ## Constitution Check
 
-*GATE: ✅ PASSED - All principles compliant*
+_GATE: ✅ PASSED - All principles compliant_
 
-| Principle | Status | Notes |
-|-----------|--------|-------|
-| I. Client-Side First | ✅ PASS | All data in IndexedDB, no backend |
-| II. AI-Augmented Intelligence | ✅ N/A | No AI integration in this feature |
-| III. Performance Excellence | ✅ PASS | <100ms queries, efficient DFS algorithm |
-| IV. Multi-User Experience | ✅ PASS | Any user can manage any task's dependencies |
-| V. Data Integrity | ✅ PASS | Circular detection, cascade delete, validation |
-| VI. Responsive & Accessible | ✅ PASS | Dark mode, keyboard nav, ARIA labels |
+| Principle                     | Status  | Notes                                          |
+| ----------------------------- | ------- | ---------------------------------------------- |
+| I. Client-Side First          | ✅ PASS | All data in IndexedDB, no backend              |
+| II. AI-Augmented Intelligence | ✅ N/A  | No AI integration in this feature              |
+| III. Performance Excellence   | ✅ PASS | <100ms queries, efficient DFS algorithm        |
+| IV. Multi-User Experience     | ✅ PASS | Any user can manage any task's dependencies    |
+| V. Data Integrity             | ✅ PASS | Circular detection, cascade delete, validation |
+| VI. Responsive & Accessible   | ✅ PASS | Dark mode, keyboard nav, ARIA labels           |
 
 ## Project Structure
 
@@ -91,37 +92,43 @@ src/
 
 > No violations - all implementation follows Constitution principles.
 
-| Aspect | Decision | Rationale |
-|--------|----------|-----------|
-| Circular Detection | DFS algorithm | O(V+E) complexity, handles deep chains |
-| Max Dependencies | 10 per task | UI manageability, performance bound |
-| Soft Blocking | Warning + Override | User flexibility per spec clarification |
+| Aspect             | Decision           | Rationale                               |
+| ------------------ | ------------------ | --------------------------------------- |
+| Circular Detection | DFS algorithm      | O(V+E) complexity, handles deep chains  |
+| Max Dependencies   | 10 per task        | UI manageability, performance bound     |
+| Soft Blocking      | Warning + Override | User flexibility per spec clarification |
 
 ## Implementation Summary
 
 ### Phase 1: Setup ✅
+
 - IndexedDB schema v5 with compound index `[dependentTaskId+blockingTaskId]`
 - Error codes and constants for dependency limits
 
 ### Phase 2: Foundational ✅
+
 - Complete CRUD service layer with validation
 - `useDependencies` hook with computed `isBlocked`, `blockedBy`, `blocks`
 - Cascade delete when blocking task is deleted
 
 ### Phase 3-5: Core User Stories (P1) ✅
+
 - **US1**: Add dependency via searchable selector
 - **US2**: View dependencies in both directions with status
 - **US3**: Remove dependencies with confirmation
 
 ### Phase 6-7: Enforcement (P2) ✅
+
 - **US4**: Blocked task warning modal with "Start Anyway" override
 - **US5**: Circular dependency prevention with path display
 
 ### Phase 8-9: Enhancement (P3) ✅
+
 - **US6**: Filter by dependency status (blocked/blocking)
 - **US7**: Visual dependency chain with navigation
 
 ### Phase 10: Polish ✅
+
 - Dark mode styling
 - Keyboard navigation
 - ARIA accessibility
@@ -142,7 +149,7 @@ All acceptance scenarios from spec.md have been implemented:
 
 **Next Steps**: Feature ready for QA testing and merge to main branch.
 
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+| Violation                  | Why Needed         | Simpler Alternative Rejected Because |
+| -------------------------- | ------------------ | ------------------------------------ |
+| [e.g., 4th project]        | [current need]     | [why 3 projects insufficient]        |
+| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient]  |
