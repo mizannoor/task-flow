@@ -338,6 +338,52 @@ export const ms = {
     suggestedComplexity: 'Kerumitan Dicadangkan',
     suggestedDuration: 'Tempoh Dicadangkan',
   },
+
+  // Dependencies
+  dependencies: {
+    title: 'Kebergantungan',
+    blockedBy: 'Disekat Oleh',
+    blocks: 'Menyekat',
+    addDependency: 'Tambah Tugas Penyekat',
+    removeDependency: 'Buang Kebergantungan',
+    noDependencies: 'Tiada kebergantungan',
+    noDependenciesYet: 'Tiada kebergantungan lagi. Tambah tugas penyekat di atas.',
+    blocked: 'Disekat',
+    blocking: 'Menyekat Lain',
+    ready: 'Sedia',
+    blockedWarningTitle: 'Tugas Disekat',
+    blockedWarningMessage: 'Tugas ini mempunyai kebergantungan yang belum selesai yang perlu disiapkan dahulu.',
+    blockingTasksTitle: 'Tugas Penyekat',
+    noBlockingTasks: 'Tiada tugas penyekat ditemui',
+    startAnyway: 'Mula Juga',
+    startAnywayNote: 'Anda masih boleh memulakan tugas ini jika perlu, tetapi pertimbangkan untuk menyelesaikan tugas penyekat dahulu untuk aliran kerja yang lebih baik.',
+    taskIsBlocked: 'Tugas ini mempunyai kebergantungan yang belum selesai',
+    cyclePathLabel: 'Kitaran kebergantungan dikesan:',
+    chainTitle: 'Rantaian Kebergantungan',
+    currentTask: 'Tugas Semasa',
+    upstream: 'Disekat Oleh',
+    downstream: 'Menyekat',
+    noUpstream: 'Tiada kebergantungan penyekat',
+    noDownstream: 'Tidak menyekat sebarang tugas',
+    viewChain: 'Lihat Rantaian',
+    legend: 'Petunjuk:',
+    confirmRemoveDependency: 'Buang kebergantungan ini?',
+    searchTasksPlaceholder: 'Cari tugas untuk ditambah sebagai kebergantungan...',
+  },
+
+  // Filter dependency options
+  filter: {
+    status: 'Status',
+    priority: 'Keutamaan',
+    category: 'Kategori',
+    dependencies: 'Kebergantungan',
+    activeFilters: 'Penapis aktif',
+    dependency: {
+      all: 'Semua Tugas',
+      blocked: 'Tugas Disekat',
+      blocking: 'Menyekat Lain',
+    },
+  },
 };
 
 export default ms;

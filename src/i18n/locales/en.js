@@ -338,6 +338,52 @@ export const en = {
     suggestedComplexity: 'Suggested Complexity',
     suggestedDuration: 'Suggested Duration',
   },
+
+  // Dependencies
+  dependencies: {
+    title: 'Dependencies',
+    blockedBy: 'Blocked By',
+    blocks: 'Blocks',
+    addDependency: 'Add Blocking Task',
+    removeDependency: 'Remove Dependency',
+    noDependencies: 'No dependencies',
+    noDependenciesYet: 'No dependencies yet. Add blocking tasks above.',
+    blocked: 'Blocked',
+    blocking: 'Blocking Others',
+    ready: 'Ready',
+    blockedWarningTitle: 'Task is Blocked',
+    blockedWarningMessage: 'This task has incomplete dependencies that should be completed first.',
+    blockingTasksTitle: 'Blocking Tasks',
+    noBlockingTasks: 'No blocking tasks found',
+    startAnyway: 'Start Anyway',
+    startAnywayNote: 'You can still start this task if needed, but consider completing the blocking tasks first for better workflow.',
+    taskIsBlocked: 'This task has incomplete dependencies',
+    cyclePathLabel: 'Dependency cycle detected:',
+    chainTitle: 'Dependency Chain',
+    currentTask: 'Current Task',
+    upstream: 'Blocked By',
+    downstream: 'Blocks',
+    noUpstream: 'No blocking dependencies',
+    noDownstream: 'Does not block any tasks',
+    viewChain: 'View Chain',
+    legend: 'Legend:',
+    confirmRemoveDependency: 'Remove this dependency?',
+    searchTasksPlaceholder: 'Search tasks to add as dependency...',
+  },
+
+  // Filter dependency options
+  filter: {
+    status: 'Status',
+    priority: 'Priority',
+    category: 'Category',
+    dependencies: 'Dependencies',
+    activeFilters: 'Active filters',
+    dependency: {
+      all: 'All Tasks',
+      blocked: 'Blocked Tasks',
+      blocking: 'Blocking Others',
+    },
+  },
 };
 
 export default en;

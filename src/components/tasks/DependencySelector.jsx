@@ -6,11 +6,13 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { useTranslation } from '../../hooks/useTranslation';
 import { STATUS_LABELS, STATUS_COLORS, STATUSES } from '../../utils/constants';
+import { formatCyclePath } from '../../utils/dependencyUtils';
 
 /**
  * DependencySelector component
  * @param {object} props
  * @param {object[]} props.availableTasks - Tasks that can be selected as dependencies
+ * @param {object[]} props.allTasks - All tasks (for cycle path formatting)
  * @param {Function} props.onSelect - Callback when a task is selected
  * @param {Function} props.canAddDependency - Async function to validate selection
  * @param {boolean} props.disabled - Whether the selector is disabled
@@ -21,6 +23,7 @@ import { STATUS_LABELS, STATUS_COLORS, STATUSES } from '../../utils/constants';
  */
 export function DependencySelector({
   availableTasks = [],
+  allTasks = [],
   onSelect,
   canAddDependency,
   disabled = false,
@@ -34,6 +37,7 @@ export function DependencySelector({
   const [searchQuery, setSearchQuery] = useState('');
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const [validationError, setValidationError] = useState(null);
+  const [cyclePath, setCyclePath] = useState(null);
   const [isValidating, setIsValidating] = useState(false);
 
   const containerRef = useRef(null);
@@ -46,6 +50,7 @@ export function DependencySelector({
         setIsOpen(false);
         setSearchQuery('');
         setValidationError(null);
+        setCyclePath(null);
       }
     };
 
@@ -115,11 +120,13 @@ export function DependencySelector({
   const handleSelectTask = async (task) => {
     if (isAtLimit) {
       setValidationError(`Maximum of ${maxDependencies} dependencies reached`);
+      setCyclePath(null);
       return;
     }
 
     setIsValidating(true);
     setValidationError(null);
+    setCyclePath(null);
 
     try {
       // Validate if function provided
@@ -127,6 +134,11 @@ export function DependencySelector({
         const result = await canAddDependency(task.id);
         if (!result.valid) {
           setValidationError(result.message);
+          // If circular dependency, format and show the path
+          if (result.reason === 'circular' && result.path && allTasks.length > 0) {
+            const formattedPath = formatCyclePath(result.path, allTasks);
+            setCyclePath(formattedPath);
+          }
           setIsValidating(false);
           return;
         }
@@ -139,8 +151,10 @@ export function DependencySelector({
       setIsOpen(false);
       setSearchQuery('');
       setValidationError(null);
+      setCyclePath(null);
     } catch (err) {
       setValidationError(err.message || 'Failed to add dependency');
+      setCyclePath(null);
     } finally {
       setIsValidating(false);
     }
@@ -245,7 +259,33 @@ export function DependencySelector({
 
       {/* Validation error */}
       {validationError && (
-        <p className="mt-1 text-sm text-red-600 dark:text-red-400">{validationError}</p>
+        <div className="mt-1">
+          <p className="text-sm text-red-600 dark:text-red-400 flex items-start">
+            <svg
+              className="w-4 h-4 mr-1 mt-0.5 flex-shrink-0"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                clipRule="evenodd"
+              />
+            </svg>
+            {validationError}
+          </p>
+          {/* Show cycle path if available */}
+          {cyclePath && (
+            <div className="mt-2 p-2 bg-red-50 dark:bg-red-900/20 rounded-md border border-red-200 dark:border-red-800">
+              <p className="text-xs font-medium text-red-700 dark:text-red-300 mb-1">
+                {t('dependencies.cyclePathLabel', 'Dependency cycle detected:')}
+              </p>
+              <p className="text-xs text-red-600 dark:text-red-400 font-mono break-all">
+                {cyclePath}
+              </p>
+            </div>
+          )}
+        </div>
       )}
 
       {/* Dropdown */}

@@ -262,6 +262,7 @@ export const DEFAULT_FILTERS = {
   category: [],
   searchQuery: '',
   userId: null,
+  dependencyStatus: '', // '', 'blocked', 'blocking'
 };
 
 // Pagination defaults
