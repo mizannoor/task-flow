@@ -25,6 +25,7 @@ import { AISuggestionPanel } from './AISuggestionPanel';
 import { SparkleIcon } from '../ui/SparkleIcon';
 import { DependencySelector } from './DependencySelector';
 import { DependencyList } from './DependencyList';
+import { DependencyChain } from './DependencyChain';
 
 /**
  * TaskForm component
@@ -644,6 +645,7 @@ function DependenciesSection({ taskId, isLoading: formLoading }) {
   const { t } = useTranslation();
   const { tasks } = useTasks();
   const [showRemoveConfirm, setShowRemoveConfirm] = useState(null);
+  const [showChainView, setShowChainView] = useState(false);
 
   const {
     isBlocked,
@@ -720,22 +722,38 @@ function DependenciesSection({ taskId, isLoading: formLoading }) {
 
   return (
     <div className="border-t border-gray-200 dark:border-slate-700 pt-4 mt-4">
-      <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-          />
-        </svg>
-        {t('tasks.dependencies', 'Dependencies')}
-        {isBlocked && (
-          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300">
-            {t('tasks.blocked', 'Blocked')}
-          </span>
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+            />
+          </svg>
+          {t('tasks.dependencies', 'Dependencies')}
+          {isBlocked && (
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300">
+              {t('tasks.blocked', 'Blocked')}
+            </span>
+          )}
+        </h3>
+
+        {/* View Chain button */}
+        {(blockedBy.length > 0 || blocks.length > 0) && (
+          <button
+            type="button"
+            onClick={() => setShowChainView(true)}
+            className="inline-flex items-center px-2 py-1 text-xs font-medium text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-900/30 rounded hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors"
+          >
+            <svg className="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+            </svg>
+            {t('dependencies.viewChain', 'View Chain')}
+          </button>
         )}
-      </h3>
+      </div>
 
       {/* Error display */}
       {depsError && (
@@ -760,6 +778,7 @@ function DependenciesSection({ taskId, isLoading: formLoading }) {
         </label>
         <DependencySelector
           availableTasks={availableTasks}
+          allTasks={tasks}
           onSelect={handleAddDependency}
           canAddDependency={canAddDependency}
           disabled={isLoading}
@@ -832,6 +851,13 @@ function DependenciesSection({ taskId, isLoading: formLoading }) {
           {t('tasks.noDependenciesYet', 'No dependencies yet. Add blocking tasks above.')}
         </p>
       )}
+
+      {/* Dependency Chain Modal */}
+      <DependencyChain
+        taskId={taskId}
+        isOpen={showChainView}
+        onClose={() => setShowChainView(false)}
+      />
     </div>
   );
 }

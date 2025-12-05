@@ -6,6 +6,7 @@
 import { useState } from 'react';
 import { STATUSES, STATUS_LABELS } from '../../utils/constants';
 import { ReopenConfirmDialog } from '../ui/ConfirmDialog';
+import { BlockedTaskWarningModal } from './BlockedTaskWarningModal';
 import useTranslation from '../../hooks/useTranslation';
 
 /**
@@ -21,6 +22,8 @@ import useTranslation from '../../hooks/useTranslation';
  * @param {boolean} props.showDelete - Whether to show delete button
  * @param {string} props.size - Button size: 'sm' | 'md' | 'lg'
  * @param {string} props.layout - Layout: 'horizontal' | 'vertical'
+ * @param {boolean} props.isBlocked - Whether task is blocked by dependencies
+ * @param {object[]} props.blockingTasks - Array of tasks blocking this task
  */
 export function TaskActions({
   task,
@@ -33,11 +36,14 @@ export function TaskActions({
   showDelete = false,
   size = 'sm',
   layout = 'horizontal',
+  isBlocked = false,
+  blockingTasks = [],
 }) {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [loadingAction, setLoadingAction] = useState(null);
   const [showReopenConfirm, setShowReopenConfirm] = useState(false);
+  const [showBlockedWarning, setShowBlockedWarning] = useState(false);
 
   // Size classes
   const sizeClasses = {
@@ -71,7 +77,18 @@ export function TaskActions({
 
   // Handle start task
   const handleStart = () => {
+    // Check if task is blocked - show warning modal instead of starting directly
+    if (isBlocked && blockingTasks.length > 0) {
+      setShowBlockedWarning(true);
+      return;
+    }
     handleAction('start', () => onStart && onStart(task.id));
+  };
+
+  // Handle start anyway (after blocked warning confirmation)
+  const handleStartAnyway = async () => {
+    await handleAction('start', () => onStart && onStart(task.id));
+    setShowBlockedWarning(false);
   };
 
   // Handle complete task
@@ -124,32 +141,60 @@ export function TaskActions({
             type="button"
             onClick={handleStart}
             disabled={isLoading}
-            className={`inline-flex items-center justify-center rounded-md font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 ${sizeClasses[size]}`}
-            aria-label={t('tasks.startTask')}
+            className={`inline-flex items-center justify-center rounded-md font-medium text-white ${isBlocked
+                ? 'bg-blue-400 hover:bg-blue-500 dark:bg-blue-500/70 dark:hover:bg-blue-500'
+                : 'bg-blue-600 hover:bg-blue-700'
+              } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 ${sizeClasses[size]}`}
+            aria-label={
+              isBlocked
+                ? t('tasks.startBlockedTask', 'Start (blocked)')
+                : t('tasks.startTask')
+            }
+            title={
+              isBlocked
+                ? t('dependencies.taskIsBlocked', 'This task has incomplete dependencies')
+                : undefined
+            }
           >
             {loadingAction === 'start' ? (
               <LoadingSpinner />
             ) : (
               <>
-                <svg
-                  className="h-4 w-4 mr-1"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+                {isBlocked ? (
+                  <svg
+                    className="h-4 w-4 mr-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    className="h-4 w-4 mr-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                )}
                 {t('tasks.start')}
               </>
             )}
@@ -278,6 +323,16 @@ export function TaskActions({
         onConfirm={handleReopenConfirm}
         taskName={task.taskName}
         isLoading={loadingAction === 'reopen'}
+      />
+
+      {/* Blocked Task Warning Modal */}
+      <BlockedTaskWarningModal
+        isOpen={showBlockedWarning}
+        onClose={() => setShowBlockedWarning(false)}
+        onStartAnyway={handleStartAnyway}
+        task={task}
+        blockingTasks={blockingTasks}
+        isLoading={loadingAction === 'start'}
       />
     </>
   );

@@ -111,8 +111,12 @@ function taskReducer(state, action) {
 
 /**
  * Filter tasks based on filter state
+ * @param {Array} tasks - Array of task objects
+ * @param {object} filters - Filter configuration
+ * @param {string} currentUserId - Current user's ID
+ * @param {object} dependencyMap - Optional map of taskId -> dependency info
  */
-function filterTasks(tasks, filters, currentUserId) {
+function filterTasks(tasks, filters, currentUserId, dependencyMap = null) {
   return tasks.filter((task) => {
     // Filter by userId if set (My Tasks vs All Tasks)
     if (filters.userId !== null) {
@@ -149,6 +153,25 @@ function filterTasks(tasks, filters, currentUserId) {
       const descMatch = task.description?.toLowerCase().includes(query);
       if (!nameMatch && !descMatch) {
         return false;
+      }
+    }
+
+    // Filter by dependency status (if dependencyMap provided)
+    if (filters.dependencyStatus && dependencyMap) {
+      const depInfo = dependencyMap[task.id];
+      if (!depInfo) {
+        // No dependency info - exclude if filtering for blocked/blocking
+        return false;
+      }
+
+      if (filters.dependencyStatus === 'blocked') {
+        if (!depInfo.isBlocked) {
+          return false;
+        }
+      } else if (filters.dependencyStatus === 'blocking') {
+        if (!depInfo.blocksIds || depInfo.blocksIds.length === 0) {
+          return false;
+        }
       }
     }
 
@@ -436,11 +459,20 @@ export function TaskProvider({ children }) {
   // Computed Values
   // -------------------------------------------------------------------------
 
-  // Filter and sort tasks
+  // Filter and sort tasks (without dependency filtering - use getFilteredTasksWithDependencies for that)
   const filteredAndSortedTasks = useMemo(() => {
     const filtered = filterTasks(state.tasks, state.filters, currentUser?.id);
     return sortTasks(filtered, state.sort);
   }, [state.tasks, state.filters, state.sort, currentUser?.id]);
+
+  // Helper to get filtered tasks with dependency info
+  const getFilteredTasksWithDependencies = useCallback(
+    (dependencyMap) => {
+      const filtered = filterTasks(state.tasks, state.filters, currentUser?.id, dependencyMap);
+      return sortTasks(filtered, state.sort);
+    },
+    [state.tasks, state.filters, state.sort, currentUser?.id]
+  );
 
   // -------------------------------------------------------------------------
   // Context Value
@@ -471,6 +503,7 @@ export function TaskProvider({ children }) {
       setFilter,
       setFilters,
       clearFilters,
+      getFilteredTasksWithDependencies,
 
       // Sort Operations
       setSort,
@@ -496,6 +529,7 @@ export function TaskProvider({ children }) {
       setFilter,
       setFilters,
       clearFilters,
+      getFilteredTasksWithDependencies,
       setSort,
       toggleSortOrder,
       refreshTasks,

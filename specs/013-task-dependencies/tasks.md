@@ -111,14 +111,14 @@
 
 ### Implementation for User Story 4
 
-- [ ] T032 [P] [US4] Create BlockedTaskWarningModal component in src/components/tasks/BlockedTaskWarningModal.jsx
-- [ ] T033 [US4] Modify TaskActions to check isBlocked before starting task in src/components/tasks/TaskActions.jsx
-- [ ] T034 [US4] Show BlockedTaskWarningModal when starting blocked task
-- [ ] T035 [US4] Display list of blocking tasks with status in warning modal
-- [ ] T036 [US4] Add "Start Anyway" override option with confirmation
-- [ ] T037 [US4] Disable/style Start button for blocked tasks (visual indicator)
+- [x] T032 [P] [US4] Create BlockedTaskWarningModal component in src/components/tasks/BlockedTaskWarningModal.jsx
+- [x] T033 [US4] Modify TaskActions to check isBlocked before starting task in src/components/tasks/TaskActions.jsx
+- [x] T034 [US4] Show BlockedTaskWarningModal when starting blocked task
+- [x] T035 [US4] Display list of blocking tasks with status in warning modal
+- [x] T036 [US4] Add "Start Anyway" override option with confirmation
+- [x] T037 [US4] Disable/style Start button for blocked tasks (visual indicator)
 
-**Checkpoint**: User Story 4 complete - soft blocking with override implemented
+**Checkpoint**: User Story 4 complete - soft blocking with override implemented ✅
 
 ---
 
@@ -130,12 +130,12 @@
 
 ### Implementation for User Story 5
 
-- [ ] T038 [US5] Integrate wouldCreateCycle check into createDependency validation
-- [ ] T039 [US5] Filter DependencySelector results to exclude circular-causing tasks
-- [ ] T040 [US5] Show clear error message with cycle path when circular detected
-- [ ] T041 [US5] Add visual indicator (disabled/unavailable) for tasks that would create cycles in selector
+- [x] T038 [US5] Integrate wouldCreateCycle check into createDependency validation
+- [x] T039 [US5] Filter DependencySelector results to exclude circular-causing tasks
+- [x] T040 [US5] Show clear error message with cycle path when circular detected
+- [x] T041 [US5] Add visual indicator (disabled/unavailable) for tasks that would create cycles in selector
 
-**Checkpoint**: User Story 5 complete - circular dependencies prevented with user-friendly errors
+**Checkpoint**: User Story 5 complete - circular dependencies prevented with user-friendly errors ✅
 
 ---
 
@@ -147,13 +147,13 @@
 
 ### Implementation for User Story 6
 
-- [ ] T042 [P] [US6] Add dependencyStatus filter option to DEFAULT_FILTERS in src/utils/constants.js
-- [ ] T043 [US6] Add dependency filter dropdown to FilterBar in src/components/tasks/FilterBar.jsx
-- [ ] T044 [US6] Implement dependency filter logic in filterTasks function in src/contexts/TaskContext.jsx
-- [ ] T045 [US6] Show dependency filter badge in active filters display
-- [ ] T046 [US6] Handle empty state when no tasks match dependency filter
+- [x] T042 [P] [US6] Add dependencyStatus filter option to DEFAULT_FILTERS in src/utils/constants.js
+- [x] T043 [US6] Add dependency filter dropdown to FilterBar in src/components/tasks/FilterBar.jsx
+- [x] T044 [US6] Implement dependency filter logic in filterTasks function in src/contexts/TaskContext.jsx
+- [x] T045 [US6] Show dependency filter badge in active filters display
+- [x] T046 [US6] Handle empty state when no tasks match dependency filter
 
-**Checkpoint**: User Story 6 complete - dependency filtering integrated with existing filter system
+**Checkpoint**: User Story 6 complete - dependency filtering integrated with existing filter system ✅
 
 ---
 
@@ -165,15 +165,15 @@
 
 ### Implementation for User Story 7
 
-- [ ] T047 [P] [US7] Create DependencyChain component for tree visualization in src/components/tasks/DependencyChain.jsx
-- [ ] T048 [US7] Implement upstream dependency traversal (recursive blockedBy)
-- [ ] T049 [US7] Implement downstream dependency traversal (recursive blocks)
-- [ ] T050 [US7] Add status indicators to each task in the chain visualization
-- [ ] T051 [US7] Add click-to-navigate functionality for tasks in visualization
-- [ ] T052 [US7] Add "View Dependency Chain" button to TaskDetail
-- [ ] T053 [US7] Handle empty state (no dependencies) in visualization
+- [x] T047 [P] [US7] Create DependencyChain component for tree visualization in src/components/tasks/DependencyChain.jsx
+- [x] T048 [US7] Implement upstream dependency traversal (recursive blockedBy)
+- [x] T049 [US7] Implement downstream dependency traversal (recursive blocks)
+- [x] T050 [US7] Add status indicators to each task in the chain visualization
+- [x] T051 [US7] Add click-to-navigate functionality for tasks in visualization
+- [x] T052 [US7] Add "View Dependency Chain" button to TaskDetail (added to TaskForm DependenciesSection)
+- [x] T053 [US7] Handle empty state (no dependencies) in visualization
 
-**Checkpoint**: User Story 7 complete - full dependency chain visualization available
+**Checkpoint**: User Story 7 complete - full dependency chain visualization available ✅
 
 ---
 
@@ -181,13 +181,14 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T054 [P] Add keyboard navigation support to DependencySelector
-- [ ] T055 [P] Add loading states to dependency operations
-- [ ] T056 [P] Add error handling and toast notifications for dependency errors
-- [ ] T057 [P] Ensure dark mode styling for all dependency components
-- [ ] T058 [P] Add aria labels and screen reader support to dependency UI
-- [ ] T059 Run quickstart.md validation - test all dependency features end-to-end
-- [ ] T060 Code cleanup and JSDoc comments for dependency service and hook
+- [x] T054 [P] Add keyboard navigation support to DependencySelector
+- [x] T055 [P] Add loading states to dependency operations
+- [x] T056 [P] Add error handling and toast notifications for dependency errors
+- [x] T057 [P] Ensure dark mode styling for all dependency components
+- [x] T058 [P] Add aria labels and screen reader support to dependency UI
+- [x] T059 Run quickstart.md validation - test all dependency features end-to-end
+- [x] T060 Code cleanup and JSDoc comments for dependency service and hook
+- [x] T061 Add i18n translations for dependency features (EN and MS)
 
 ---
 
@@ -195,9 +196,9 @@
 
 ### Phase Dependencies
 
-- **Setup (Phase 1)**: No dependencies - can start immediately
-- **Foundational (Phase 2)**: Depends on Setup completion - BLOCKS all user stories
-- **User Stories (Phase 3-9)**: All depend on Foundational phase completion
+- **Setup (Phase 1)**: No dependencies - can start immediately ✅
+- **Foundational (Phase 2)**: Depends on Setup completion - BLOCKS all user stories ✅
+- **User Stories (Phase 3-9)**: All depend on Foundational phase completion ✅
   - User stories can then proceed in priority order (P1 → P2 → P3)
   - P1 stories (US1, US2, US3) should complete before P2/P3
 - **Polish (Phase 10)**: Depends on all desired user stories being complete
@@ -269,11 +270,11 @@ Then T018-T021 sequentially (integration)
 
 ## Notes
 
-- **Total Tasks**: 60
+- **Total Tasks**: 61
 - **P1 Tasks** (MVP): 31 tasks (T001-T031)
 - **P2 Tasks**: 10 tasks (T032-T041)
 - **P3 Tasks**: 12 tasks (T042-T053)
-- **Polish Tasks**: 7 tasks (T054-T060)
+- **Polish Tasks**: 8 tasks (T054-T061)
 - All dependency data is computed at runtime - no stored isBlocked field
 - Max 10 dependencies per task enforced in createDependency
 - Soft blocking with override (P2) - users warned but can proceed
