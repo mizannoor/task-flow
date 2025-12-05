@@ -22,6 +22,7 @@ export function useKeyboardShortcuts() {
     isHelpOpen: context.isHelpOverlayOpen,
     isModalOpen: context.isModalOpen,
     selectedTaskIds: context.selectedTaskIds,
+    lastClickedTaskId: context.lastClickedTaskId,
 
     // Actions from context
     setFocusedTask: context.setFocusedTask,
@@ -35,6 +36,13 @@ export function useKeyboardShortcuts() {
     isTaskSelected: context.isTaskSelected,
     registerHandler: context.registerHandler,
     announce: context.announce,
+
+    // Bulk selection actions
+    setLastClicked: context.setLastClicked,
+    selectAll: context.selectAll,
+    addToSelection: context.addToSelection,
+    removeFromSelection: context.removeFromSelection,
+    selectRange: context.selectRange,
 
     // Shortcut definitions
     shortcuts: KEYBOARD_SHORTCUTS,

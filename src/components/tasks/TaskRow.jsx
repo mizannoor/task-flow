@@ -19,6 +19,8 @@ import { DependencyIndicator } from './DependencyBadge';
  * @param {Function} props.onDelete - Callback when delete is clicked
  * @param {boolean} props.showActions - Whether to show action buttons
  * @param {object} props.dependencyInfo - Dependency information for this task
+ * @param {boolean} props.isSelected - Whether the task is selected
+ * @param {Function} props.onCheckboxClick - Callback when checkbox is clicked
  */
 export function TaskRow({
   task,
@@ -27,6 +29,8 @@ export function TaskRow({
   onDelete,
   showActions = true,
   dependencyInfo = null,
+  isSelected = false,
+  onCheckboxClick,
 }) {
   const { t } = useTranslation();
   const deadline = formatDeadline(task.deadline);
@@ -48,13 +52,28 @@ export function TaskRow({
 
   return (
     <tr
-      className="hover:bg-gray-50 dark:hover:bg-slate-700 cursor-pointer"
+      className={`hover:bg-gray-50 dark:hover:bg-slate-700 cursor-pointer ${isSelected ? 'bg-blue-50 dark:bg-blue-900/30' : ''
+        }`}
       onClick={handleRowClick}
       onKeyDown={handleKeyDown}
       tabIndex={0}
       role="button"
       aria-label={`${t('common.edit')} ${t('tasks.task')}: ${task.taskName}`}
+      aria-selected={isSelected}
     >
+      {/* Selection checkbox */}
+      <td className="px-4 py-4 whitespace-nowrap">
+        <input
+          type="checkbox"
+          checked={isSelected}
+          onChange={() => { }} // Controlled by onCheckboxClick
+          onClick={onCheckboxClick}
+          className="h-4 w-4 rounded border-gray-300 dark:border-slate-600 text-indigo-600 focus:ring-indigo-500 dark:bg-slate-700 dark:checked:bg-indigo-600"
+          aria-label={`${isSelected ? t('common.deselect') : t('common.select')} ${task.taskName}`}
+          aria-checked={isSelected}
+        />
+      </td>
+
       {/* Task Name */}
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex flex-col">
