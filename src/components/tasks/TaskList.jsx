@@ -3,13 +3,14 @@
  * List view container with table structure and pagination
  */
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { TaskRow, TaskRowCompact } from './TaskRow';
 import { TaskEmptyState, SearchEmptyState, FilterEmptyState } from '../ui/EmptyState';
 import { useTasks } from '../../hooks/useTasks';
 import { useDependencies } from '../../hooks/useDependencies';
 import { useTranslation } from '../../hooks/useTranslation';
-import { PAGINATION_DEFAULTS, SORT_FIELD_LABELS, SORT_ORDERS } from '../../utils/constants';
+import { useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts';
+import { PAGINATION_DEFAULTS, SORT_FIELD_LABELS, SORT_ORDERS, BULK_ACTIONS } from '../../utils/constants';
 import { FilterBar } from './FilterBar';
 import { SearchInput } from './SearchInput';
 
@@ -43,6 +44,16 @@ export function TaskList({
     error
   } = useTasks();
   const { dependencyMap } = useDependencies();
+  const {
+    selectedTaskIds,
+    lastClickedTaskId,
+    toggleTaskSelection,
+    clearSelections,
+    selectAll,
+    selectRange,
+    setLastClicked,
+    isTaskSelected,
+  } = useKeyboardShortcuts();
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = PAGINATION_DEFAULTS.PAGE_SIZE;
 
@@ -62,6 +73,55 @@ export function TaskList({
       filters.userId !== null
     );
   }, [filters]);
+
+  // Clear selections when filters change
+  useEffect(() => {
+    clearSelections();
+  }, [filters.status, filters.priority, filters.category, filters.searchQuery, filters.userId, clearSelections]);
+
+  // Get visible task IDs for the current page
+  const visibleTaskIds = useMemo(() => paginatedTasks.map(t => t.id), [paginatedTasks]);
+
+  // Check if all visible tasks are selected
+  const allVisibleSelected = useMemo(() => {
+    if (paginatedTasks.length === 0) return false;
+    return paginatedTasks.every(task => selectedTaskIds.has(task.id));
+  }, [paginatedTasks, selectedTaskIds]);
+
+  // Check if some (but not all) visible tasks are selected
+  const someVisibleSelected = useMemo(() => {
+    if (paginatedTasks.length === 0) return false;
+    const selectedCount = paginatedTasks.filter(task => selectedTaskIds.has(task.id)).length;
+    return selectedCount > 0 && selectedCount < paginatedTasks.length;
+  }, [paginatedTasks, selectedTaskIds]);
+
+  // Handle checkbox click for a task (with shift-click support)
+  const handleCheckboxClick = (taskId, event) => {
+    event.stopPropagation(); // Prevent row click
+
+    if (event.shiftKey && lastClickedTaskId) {
+      // Shift+click: select range
+      selectRange(taskId, paginatedTasks);
+    } else {
+      // Normal click: toggle single task
+      toggleTaskSelection(taskId);
+    }
+    setLastClicked(taskId);
+  };
+
+  // Handle Select All checkbox
+  const handleSelectAllClick = (event) => {
+    event.stopPropagation();
+
+    if (allVisibleSelected) {
+      // Deselect all visible tasks
+      clearSelections();
+    } else {
+      // Select all visible tasks (up to limit)
+      const idsToSelect = visibleTaskIds.slice(0, BULK_ACTIONS.MAX_SELECTION);
+      selectAll(idsToSelect);
+    }
+  };
 
   // Reset to page 1 when tasks change significantly
   useMemo(() => {
@@ -310,11 +370,29 @@ export function TaskList({
         </div>
       )}
 
-      {/* Task count */}
+      {/* Task count and selection info */}
       <div className="mb-4 flex items-center justify-between">
-        <p className="text-sm text-gray-500 dark:text-gray-400">
-          {t('tasks.showing', { start: startIndex + 1, end: Math.min(endIndex, tasks.length), total: tasks.length })}
-        </p>
+        <div className="flex items-center gap-4">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            {t('tasks.showing', { start: startIndex + 1, end: Math.min(endIndex, tasks.length), total: tasks.length })}
+          </p>
+          {selectedTaskIds.size > 0 && (
+            <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 text-sm font-medium">
+              {selectedTaskIds.size === 1
+                ? t('bulk.selected', { count: selectedTaskIds.size })
+                : t('bulk.selectedPlural', { count: selectedTaskIds.size })}
+              <button
+                onClick={clearSelections}
+                className="ml-1 hover:text-indigo-900 dark:hover:text-indigo-100"
+                aria-label={t('bulk.clearSelection')}
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </span>
+          )}
+        </div>
         <p className="text-sm text-gray-500 dark:text-gray-400">
           {t('tasks.sortedBy', { field: SORT_FIELD_LABELS[sort.field], order: sort.order === SORT_ORDERS.ASC ? t('common.ascending') : t('common.descending') })}
         </p>
@@ -325,6 +403,24 @@ export function TaskList({
         <table className="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
           <thead className="bg-gray-50 dark:bg-slate-800">
             <tr>
+              {/* Selection checkbox column */}
+              <th
+                scope="col"
+                className="px-4 py-3 w-12"
+              >
+                <input
+                  type="checkbox"
+                  checked={allVisibleSelected}
+                  ref={(el) => {
+                    if (el) el.indeterminate = someVisibleSelected;
+                  }}
+                  onChange={handleSelectAllClick}
+                  onClick={(e) => e.stopPropagation()}
+                  className="h-4 w-4 rounded border-gray-300 dark:border-slate-600 text-indigo-600 focus:ring-indigo-500 dark:bg-slate-700 dark:checked:bg-indigo-600"
+                  aria-label={t('bulk.selectAll')}
+                />
+              </th>
+
               {/* Task Name - sortable */}
               <th
                 scope="col"
@@ -419,6 +515,8 @@ export function TaskList({
                 onDelete={onDeleteTask}
                 onStatusChange={onStatusChange}
                 dependencyInfo={dependencyMap[task.id]}
+                isSelected={isTaskSelected(task.id)}
+                onCheckboxClick={(e) => handleCheckboxClick(task.id, e)}
               />
             ))}
           </tbody>

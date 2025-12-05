@@ -25,6 +25,12 @@ import { LongSessionModal } from './tasks/LongSessionModal';
 import { TimerRecoveryModal } from './tasks/TimerRecoveryModal';
 import { ToastContainer, useToast } from './ui/Toast';
 import { KeyboardShortcutsHelp } from './ui/KeyboardShortcutsHelp';
+import { BulkActionBar } from './tasks/BulkActionBar';
+import { BulkDeleteConfirmModal } from './tasks/BulkDeleteConfirmModal';
+import { BulkBlockedWarningModal } from './tasks/BulkBlockedWarningModal';
+import { BulkTagModal } from './tasks/BulkTagModal';
+import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
+import { bulkDeleteTasks, bulkUpdateStatus, bulkReassignTasks, bulkAddTags, bulkRemoveTags, getBlockedTasksInfo, getTagsFromTasks } from '../services/bulkService';
 import { formatElapsedTime, formatDurationShort } from '../utils/formatters';
 import { STATUSES, THEME_MODES } from '../utils/constants';
 
@@ -66,6 +72,282 @@ function saveViewPreference(view) {
 }
 
 /**
+ * Wrapper component for BulkActionBar that accesses KeyboardShortcutContext
+ */
+function BulkActionBarWrapper({ toast, isBulkProcessing, setIsBulkProcessing, showDeleteConfirmFromKeyboard, setShowDeleteConfirmFromKeyboard }) {
+  const { t } = useTranslation();
+  const { selectedTaskIds, clearSelections } = useKeyboardShortcuts();
+  const { refreshTasks } = useTasks();
+  const { users } = useAuth();
+
+  // Bulk delete state - combine with keyboard trigger
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const isDeleteConfirmOpen = showDeleteConfirm || showDeleteConfirmFromKeyboard;
+
+  // Bulk status change state
+  const [showBlockedWarning, setShowBlockedWarning] = useState(false);
+  const [blockedTasksInfo, setBlockedTasksInfo] = useState([]);
+  const [pendingStatusChange, setPendingStatusChange] = useState(null);
+
+  // Bulk tag state
+  const [showTagModal, setShowTagModal] = useState(false);
+  const [tagMode, setTagMode] = useState('add');
+  const [existingTags, setExistingTags] = useState([]);
+  const [tagModalKey, setTagModalKey] = useState(0);
+
+  // Handle bulk delete - show confirmation modal
+  const handleBulkDelete = () => {
+    setShowDeleteConfirm(true);
+  };
+
+  // Confirm bulk delete
+  const confirmBulkDelete = async () => {
+    setIsBulkProcessing(true);
+    try {
+      const taskIdsArray = Array.from(selectedTaskIds);
+      const result = await bulkDeleteTasks(taskIdsArray);
+
+      if (result.success) {
+        toast.success(
+          result.affectedCount === 1
+            ? t('bulk.delete.successSingular', { count: result.affectedCount })
+            : t('bulk.delete.success', { count: result.affectedCount })
+        );
+        clearSelections();
+        await refreshTasks();
+      } else {
+        toast.error(result.error || t('bulk.delete.error'));
+      }
+    } catch (error) {
+      console.error('Bulk delete error:', error);
+      toast.error(t('bulk.delete.error'));
+    } finally {
+      setIsBulkProcessing(false);
+      setShowDeleteConfirm(false);
+      setShowDeleteConfirmFromKeyboard?.(false);
+    }
+  };
+
+  // Cancel bulk delete
+  const cancelBulkDelete = () => {
+    setShowDeleteConfirm(false);
+    setShowDeleteConfirmFromKeyboard?.(false);
+  };
+
+  // Handle bulk status change - check for blocked tasks first
+  const handleBulkStatusChange = async (status) => {
+    const taskIdsArray = Array.from(selectedTaskIds);
+
+    // Check for blocked tasks when changing to in-progress
+    if (status === STATUSES.IN_PROGRESS) {
+      setIsBulkProcessing(true);
+      try {
+        const blocked = await getBlockedTasksInfo(taskIdsArray);
+        if (blocked.length > 0) {
+          // Show warning modal
+          setBlockedTasksInfo(blocked);
+          setPendingStatusChange(status);
+          setShowBlockedWarning(true);
+          setIsBulkProcessing(false);
+          return;
+        }
+      } catch (error) {
+        console.error('Error checking blocked tasks:', error);
+      }
+      setIsBulkProcessing(false);
+    }
+
+    // No blocked tasks or not in-progress, proceed directly
+    await executeBulkStatusChange(status, false);
+  };
+
+  // Execute bulk status change
+  const executeBulkStatusChange = async (status, skipBlocked = false) => {
+    setIsBulkProcessing(true);
+    try {
+      const taskIdsArray = Array.from(selectedTaskIds);
+      const result = await bulkUpdateStatus(taskIdsArray, status, { skipBlocked });
+
+      if (result.success) {
+        toast.success(
+          result.affectedCount === 1
+            ? t('bulk.status.successSingular', { count: result.affectedCount })
+            : t('bulk.status.success', { count: result.affectedCount })
+        );
+        clearSelections();
+        await refreshTasks();
+      } else {
+        toast.error(result.error || t('bulk.status.error'));
+      }
+    } catch (error) {
+      console.error('Bulk status change error:', error);
+      toast.error(t('bulk.status.error'));
+    } finally {
+      setIsBulkProcessing(false);
+      setShowBlockedWarning(false);
+      setPendingStatusChange(null);
+      setBlockedTasksInfo([]);
+    }
+  };
+
+  // Handle blocked warning actions
+  const handleSkipBlocked = () => {
+    if (pendingStatusChange) {
+      executeBulkStatusChange(pendingStatusChange, true);
+    }
+  };
+
+  const handleForceAll = () => {
+    if (pendingStatusChange) {
+      executeBulkStatusChange(pendingStatusChange, false);
+    }
+  };
+
+  const cancelStatusChange = () => {
+    setShowBlockedWarning(false);
+    setPendingStatusChange(null);
+    setBlockedTasksInfo([]);
+  };
+
+  // Handle bulk reassign
+  const handleBulkReassign = async (userId) => {
+    const user = users?.find(u => u.id === userId);
+    const userName = user?.displayName || user?.identifier || 'Unknown';
+
+    setIsBulkProcessing(true);
+    try {
+      const taskIdsArray = Array.from(selectedTaskIds);
+      const result = await bulkReassignTasks(taskIdsArray, userId);
+
+      if (result.success) {
+        toast.success(
+          result.affectedCount === 1
+            ? t('bulk.reassign.successSingular', { count: result.affectedCount, userName })
+            : t('bulk.reassign.success', { count: result.affectedCount, userName })
+        );
+        clearSelections();
+        await refreshTasks();
+      } else {
+        toast.error(result.error || t('bulk.reassign.error'));
+      }
+    } catch (error) {
+      console.error('Bulk reassign error:', error);
+      toast.error(t('bulk.reassign.error'));
+    } finally {
+      setIsBulkProcessing(false);
+    }
+  };
+
+  // Handle manage tags
+  const handleManageTags = async (mode) => {
+    setTagMode(mode);
+    setTagModalKey(prev => prev + 1); // Reset modal state
+
+    if (mode === 'remove') {
+      // Fetch existing tags from selected tasks
+      setIsBulkProcessing(true);
+      try {
+        const taskIdsArray = Array.from(selectedTaskIds);
+        const tags = await getTagsFromTasks(taskIdsArray);
+        setExistingTags(tags);
+      } catch (error) {
+        console.error('Error fetching tags:', error);
+        setExistingTags([]);
+      } finally {
+        setIsBulkProcessing(false);
+      }
+    } else {
+      setExistingTags([]);
+    }
+
+    setShowTagModal(true);
+  };
+
+  // Confirm bulk tag operation
+  const confirmBulkTags = async (tags) => {
+    setIsBulkProcessing(true);
+    try {
+      const taskIdsArray = Array.from(selectedTaskIds);
+      let result;
+
+      if (tagMode === 'add') {
+        result = await bulkAddTags(taskIdsArray, tags);
+      } else {
+        result = await bulkRemoveTags(taskIdsArray, tags);
+      }
+
+      if (result.success) {
+        toast.success(
+          result.affectedCount === 1
+            ? t('bulk.tags.successSingular', { count: result.affectedCount })
+            : t('bulk.tags.success', { count: result.affectedCount })
+        );
+        clearSelections();
+        await refreshTasks();
+      } else {
+        toast.error(result.error || t('bulk.tags.error'));
+      }
+    } catch (error) {
+      console.error('Bulk tag error:', error);
+      toast.error(t('bulk.tags.error'));
+    } finally {
+      setIsBulkProcessing(false);
+      setShowTagModal(false);
+    }
+  };
+
+  // Cancel tag modal
+  const cancelTagModal = () => {
+    setShowTagModal(false);
+  };
+
+  return (
+    <>
+      <BulkActionBar
+        selectedCount={selectedTaskIds.size}
+        onClearSelection={clearSelections}
+        onDelete={handleBulkDelete}
+        onStatusChange={handleBulkStatusChange}
+        onReassign={handleBulkReassign}
+        onManageTags={handleManageTags}
+        isProcessing={isBulkProcessing}
+      />
+
+      {/* Bulk Delete Confirmation Modal */}
+      <BulkDeleteConfirmModal
+        isOpen={isDeleteConfirmOpen}
+        taskCount={selectedTaskIds.size}
+        onConfirm={confirmBulkDelete}
+        onCancel={cancelBulkDelete}
+        isLoading={isBulkProcessing}
+      />
+
+      {/* Bulk Blocked Warning Modal */}
+      <BulkBlockedWarningModal
+        isOpen={showBlockedWarning}
+        blockedTasks={blockedTasksInfo}
+        totalTaskCount={selectedTaskIds.size}
+        onSkipBlocked={handleSkipBlocked}
+        onForceAll={handleForceAll}
+        onCancel={cancelStatusChange}
+        isLoading={isBulkProcessing}
+      />
+
+      {/* Bulk Tag Modal */}
+      <BulkTagModal
+        isOpen={showTagModal}
+        mode={tagMode}
+        existingTags={existingTags}
+        onConfirm={confirmBulkTags}
+        onCancel={cancelTagModal}
+        isLoading={isBulkProcessing}
+        resetKey={tagModalKey}
+      />
+    </>
+  );
+}
+
+/**
  * Dashboard content component (wrapped by TaskProvider and KeyboardShortcutProvider)
  */
 function DashboardContent() {
@@ -103,6 +385,23 @@ function DashboardContent() {
   const [taskToReopen, setTaskToReopen] = useState(null);
   const [isReopening, setIsReopening] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
+
+  // Bulk operation state
+  const [isBulkProcessing, setIsBulkProcessing] = useState(false);
+  const [showBulkDeleteConfirm, setShowBulkDeleteConfirm] = useState(false);
+
+  // Visible task IDs for keyboard shortcuts (Ctrl+A select all)
+  const visibleTaskIdsRef = useRef([]);
+
+  // Update visible task IDs when tasks change
+  useEffect(() => {
+    visibleTaskIdsRef.current = tasks?.map(t => t.id) || [];
+  }, [tasks]);
+
+  // Handler for bulk delete keyboard shortcut
+  const handleKeyboardBulkDelete = useCallback(() => {
+    setShowBulkDeleteConfirm(true);
+  }, []);
 
   // Show toast when a timer is auto-stopped
   useEffect(() => {
@@ -297,6 +596,8 @@ function DashboardContent() {
       onSwitchToDark={handleSwitchToDark}
       onSwitchToLight={handleSwitchToLight}
       searchRef={searchRef}
+      visibleTaskIds={visibleTaskIdsRef.current}
+      onBulkDelete={handleKeyboardBulkDelete}
     >
       <div className="min-h-screen bg-gray-100 dark:bg-slate-900">
         {/* Header */}
@@ -577,6 +878,17 @@ function DashboardContent() {
           isOpen={isHelpOpen}
           onClose={() => setIsHelpOpen(false)}
         />
+
+        {/* Bulk Action Bar - only visible when tasks are selected in list view */}
+        {currentView === VIEW_TYPES.LIST && (
+          <BulkActionBarWrapper
+            toast={toast}
+            isBulkProcessing={isBulkProcessing}
+            setIsBulkProcessing={setIsBulkProcessing}
+            showDeleteConfirmFromKeyboard={showBulkDeleteConfirm}
+            setShowDeleteConfirmFromKeyboard={setShowBulkDeleteConfirm}
+          />
+        )}
 
         {/* Toast Notifications */}
         <ToastContainer toasts={toasts} onDismiss={removeToast} />

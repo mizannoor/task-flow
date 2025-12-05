@@ -5,7 +5,7 @@
 
 import { useMemo } from 'react';
 import { useTranslation } from './useTranslation';
-import { PRIORITIES, TASK_STATUSES, TASK_CATEGORIES, SORT_FIELDS } from '../utils/constants';
+import { PRIORITIES, STATUSES, CATEGORIES, SORT_FIELDS } from '../utils/constants';
 
 /**
  * Hook for accessing translated label objects
@@ -32,16 +32,16 @@ export function useTranslatedLabels() {
 
   // Translated status labels
   const statusLabels = useMemo(() => ({
-    [TASK_STATUSES.PENDING]: t('statuses.pending'),
-    [TASK_STATUSES.IN_PROGRESS]: t('statuses.inProgress'),
-    [TASK_STATUSES.COMPLETED]: t('statuses.completed'),
+    [STATUSES.PENDING]: t('statuses.pending'),
+    [STATUSES.IN_PROGRESS]: t('statuses.inProgress'),
+    [STATUSES.COMPLETED]: t('statuses.completed'),
   }), [t]);
 
   // Translated category labels
   const categoryLabels = useMemo(() => ({
-    [TASK_CATEGORIES.DEVELOPMENT]: t('categories.development'),
-    [TASK_CATEGORIES.FIX]: t('categories.fix'),
-    [TASK_CATEGORIES.SUPPORT]: t('categories.support'),
+    [CATEGORIES.DEVELOPMENT]: t('categories.development'),
+    [CATEGORIES.FIX]: t('categories.fix'),
+    [CATEGORIES.SUPPORT]: t('categories.support'),
   }), [t]);
 
   // Translated sort field labels
@@ -84,16 +84,16 @@ export function useTranslatedLabels() {
 
   // Status options for select dropdowns
   const statusOptions = useMemo(() => [
-    { value: TASK_STATUSES.PENDING, label: statusLabels[TASK_STATUSES.PENDING] },
-    { value: TASK_STATUSES.IN_PROGRESS, label: statusLabels[TASK_STATUSES.IN_PROGRESS] },
-    { value: TASK_STATUSES.COMPLETED, label: statusLabels[TASK_STATUSES.COMPLETED] },
+    { value: STATUSES.PENDING, label: statusLabels[STATUSES.PENDING] },
+    { value: STATUSES.IN_PROGRESS, label: statusLabels[STATUSES.IN_PROGRESS] },
+    { value: STATUSES.COMPLETED, label: statusLabels[STATUSES.COMPLETED] },
   ], [statusLabels]);
 
   // Category options for select dropdowns
   const categoryOptions = useMemo(() => [
-    { value: TASK_CATEGORIES.DEVELOPMENT, label: categoryLabels[TASK_CATEGORIES.DEVELOPMENT] },
-    { value: TASK_CATEGORIES.FIX, label: categoryLabels[TASK_CATEGORIES.FIX] },
-    { value: TASK_CATEGORIES.SUPPORT, label: categoryLabels[TASK_CATEGORIES.SUPPORT] },
+    { value: CATEGORIES.DEVELOPMENT, label: categoryLabels[CATEGORIES.DEVELOPMENT] },
+    { value: CATEGORIES.FIX, label: categoryLabels[CATEGORIES.FIX] },
+    { value: CATEGORIES.SUPPORT, label: categoryLabels[CATEGORIES.SUPPORT] },
   ], [categoryLabels]);
 
   return {

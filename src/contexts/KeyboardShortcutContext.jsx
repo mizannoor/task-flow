@@ -5,7 +5,7 @@
  */
 
 import { createContext, useContext, useReducer, useCallback, useEffect, useRef } from 'react';
-import { KEYBOARD_SHORTCUTS, SHORTCUT_CONTEXTS } from '../utils/constants';
+import { KEYBOARD_SHORTCUTS, SHORTCUT_CONTEXTS, BULK_ACTIONS } from '../utils/constants';
 import { isInputElement, matchShortcut, normalizeShortcutKey } from '../utils/platformUtils';
 import { recordShortcutUsage } from '../services/shortcutService';
 
@@ -22,6 +22,11 @@ const ACTIONS = {
   TOGGLE_TASK_SELECTION: 'TOGGLE_TASK_SELECTION',
   CLEAR_SELECTIONS: 'CLEAR_SELECTIONS',
   SET_LAST_SHORTCUT: 'SET_LAST_SHORTCUT',
+  // Bulk selection actions
+  SET_LAST_CLICKED: 'SET_LAST_CLICKED',
+  SELECT_ALL: 'SELECT_ALL',
+  ADD_TO_SELECTION: 'ADD_TO_SELECTION',
+  REMOVE_FROM_SELECTION: 'REMOVE_FROM_SELECTION',
 };
 
 // Initial state
@@ -32,6 +37,8 @@ const initialState = {
   isModalOpen: false,
   selectedTaskIds: new Set(),
   lastShortcut: null,
+  // Bulk selection state
+  lastClickedTaskId: null,
 };
 
 // Reducer
@@ -57,9 +64,31 @@ function reducer(state, action) {
       return { ...state, selectedTaskIds: newSet };
     }
     case ACTIONS.CLEAR_SELECTIONS:
-      return { ...state, selectedTaskIds: new Set() };
+      return { ...state, selectedTaskIds: new Set(), lastClickedTaskId: null };
     case ACTIONS.SET_LAST_SHORTCUT:
       return { ...state, lastShortcut: action.payload };
+    case ACTIONS.SET_LAST_CLICKED:
+      return { ...state, lastClickedTaskId: action.payload };
+    case ACTIONS.SELECT_ALL: {
+      // Enforce MAX_SELECTION limit
+      const taskIds = action.payload.slice(0, BULK_ACTIONS.MAX_SELECTION);
+      return { ...state, selectedTaskIds: new Set(taskIds) };
+    }
+    case ACTIONS.ADD_TO_SELECTION: {
+      const newSet = new Set(state.selectedTaskIds);
+      for (const taskId of action.payload) {
+        if (newSet.size >= BULK_ACTIONS.MAX_SELECTION) break;
+        newSet.add(taskId);
+      }
+      return { ...state, selectedTaskIds: newSet };
+    }
+    case ACTIONS.REMOVE_FROM_SELECTION: {
+      const newSet = new Set(state.selectedTaskIds);
+      for (const taskId of action.payload) {
+        newSet.delete(taskId);
+      }
+      return { ...state, selectedTaskIds: newSet };
+    }
     default:
       return state;
   }
@@ -83,15 +112,25 @@ export function KeyboardShortcutProvider({
   onSwitchToDark,
   onSwitchToLight,
   searchRef,
+  // Bulk action props
+  visibleTaskIds = [],
+  onBulkDelete,
 }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const handlersRef = useRef(new Map());
   const announcerRef = useRef(null);
+  const prevViewRef = useRef(currentView);
 
-  // Update focused view when currentView prop changes
+  // Update focused view and clear selections when currentView prop changes
   useEffect(() => {
     dispatch({ type: ACTIONS.SET_FOCUSED_VIEW, payload: currentView });
-  }, [currentView]);
+
+    // Clear selections when switching away from list view
+    if (prevViewRef.current !== currentView && state.selectedTaskIds.size > 0) {
+      dispatch({ type: ACTIONS.CLEAR_SELECTIONS });
+    }
+    prevViewRef.current = currentView;
+  }, [currentView, state.selectedTaskIds.size]);
 
   // Announce to screen readers
   const announce = useCallback((message) => {
@@ -277,6 +316,27 @@ export function KeyboardShortcutProvider({
       return false;
     });
 
+    // Select all visible tasks
+    handlers.set('selectAll', () => {
+      if (visibleTaskIds && visibleTaskIds.length > 0) {
+        dispatch({ type: ACTIONS.SELECT_ALL, payload: visibleTaskIds });
+        const count = Math.min(visibleTaskIds.length, BULK_ACTIONS.MAX_SELECTION);
+        announce(`${count} tasks selected`);
+        return true;
+      }
+      return false;
+    });
+
+    // Bulk delete selected tasks
+    handlers.set('bulkDelete', () => {
+      if (state.selectedTaskIds.size > 0 && onBulkDelete) {
+        onBulkDelete();
+        announce('Opening delete confirmation');
+        return true;
+      }
+      return false;
+    });
+
     // Navigation (handled by view-specific hooks)
     handlers.set('navigatePrev', () => false);
     handlers.set('navigateNext', () => false);
@@ -296,6 +356,8 @@ export function KeyboardShortcutProvider({
     onSwitchToLight,
     searchRef,
     announce,
+    visibleTaskIds,
+    onBulkDelete,
   ]);
 
   // Global keyboard event handler
@@ -363,6 +425,7 @@ export function KeyboardShortcutProvider({
     isModalOpen: state.isModalOpen,
     selectedTaskIds: state.selectedTaskIds,
     lastShortcut: state.lastShortcut,
+    lastClickedTaskId: state.lastClickedTaskId,
 
     // Actions
     setFocusedTask: (taskId) => dispatch({ type: ACTIONS.SET_FOCUSED_TASK, payload: taskId }),
@@ -372,6 +435,41 @@ export function KeyboardShortcutProvider({
     toggleTaskSelection: (taskId) => dispatch({ type: ACTIONS.TOGGLE_TASK_SELECTION, payload: taskId }),
     clearSelections: () => dispatch({ type: ACTIONS.CLEAR_SELECTIONS }),
     isTaskSelected: (taskId) => state.selectedTaskIds.has(taskId),
+
+    // Bulk selection actions
+    setLastClicked: (taskId) => dispatch({ type: ACTIONS.SET_LAST_CLICKED, payload: taskId }),
+    selectAll: (taskIds) => dispatch({ type: ACTIONS.SELECT_ALL, payload: taskIds }),
+    addToSelection: (taskIds) => dispatch({ type: ACTIONS.ADD_TO_SELECTION, payload: taskIds }),
+    removeFromSelection: (taskIds) => dispatch({ type: ACTIONS.REMOVE_FROM_SELECTION, payload: taskIds }),
+
+    /**
+     * Select a range of tasks between lastClickedTaskId and the given taskId
+     * @param {string} taskId - The end task ID of the range
+     * @param {Array} visibleTasks - Array of visible task objects with 'id' property
+     */
+    selectRange: (taskId, visibleTasks) => {
+      const lastClickedId = state.lastClickedTaskId;
+      if (!lastClickedId || !visibleTasks || visibleTasks.length === 0) {
+        // No anchor, just toggle the single task
+        dispatch({ type: ACTIONS.TOGGLE_TASK_SELECTION, payload: taskId });
+        dispatch({ type: ACTIONS.SET_LAST_CLICKED, payload: taskId });
+        return;
+      }
+
+      const fromIdx = visibleTasks.findIndex(t => t.id === lastClickedId);
+      const toIdx = visibleTasks.findIndex(t => t.id === taskId);
+
+      if (fromIdx === -1 || toIdx === -1) {
+        // One of the tasks not found in visible list
+        dispatch({ type: ACTIONS.TOGGLE_TASK_SELECTION, payload: taskId });
+        dispatch({ type: ACTIONS.SET_LAST_CLICKED, payload: taskId });
+        return;
+      }
+
+      const [start, end] = fromIdx < toIdx ? [fromIdx, toIdx] : [toIdx, fromIdx];
+      const rangeIds = visibleTasks.slice(start, end + 1).map(t => t.id);
+      dispatch({ type: ACTIONS.ADD_TO_SELECTION, payload: rangeIds });
+    },
 
     // Register custom handler (for view-specific navigation)
     registerHandler: (action, handler) => {

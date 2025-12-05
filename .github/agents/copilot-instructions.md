@@ -1,4 +1,4 @@
-﻿# TaskFlow Development Guidelines
+# TaskFlow Development Guidelines
 
 Auto-generated from all feature plans. Last updated: 2025-12-01
 
@@ -25,6 +25,8 @@ Auto-generated from all feature plans. Last updated: 2025-12-01
 - IndexedDB via Dexie.js (new `dependencies` table) (013-task-dependencies)
 - JavaScript ES2022+ (React 18+) + React 18, Dexie.js (IndexedDB), Tailwind CSS, i18next (013-task-dependencies)
 - IndexedDB via Dexie.js - new `dependencies` table (013-task-dependencies)
+- JavaScript ES2022+ (React 18) + React, Dexie.js, Tailwind CSS (all existing in project) (014-bulk-actions)
+- IndexedDB via Dexie.js (existing) (014-bulk-actions)
 
 - JavaScript/TypeScript ES2022+ + React 18+, Dexie.js (IndexedDB wrapper), Tailwind CSS (001-auth-system)
 
@@ -45,9 +47,9 @@ npm test; npm run lint
 JavaScript/TypeScript ES2022+: Follow standard conventions
 
 ## Recent Changes
+- 014-bulk-actions: Added JavaScript ES2022+ (React 18) + React, Dexie.js, Tailwind CSS (all existing in project)
 - 013-task-dependencies: Added JavaScript ES2022+ (React 18+) + React 18, Dexie.js (IndexedDB), Tailwind CSS, i18next
 - 013-task-dependencies: Added JavaScript ES2022+ / React 18+ + Dexie.js (IndexedDB), React Context API, Tailwind CSS
-- 012-i18n-support: Added JavaScript/TypeScript ES2022+ (React 18+) + React Context API (built-in), no external i18n library
 
 
 <!-- MANUAL ADDITIONS START -->

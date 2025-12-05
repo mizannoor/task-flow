@@ -198,6 +198,17 @@ export const TASK_DEFAULTS = {
   STATUS: STATUSES.PENDING,
 };
 
+// =============================================================================
+// Bulk Actions Constants
+// =============================================================================
+
+export const BULK_ACTIONS = {
+  /** Maximum number of tasks that can be selected at once */
+  MAX_SELECTION: 500,
+  /** Show warning when selection exceeds this threshold */
+  WARNING_THRESHOLD: 100,
+};
+
 // Task field constraints
 export const TASK_LIMITS = {
   NAME_MIN_LENGTH: 1,
@@ -972,6 +983,26 @@ export const KEYBOARD_SHORTCUTS = [
     context: SHORTCUT_CONTEXTS.TASK_FOCUSED,
     category: SHORTCUT_CATEGORIES.SELECTION,
     description: 'Toggle task selection',
+    enabled: true,
+  },
+
+  // Bulk action shortcuts
+  {
+    key: 'a',
+    modifiers: ['ctrl'],
+    action: 'selectAllTasks',
+    context: SHORTCUT_CONTEXTS.GLOBAL,
+    category: SHORTCUT_CATEGORIES.SELECTION,
+    description: 'Select all visible tasks',
+    enabled: true,
+  },
+  {
+    key: 'd',
+    modifiers: ['ctrl', 'shift'],
+    action: 'bulkDelete',
+    context: SHORTCUT_CONTEXTS.GLOBAL,
+    category: SHORTCUT_CATEGORIES.SELECTION,
+    description: 'Delete selected tasks',
     enabled: true,
   },
 ];
